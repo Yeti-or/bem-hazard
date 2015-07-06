@@ -1,17 +1,19 @@
-var Button2 = React.createClass({displayName: "Button2",
+var Button = Button2 = React.createClass({displayName: "Button2",
     render: function() {
         var //attrs
-            tabindex = this.props.tabindex || 0,
-            id = this.props.id,
-            name = this.props.name,
-            title = this.props.title,
-            value = this.props.val,
+            attrs = {
+                tabindex : this.props.tabindex || 0,
+                id : this.props.id,
+                name : this.props.name,
+                title : this.props.title,
+                value : this.props.val
+            },
             //mods
             type = this.props.type || 'button',
             size = this.props.size,
             theme = this.props.theme,
             //content
-            children = this.props.children
+            content = this.props.children
             //TODO: BEM naming plugin
             block = 'button2'
             cls = block
@@ -20,8 +22,9 @@ var Button2 = React.createClass({displayName: "Button2",
                 + (this.state.hover ? ' ' + block + '_hovered_yes' : '')
             cls__text = block + '__' + 'text'
         return (
-            React.createElement("button", {className: cls, onMouseEnter: this.onMouseenter, onMouseLeave: this.onMouseleave, type: type, /*tabIndex={tabindex}*/ id: id, name: name, title: title, value: value}, 
-                React.createElement("span", {className: cls__text}, children)
+            React.createElement("button", React.__spread({className: cls},  attrs, 
+                    {onMouseEnter: this.onMouseenter, onMouseLeave: this.onMouseleave}), 
+                React.createElement("span", {className: cls__text}, content)
             )
         )
     },
