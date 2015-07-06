@@ -1,85 +1,9 @@
-/**
- * 1. Значения padding и margin каждый браузер выставляет по-своему – сбрасываем в ноль.
- * 2. Не должно быть возможности выделить контент кнопки, в т.ч. кнопки-ссылки.
- * 3. У содержимого кнопок-ссылок не должно быть подчеркивания.
- * 4. Кнопка не предполагает многострочного содержимого.
- * 5. Чтобы FF под MacOS не делал blur после программного выставления фокуса по mousedown.
- *    Подробности: http://jsfiddle.net/mishaberezin/892yppts/10/.
- * 6. Для кнопок-ссылок.
- * 7. Убираем нативную подсветку на iOS и Android.
- * 8. В IE по дефолту hidden, в остальных браузерах visible, требуется нормализация.
- *    В пользу visible, т.к. мы используем тень для отображения фокуса.
- */
-.button2
-{
-    display: inline-block; /*6*/
-    overflow: visible; /*8*/
-
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    margin: 0; /*1*/
-    padding: 0; /*1*/
-
-    -moz-user-focus: ignore; /*5*/
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none; /*2*/
-    white-space: nowrap; /*4*/
-    text-decoration: none; /*3*/
-
-    font-family: Arial, sans-serif;
-
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /*7*/
-}
-
-/**
- * Кнопка не должна реагировать на события мыши, если имеет атрибут disabled.
- * Нативная поддержка атрибута disabled для ссылок есть только в IE.
- * В других браузерах схожее поведение дает свойство pointer-events:none.
- *
- * NB:
- * - Фикс не избавляет от необходимости удалять ссылку из taborder.
- * - Свойство pointer-events не работает в Opera 12.
- */
-.button2[disabled]
-{
-    pointer-events: none;
-}
-
-/**
- * В FF 4+ у содержимого кнопки есть внутренняя обводка, которая используется для
- * индикации фокуса на кнопках с измененными css-свойствами border или background.
- * Обводка влияет на размеры, для нормализации с другими браузерами ее нужно убрать.
- * Подробности: http://stackoverflow.com/questions/8859908.
- */
-.button2::-moz-focus-inner
-{
-    padding: 0;
-
-    border: 0;
-}
-
-/**
-    ==== DESKTOP ===
-**/
-
-.button2
-{
-    cursor: pointer;
-}
-
-.button2_disabled_yes
-{
-    cursor: default;
-}
-
-/**
- * Пробиваем глобальные стили ссылок из romochka/desktop/i-global.
- * Удалить после https://st.yandex-team.ru/ISLROMOCHKA-39.
- */
-a.button2:hover
-{
-    color: #000 !important;
-}
+@import url("../common.blocks/button2/button2.css");
+@import url("../common.blocks/button2/__text/button2__text.css");
+@import url("../common.blocks/button2/_size/button2_size_m.css");
+@import url("../common.blocks/button2/_size/button2_size_s.css");
+@import url("../common.blocks/button2/_size/button2_size_xs.css");
+@import url("../common.blocks/button2/_theme/button2_theme_action.css");
+@import url("../common.blocks/button2/_theme/button2_theme_clear.css");
+@import url("../common.blocks/button2/_theme/button2_theme_normal.css");
+@import url("../common.blocks/button2/_theme/button2_theme_pseudo.css");
