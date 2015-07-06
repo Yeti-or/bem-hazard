@@ -1,0 +1,32 @@
+.button2_size_xs
+{
+    height: 24px;
+
+    font-size: 13px;
+    line-height: 24px;
+}
+
+.button2_size_xs .button2__text
+{
+    margin: 0 11px;
+}
+
+.button2_size_xs .button2__icon
+{
+    width: 24px;
+}
+
+.button2_size_xs .button2__icon.icon_type_arrow
+{
+    width: 27px;
+}
+
+.button2_size_xs .button2__icon_side_left ~ .button2__text
+{
+    margin-left: 21px;
+}
+
+.button2_size_xs .button2__icon_side_right ~ .button2__text
+{
+    margin-right: 21px;
+}

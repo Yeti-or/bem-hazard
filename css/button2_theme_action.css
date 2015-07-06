@@ -1,0 +1,60 @@
+.button2_theme_action
+{
+    position: relative;
+    z-index: 0;
+
+    color: #000;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+/**
+ * 1. Цвет rgba в border поломает все свойство в IE8, включая ширину и стиль.
+ * 2. Полупрозрачные границы должны накладываться на общий фон, а не на фон кнопки.
+ */
+.button2_theme_action:before
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+
+    border: 1px solid;
+    border-color: rgba(191,153,0,.8); /*1*/
+    border-radius: 3px;
+    background-color: #ffdb4d;
+    -webkit-background-clip: padding-box;
+            background-clip: padding-box; /*2*/
+}
+
+html:not(.pointerfocus) .button2_theme_action.button2_focused_yes:before
+{
+    -webkit-box-shadow: 0 0 10px #fc0;
+            box-shadow: 0 0 10px #fc0;
+}
+
+.button2.button2_theme_action.button2_pressed_yes:before
+{
+    background-color: #fc0;
+}
+
+/**
+ * 1. Нельзя использовать border:none, т.к. в сочетании с анимированным border-color
+ *    Chrome показывает черную рамку при переключении.
+ *    Подробнее: http://jing.yandex-team.ru/files/karamadjong/2015-04-28_1218.swf?w=111&h=178
+ */
+.button2_theme_action.button2_disabled_yes:before
+{
+    border-color: rgba(0,0,0,.08); /*1*/
+    background-color: rgba(0,0,0,.08);
+}
+
+.button2_theme_action.button2_disabled_yes > *
+{
+    opacity: .5;
+}
