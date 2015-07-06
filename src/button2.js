@@ -20,9 +20,11 @@ var Button = Button2 = React.createClass({
                 + (theme ? ' ' + block + '_theme_' + theme : '')
                 + (size ? ' ' + block + '_size_' + size : '')
                 + (this.state.hover ? ' ' + block + '_hovered_yes' : '')
+                + (this.state.focus ? ' ' + block + '_focused_yes' : '')
             cls__text = block + '__' + 'text'
         return (
             <button className={cls} {...attrs}
+                    onFocus={this.onFocus} onBlur={this.onBlur}
                     onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} >
                 <span className={cls__text}>{content}</span>
             </button>
@@ -30,7 +32,8 @@ var Button = Button2 = React.createClass({
     },
     getInitialState: function() {
         return {
-            hover: false
+            hover: false,
+            focus: false
         }
     },
     onMouseenter: function() {
@@ -38,5 +41,11 @@ var Button = Button2 = React.createClass({
     },
     onMouseleave: function() {
         this.setState({hover: false})
+    },
+    onFocus: function() {
+        this.setState({focus: true})
+    },
+    onBlur: function() {
+        this.setState({focus: false})
     }
-});
+})
