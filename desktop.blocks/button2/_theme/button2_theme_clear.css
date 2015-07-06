@@ -1,0 +1,16 @@
+.button2_theme_clear.button2_hovered_yes > *
+{
+    opacity: 1;
+}
+
+.button2_theme_clear:before
+{
+    -webkit-transition: background-color .1s ease-out 0s;
+            transition: background-color .1s ease-out 0s;
+}
+
+.button2_theme_clear > *
+{
+    -webkit-transition: opacity .1s ease-out 0s;
+            transition: opacity .1s ease-out 0s;
+}

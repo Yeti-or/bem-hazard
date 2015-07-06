@@ -1,0 +1,11 @@
+.button2_theme_action.button2_hovered_yes:before
+{
+    border-color: rgba(159,127,0,.8);
+    background-color: #ffd633;
+}
+
+.button2_theme_action:before
+{
+    -webkit-transition: border-color .1s ease-out 0s, background-color .1s ease-out 0s;
+            transition: border-color .1s ease-out 0s, background-color .1s ease-out 0s;
+}

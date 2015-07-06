@@ -77,23 +77,3 @@ html:not(.pointerfocus) .button2_theme_normal.button2_focused_yes:before
     border-color: rgba(0,0,0,.15);
     background-color: rgba(0,0,0,.15);
 }
-
-/**
-    ==== DESKTOP ===
-**/
-
-.button2_theme_normal.button2_hovered_yes:before
-{
-    border-color: rgba(0,0,0,.3);
-}
-
-.button2_theme_normal.button2_checked_yes.button2_hovered_yes:before
-{
-    border-color: rgba(129,103,0,.6);
-}
-
-.button2_theme_normal:before
-{
-    -webkit-transition: border-color .1s ease-out 0s, background-color .1s ease-out 0s;
-            transition: border-color .1s ease-out 0s, background-color .1s ease-out 0s;
-}

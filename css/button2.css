@@ -7,3 +7,8 @@
 @import url("../common.blocks/button2/_theme/button2_theme_clear.css");
 @import url("../common.blocks/button2/_theme/button2_theme_normal.css");
 @import url("../common.blocks/button2/_theme/button2_theme_pseudo.css");
+@import url("../desktop.blocks/button2/button2.css");
+@import url("../desktop.blocks/button2/_theme/button2_theme_action.css");
+@import url("../desktop.blocks/button2/_theme/button2_theme_clear.css");
+@import url("../desktop.blocks/button2/_theme/button2_theme_normal.css");
+@import url("../desktop.blocks/button2/_theme/button2_theme_pseudo.css");

@@ -1,0 +1,43 @@
+/**
+ * В IE8 не работает pointerfocus, деградируем до нейтрального нативного outline.
+ * Фокус будет показываться вне зависимости от того каким образом он был получен.
+ */
+.button2_theme_action.button2_focused_yes
+{
+    outline: 1px dotted invert;
+}
+
+.button2_theme_action:before
+{
+    border-color: #caac32;
+}
+
+.button2_theme_action.button2_pressed_yes:before
+{
+    background-color: #fc0;
+}
+
+/**
+ * Делаем полупрозрачный фон на псевдо-элементе
+ * с помощью черного png размером 1x1px и прозрачностью 8%.
+ */
+.button2_theme_action.button2_disabled_yes:before
+{
+    border: none;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMUWjwMGwAAAApJREFUCB1jYAAAAAIAAc/INeUAAAAASUVORK5CYII=) repeat;
+}
+
+.button2_theme_action.button2_disabled_yes > *
+{
+    filter: alpha(opacity=50);
+}
+
+/**
+ * IE8 выставляет серый цвет текста в любом контроле с атрибутом disabled.
+ * http://stackoverflow.com/a/1411303/1491432
+ * Поэтому выкручиваем тексту opacity на 100%, чтобы он хоть как-то был виден.
+ */
+.button2_theme_action.button2_disabled_yes .button2__text
+{
+    filter: alpha(opacity=100);
+}

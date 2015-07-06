@@ -1,0 +1,18 @@
+.button2
+{
+    cursor: pointer;
+}
+
+.button2_disabled_yes
+{
+    cursor: default;
+}
+
+/**
+ * Пробиваем глобальные стили ссылок из romochka/desktop/i-global.
+ * Удалить после https://st.yandex-team.ru/ISLROMOCHKA-39.
+ */
+a.button2:hover
+{
+    color: #000 !important;
+}

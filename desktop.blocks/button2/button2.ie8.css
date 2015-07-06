@@ -1,0 +1,22 @@
+/**
+ * IE8 не обновляет стили у псевдо элемента при смене класса.
+ * Чтобы форсировать repaint нужно изменить контент.
+ * Правила расположены в наиболее оптимальном порядке,
+ * чтобы обеспечить перерисовку в большинстве разумных случаев.
+ */
+.button2_hovered_yes:before
+{
+    content: ' ';
+}
+.button2_checked_yes:before
+{
+    content: '  ';
+}
+.button2_pressed_yes:before
+{
+    content: '   ';
+}
+.button2_disabled_yes:before
+{
+    content: '    ';
+}
