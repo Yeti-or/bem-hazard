@@ -24,8 +24,9 @@ var Button = Button2 = React.createClass({displayName: "Button2",
             cls__text = block + '__' + 'text'
         return (
             React.createElement("button", React.__spread({className: cls},  attrs, 
-                    {onFocus: this.onFocus, onBlur: this.onBlur, 
-                    onMouseEnter: this.onMouseenter, onMouseLeave: this.onMouseleave}), 
+                    {onClick: this._onClick, 
+                    onFocus: this._onFocus, onBlur: this._onBlur, 
+                    onMouseEnter: this._onMouseenter, onMouseLeave: this._onMouseleave}), 
                 React.createElement("span", {className: cls__text}, content)
             )
         )
@@ -36,16 +37,19 @@ var Button = Button2 = React.createClass({displayName: "Button2",
             focus: false
         }
     },
-    onMouseenter: function() {
+    _onClick: function(e) {
+        this.props.onClick(e)
+    },
+    _onMouseenter: function() {
         this.setState({hover: true})
     },
-    onMouseleave: function() {
+    _onMouseleave: function() {
         this.setState({hover: false})
     },
-    onFocus: function() {
+    _onFocus: function() {
         this.setState({focus: true})
     },
-    onBlur: function() {
+    _onBlur: function() {
         this.setState({focus: false})
     }
 })

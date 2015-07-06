@@ -13,15 +13,17 @@ var CommentForm = React.createClass({
     },
     componentDidMount: function() {
         var btn = this.refs.but
-        btn.state.hover = true;
+        //btn.state.hover = true;
+    },
+    handleClick: function(e) {
+        console.log('^_^')
     },
     render: function() {
-        var button = <Button type="submit" theme="normal" size="s" ref="but">Post</Button>
         return (
             <form className="commentForm" onSubmit={this.handleSubmit}>
                 <input type="text" autoFocus placeholder="Your name" ref="author"/>
                 <input type="text" placeholder="Say something.." ref="text"/>
-               {button}
+               <Button type="submit" theme="normal" size="s" ref="but" onClick={this.handleClick}>Post</Button>
             </form>
         )
     }
