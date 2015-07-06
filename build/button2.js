@@ -2,7 +2,7 @@ var Button = Button2 = React.createClass({displayName: "Button2",
     render: function() {
         var //attrs
             attrs = {
-                tabindex : this.props.tabindex || 0,
+                tabIndex : this.props.tabindex || 0,
                 id : this.props.id,
                 name : this.props.name,
                 title : this.props.title,
