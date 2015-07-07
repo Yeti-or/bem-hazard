@@ -38,7 +38,7 @@ var Button = Button2 = React.createClass({
         }
     },
     _onClick: function(e) {
-        this.props.onClick(e)
+        this.props.onClick && this.props.onClick(e)
     },
     _onMouseenter: function() {
         this.setState({hover: true})
