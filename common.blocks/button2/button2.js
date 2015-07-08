@@ -1,4 +1,7 @@
+
 var Button = Button2 = React.createClass({
+    block: 'button2',
+    mixins: [BEM],
     propTypes: {
         tabindex: React.PropTypes.number,
         //TODO: declare all props
@@ -16,6 +19,24 @@ var Button = Button2 = React.createClass({
             hover: false,
             focus: false
         }
+    },
+    componentWillMount: function() {
+        var block = this.block,
+            content = this.props.children,
+            cls__text = block + '__' + 'text'
+
+        this.content(<span className={cls__text}>{content}</span>)
+        this.tag('button');
+
+        var events = {
+            onClick:this._onClick,
+            onFocus:this._onFocus, onBlur:this._onBlur,
+            onKeyDown:this._onKeyDown, onKeyUp:this._onKeyUp,
+            onMouseDown:this._onMouseDown, onMouseUp:this._onMouseUp,
+            onMouseEnter:this._onMouseenter, onMouseLeave:this._onMouseleave
+        }
+
+        this.attr(events)
     },
     componentWillReceiveProps: function(nextProps) {
         if (nextProps.disabled && this.state.focus) {
@@ -44,10 +65,8 @@ var Button = Button2 = React.createClass({
                 disabled: disabled,
                 'aria-disabled': disabled
             },
-            //content
-            content = this.props.children,
             //TODO: BEM naming plugin
-            block = 'button2',
+            block = this.block,
             cls = block
                 + (theme ? ' ' + block + '_theme_' + theme : '')
                 + (size ? ' ' + block + '_size_' + size : '')
@@ -57,24 +76,14 @@ var Button = Button2 = React.createClass({
                 + (this.state.focus ? ' ' + block + '_focused_yes' : '')
                 + (this.state.active ? ' ' + block + '_pressed_yes' : '')
             ,
-            cls__text = block + '__' + 'text',
+
             att = {
                 className:cls, ...attrs,
-                onClick:this._onClick,
-                onFocus:this._onFocus, onBlur:this._onBlur,
-                onKeyDown:this._onKeyDown, onKeyUp:this._onKeyUp,
-                onMouseDown:this._onMouseDown, onMouseUp:this._onMouseUp,
-                onMouseEnter:this._onMouseenter, onMouseLeave:this._onMouseleave
-            },
-            button = (
-                <button {...att} >
-                    <span className={cls__text}>{content}</span>
-                </button>
-            )
+            }
 
-        return (
-           button
-        )
+            this.attr(att)
+
+        return this.node();
     },
     _onClick: function(e) {
         this.props.disabled || this.props.onClick && this.props.onClick(e)
