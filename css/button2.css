@@ -12,3 +12,11 @@
 @import url("../desktop.blocks/button2/_theme/button2_theme_clear.css");
 @import url("../desktop.blocks/button2/_theme/button2_theme_normal.css");
 @import url("../desktop.blocks/button2/_theme/button2_theme_pseudo.css");
+@import url("../common.blocks/button2/_pin/button2_pin_brick-brick.css");
+@import url("../common.blocks/button2/_pin/button2_pin_brick-clear.css");
+@import url("../common.blocks/button2/_pin/button2_pin_brick-round.css");
+@import url("../common.blocks/button2/_pin/button2_pin_clear-brick.css");
+@import url("../common.blocks/button2/_pin/button2_pin_clear-clear.css");
+@import url("../common.blocks/button2/_pin/button2_pin_clear-round.css");
+@import url("../common.blocks/button2/_pin/button2_pin_round-brick.css");
+@import url("../common.blocks/button2/_pin/button2_pin_round-clear.css");

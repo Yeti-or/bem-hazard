@@ -29,7 +29,8 @@ var Button = Button2 = React.createClass({
             type = this.props.type,
             size = this.props.size,
             theme = this.props.theme,
-            disabled = this.props.disabled
+            disabled = this.props.disabled,
+            pin = this.props.pin
             //attrs
             attrs = {
                 type: this.props.type || 'button',
@@ -50,6 +51,7 @@ var Button = Button2 = React.createClass({
             cls = block
                 + (theme ? ' ' + block + '_theme_' + theme : '')
                 + (size ? ' ' + block + '_size_' + size : '')
+                + (pin ? ' ' + block + '_pin_' + pin : '')
                 + (disabled ? ' ' + block + '_disabled_yes' : '')
                 + (this.state.hover ? ' ' + block + '_hovered_yes' : '')
                 + (this.state.focus ? ' ' + block + '_focused_yes' : '')
