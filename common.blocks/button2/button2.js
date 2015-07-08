@@ -1,13 +1,15 @@
 
-var Button = Button2 = React.createClass({
+var button2_type_link = {
+    componentWillMount: function() {
+        if (this.props.type === 'link') {
+            this.tag('a')
+            this.attr
+        }
+    }
+}
+
+var button2 = {
     block: 'button2',
-    mixins: [BEM],
-    propTypes: {
-        tabindex: React.PropTypes.number,
-        //TODO: declare all props
-        //TODO: type - enum
-        type: React.PropTypes.string
-    },
     getDefaultProps: function() {
         return {
             tabindex: 0
@@ -16,8 +18,13 @@ var Button = Button2 = React.createClass({
     getInitialState: function() {
         return {
             active: false,
-            hover: false,
             focus: false
+        }
+    },
+    componentWillReceiveProps: function(nextProps) {
+        if (nextProps.disabled && this.state.focus) {
+            React.findDOMNode(this).blur()
+            this.setState({focus: false})
         }
     },
     componentWillMount: function() {
@@ -26,23 +33,67 @@ var Button = Button2 = React.createClass({
             cls__text = block + '__' + 'text'
 
         this.content(<span className={cls__text}>{content}</span>)
-        this.tag('button');
+        this.tag('button')
 
-        var events = {
-            onClick:this._onClick,
-            onFocus:this._onFocus, onBlur:this._onBlur,
-            onKeyDown:this._onKeyDown, onKeyUp:this._onKeyUp,
-            onMouseDown:this._onMouseDown, onMouseUp:this._onMouseUp,
-            onMouseEnter:this._onMouseenter, onMouseLeave:this._onMouseleave
+        this.bind({
+            onClick: function(e) {
+                this.props.disabled || this.props.onClick && this.props.onClick(e)
+            },
+            onMouseleave: function() {
+                //TODO: bindToDoc diff from native btn
+                this.setState({active: false})
+            },
+            onMouseDown: function() {
+                this.setState({active: true})
+            },
+            onMouseUp: function() {
+                this.setState({active: false})
+            },
+            onKeyDown: function(e) {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    this.setState({active: true})
+                }
+            },
+            onKeyUp: function(e) {
+                this.setState({active: false})
+            },
+            onFocus: function() {
+                if (!this.props.disabled) {
+                    this.setState({focus: true})
+                }
+            },
+            onBlur: function() {
+                this.setState({focus: false})
+            }
+        })
+    }
+}
+
+var desktop___button2 = {
+    getInitialState: function() {
+        return {
+            hover: false
         }
-
-        this.attr(events)
     },
-    componentWillReceiveProps: function(nextProps) {
-        if (nextProps.disabled && this.state.focus) {
-            React.findDOMNode(this).blur()
-            this._onBlur()
-        }
+    componentWillMount: function() {
+        this.bind({
+            onMouseEnter: function() {
+                this.props.disabled || this.setState({hover: true})
+            },
+            onMouseLeave: function() {
+                this.setState({hover: false})
+            }
+        })
+    }
+}
+
+var Button = Button2 = React.createClass({
+    mixins: [BEM, button2, desktop___button2, button2_type_link],
+    propTypes: {
+        tabindex: React.PropTypes.number,
+        //TODO: declare all props
+        //TODO: type - enum
+        type: React.PropTypes.string
     },
     render: function() {
         var
@@ -83,39 +134,6 @@ var Button = Button2 = React.createClass({
 
             this.attr(att)
 
-        return this.node();
+        return this.node()
     },
-    _onClick: function(e) {
-        this.props.disabled || this.props.onClick && this.props.onClick(e)
-    },
-    _onMouseenter: function() {
-        this.props.disabled || this.setState({hover: true})
-    },
-    _onMouseleave: function() {
-        this.setState({hover: false})
-        //TODO: bindToDoc diff from native btn
-        this.setState({active: false})
-    },
-    _onMouseDown: function() {
-        this.setState({active: true})
-    },
-    _onMouseUp: function() {
-        this.setState({active: false})
-    },
-    _onKeyDown: function(e) {
-        if (e.key === ' ' || e.key === 'Enter') {
-            this.setState({active: true})
-        }
-    },
-    _onKeyUp: function(e) {
-        this.setState({active: false})
-    },
-    _onFocus: function() {
-        if (!this.props.disabled) {
-            this.setState({focus: true})
-        }
-    },
-    _onBlur: function() {
-        this.setState({focus: false})
-    }
 })
