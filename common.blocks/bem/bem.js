@@ -53,25 +53,46 @@ var BEM = {
         }
     },
     node: function() {
-        return React.createElement(this.tag(), this.attr(), this.content())
+        var b_ = this.block,
+            mods = this.mods().reduce(function(prev, fn) {
+                return {...prev, ...fn.bind(this)()}
+            }.bind(this), {}),
+            cls = b_ +
+                Object
+                    .keys(mods).reduce(function(prev, modName) {
+                        var modValue = mods[modName]
+                        return prev + (modValue ? ' ' + b_ + '_' + modName + '_' +
+                                (typeof modValue === 'boolean' ? 'yes' : modValue )
+                            : '')
+                    }, '')
+
+        return React.createElement(this.tag(), {className:cls, ...this.attr()}, this.content())
     },
-    events: {},
     bind: function(events) {
         var attrs = {}
+        this.__events || (this.__events = {})
         Object
             .keys(events)
             .forEach(function(eventName){
                 var cb = events[eventName]
-                this.events[eventName] || (this.events[eventName] = [])
-                this.events[eventName].push(cb)
+                this.__events[eventName] || (this.__events[eventName] = [])
+                this.__events[eventName].push(cb)
                 attrs[eventName] = function(e) {
-                    this.events[eventName].forEach(function(fn) {
+                    this.__events[eventName].forEach(function(fn) {
                         fn.bind(this)(e)
                     }, this)
                 }.bind(this)
             }, this)
 
         this.attr(attrs)
+    },
+    mods: function(mods) {
+        if (mods) {
+            this.__mods || (this.__mods = [])
+            this.__mods.push(mods)
+        } else {
+            return this.__mods
+        }
     }
 }
 

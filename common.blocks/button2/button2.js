@@ -23,8 +23,8 @@ var button2 = {
     },
     componentWillReceiveProps: function(nextProps) {
         if (nextProps.disabled && this.state.focus) {
-            React.findDOMNode(this).blur()
             this.setState({focus: false})
+            React.findDOMNode(this).blur()
         }
     },
     componentWillMount: function() {
@@ -35,11 +35,18 @@ var button2 = {
         this.content(<span className={cls__text}>{content}</span>)
         this.tag('button')
 
+        this.mods(function() {
+            return {
+                pressed: this.state.active,
+                focused: this.state.focus
+            }
+        })
+
         this.bind({
             onClick: function(e) {
                 this.props.disabled || this.props.onClick && this.props.onClick(e)
             },
-            onMouseleave: function() {
+            onMouseLeave: function() {
                 //TODO: bindToDoc diff from native btn
                 this.setState({active: false})
             },
@@ -84,6 +91,12 @@ var desktop___button2 = {
                 this.setState({hover: false})
             }
         })
+
+        this.mods(function() {
+            return {
+                hovered: this.state.hover
+            }
+        })
     }
 }
 
@@ -96,6 +109,15 @@ var Button = Button2 = React.createClass({
         type: React.PropTypes.string
     },
     render: function() {
+        this.mods(function() {
+            return {
+                type: this.props.type,
+                size: this.props.size,
+                theme: this.props.theme,
+                pin: this.props.pin,
+                disabled: this.props.disabled
+            }
+        })
         var
             //mods
             type = this.props.type,
@@ -115,24 +137,16 @@ var Button = Button2 = React.createClass({
                 //TODO: why disabled=true?
                 disabled: disabled,
                 'aria-disabled': disabled
-            },
-            //TODO: BEM naming plugin
-            block = this.block,
-            cls = block
-                + (theme ? ' ' + block + '_theme_' + theme : '')
-                + (size ? ' ' + block + '_size_' + size : '')
-                + (pin ? ' ' + block + '_pin_' + pin : '')
-                + (disabled ? ' ' + block + '_disabled_yes' : '')
-                + (this.state.hover ? ' ' + block + '_hovered_yes' : '')
-                + (this.state.focus ? ' ' + block + '_focused_yes' : '')
-                + (this.state.active ? ' ' + block + '_pressed_yes' : '')
-            ,
+            }
+            /*,
 
             att = {
                 className:cls, ...attrs,
             }
 
-            this.attr(att)
+            */
+
+            //this.attr(att)
 
         return this.node()
     },
