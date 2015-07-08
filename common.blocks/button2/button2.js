@@ -30,7 +30,7 @@ var Button = Button2 = React.createClass({
             size = this.props.size,
             theme = this.props.theme,
             disabled = this.props.disabled,
-            pin = this.props.pin
+            pin = this.props.pin,
             //attrs
             attrs = {
                 type: this.props.type || 'button',
@@ -45,7 +45,7 @@ var Button = Button2 = React.createClass({
                 'aria-disabled': disabled
             },
             //content
-            content = this.text = this.props.children,
+            content = this.props.children,
             //TODO: BEM naming plugin
             block = 'button2',
             cls = block
@@ -57,17 +57,23 @@ var Button = Button2 = React.createClass({
                 + (this.state.focus ? ' ' + block + '_focused_yes' : '')
                 + (this.state.active ? ' ' + block + '_pressed_yes' : '')
             ,
-            cls__text = block + '__' + 'text'
+            cls__text = block + '__' + 'text',
+            att = {
+                className:cls, ...attrs,
+                onClick:this._onClick,
+                onFocus:this._onFocus, onBlur:this._onBlur,
+                onKeyDown:this._onKeyDown, onKeyUp:this._onKeyUp,
+                onMouseDown:this._onMouseDown, onMouseUp:this._onMouseUp,
+                onMouseEnter:this._onMouseenter, onMouseLeave:this._onMouseleave
+            },
+            button = (
+                <button {...att} >
+                    <span className={cls__text}>{content}</span>
+                </button>
+            )
 
         return (
-            <button className={cls} {...attrs}
-                    onClick={this._onClick}
-                    onFocus={this._onFocus} onBlur={this._onBlur}
-                    onKeyDown={this._onKeyDown} onKeyUp={this._onKeyUp}
-                    onMouseDown={this._onMouseDown} onMouseUp={this._onMouseUp}
-                    onMouseEnter={this._onMouseenter} onMouseLeave={this._onMouseleave} >
-                <span className={cls__text}>{content}</span>
-            </button>
+           button
         )
     },
     _onClick: function(e) {
