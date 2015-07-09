@@ -1,0 +1,30 @@
+{
+  "name": "lego-hazard",
+  "version": "0.0.0",
+  "authors": [
+    "Vasiliy Loginevskiy <yeti-or@yandex-team.ru>"
+  ],
+  "description": "reactive islands",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "lego",
+    "islands",
+    "react"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.yandex-team.ru/yeti-or/lego-hazard",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "object-assign": "~3.0.0",
+    "react": "~0.13.3"
+  }
+}
