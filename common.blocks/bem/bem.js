@@ -2,6 +2,7 @@ var BEM = {
     attr: function(attrs) {
         if (attrs) {
             this.__attrs =  {...this.__attrs, ...attrs}
+            return this
         } else {
             return this.__attrs
         }
@@ -9,6 +10,7 @@ var BEM = {
     content: function(content) {
         if (content) {
             this.__content || (this.__content = content)
+            return this
         } else {
             return this.__content
         }
@@ -16,6 +18,7 @@ var BEM = {
     tag: function(tag) {
         if (tag) {
             (this.__tag = tag)
+            return this
         } else {
             return this.__tag
         }
@@ -53,11 +56,13 @@ var BEM = {
             }, this)
 
         this.attr(attrs)
+        return this
     },
     mods: function(mods) {
         if (mods) {
             this.__mods || (this.__mods = [])
             this.__mods.push(mods)
+            return this
         } else {
             return this.__mods
         }

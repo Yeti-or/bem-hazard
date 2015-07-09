@@ -2,18 +2,19 @@
 var common___button2_type_link = {
     componentWillMount: function() {
         if (this.props.type === 'link') {
-            this.tag('a')
-            this.attr({
-                href: this.props.disabled ? undefined : this.props.url,
-                type: undefined,
-                target: this.props.target
-            })
+            this
+                .tag('a')
+                .attr({
+                    href: this.props.disabled ? undefined : this.props.url,
+                    type: undefined,
+                    target: this.props.target
+                })
         }
     },
     componentWillReceiveProps: function(props) {
-        if (this.props.type === 'link') {
+        if (props.type === 'link') {
             this.attr({
-                href: this.props.disabled ? undefined : this.props.url
+                href: props.disabled ? undefined : props.url
             })
         }
     }
@@ -60,64 +61,65 @@ var common___button2 = {
             content = this.props.children,
             cls__text = block + '__' + 'text'
 
-        this.content(<span className={cls__text}>{content}</span>)
-        this.tag('button')
+        this
+            .content(<span className={cls__text}>{content}</span>)
+            .tag('button')
 
-        //immutable attrs
-        this.attr({
-            type: this.props.type,
-            id : this.props.id,
-            name : this.props.name,
-            title : this.props.title,
-            tabIndex: this.props.tabindex,
-            value : this.props.val,
-        })
+            //immutable attrs
+            .attr({
+                type: this.props.type,
+                id : this.props.id,
+                name : this.props.name,
+                title : this.props.title,
+                tabIndex: this.props.tabindex,
+                value : this.props.val,
+            })
 
-        //TODO: 2 methods - mut/immut attrs
-        this.attr({
-            tabIndex : this.props.disabled ? -1 : this.props.tabindex,
-            disabled: this.props.disabled,
-            'aria-disabled': this.props.disabled
-        })
+            //TODO: 2 methods - mut/immut attrs
+            .attr({
+                tabIndex : this.props.disabled ? -1 : this.props.tabindex,
+                disabled: this.props.disabled,
+                'aria-disabled': this.props.disabled
+            })
 
-        this.mods(function() {
-            return {
-                pressed: this.state.active,
-                focused: this.state.focus
-            }
-        })
+            .mods(function() {
+                return {
+                    pressed: this.state.active,
+                    focused: this.state.focus
+                }
+            })
 
-        this.bind({
-            onClick: function(e) {
-                this.props.disabled || this.props.onClick && this.props.onClick(e)
-            },
-            onMouseLeave: function() {
-                //TODO: bindToDoc diff from native btn
-                this.setState({active: false})
-            },
-            onMouseDown: function() {
-                this.setState({active: true})
-            },
-            onMouseUp: function() {
-                this.setState({active: false})
-            },
-            onKeyDown: function(e) {
-                if (e.key === ' ' || e.key === 'Enter') {
+            .bind({
+                onClick: function(e) {
+                    this.props.disabled || this.props.onClick && this.props.onClick(e)
+                },
+                onMouseLeave: function() {
+                    //TODO: bindToDoc diff from native btn
+                    this.setState({active: false})
+                },
+                onMouseDown: function() {
                     this.setState({active: true})
+                },
+                onMouseUp: function() {
+                    this.setState({active: false})
+                },
+                onKeyDown: function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        this.setState({active: true})
+                    }
+                },
+                onKeyUp: function(e) {
+                    this.setState({active: false})
+                },
+                onFocus: function() {
+                    if (!this.props.disabled) {
+                        this.setState({focus: true})
+                    }
+                },
+                onBlur: function() {
+                    this.setState({focus: false})
                 }
-            },
-            onKeyUp: function(e) {
-                this.setState({active: false})
-            },
-            onFocus: function() {
-                if (!this.props.disabled) {
-                    this.setState({focus: true})
-                }
-            },
-            onBlur: function() {
-                this.setState({focus: false})
-            }
-        })
+            })
     }
 }
 
@@ -128,7 +130,8 @@ var desktop___button2 = {
         }
     },
     componentWillMount: function() {
-        this.bind({
+        this
+        .bind({
             onMouseEnter: function() {
                 this.props.disabled || this.setState({hover: true})
             },
@@ -137,7 +140,7 @@ var desktop___button2 = {
             }
         })
 
-        this.mods(function() {
+        .mods(function() {
             return {
                 hovered: this.state.hover
             }
