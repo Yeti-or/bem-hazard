@@ -9,12 +9,36 @@ var BEM = {
     },
     attr: function(key, val) {
         if (arguments.length > 1) {
-            this.__attrs[key] = val;
+            this.__attrs[key] = val
             return this
         } else {
             return this.__attrs[key]
         }
     },
+    muAttrs: function(attrsFn) {
+        if (attrsFn) {
+            this.__attrsFn || (this.__attrsFn = [])
+            this.__attrsFn.push(attrsFn)
+            return this
+        } else {
+            return this.__attrsFn || []
+        }
+    },
+
+    componentWillMount: function() {
+        Object.keys(this.state).forEach(function(key){
+            this.props[key] && (this.state[key] = this.props[key])
+        }, this)
+    },
+    componentDidMount: function() {
+        var props = this.props,
+            attrs = this.muAttrs().reduce(function(prev, fn) {
+                return {...prev, ...fn.bind(this)(props)}
+            }.bind(this), {})
+
+        this.attrs(attrs)
+    },
+
     content: function(content) {
         if (content) {
             this.__content || (this.__content = content)
@@ -33,9 +57,15 @@ var BEM = {
     },
     node: function() {
         var b_ = this.block,
+            props = this.props,
             mods = this.mods().reduce(function(prev, fn) {
                 return {...prev, ...fn.bind(this)()}
             }.bind(this), {}),
+
+            attrs = this.muAttrs().reduce(function(prev, fn) {
+                return {...prev, ...fn.bind(this)(props)}
+            }.bind(this), {}),
+
             cls = b_ +
                 Object
                     .keys(mods).reduce(function(prev, modName) {
@@ -44,6 +74,8 @@ var BEM = {
                                 (typeof modValue === 'boolean' ? 'yes' : modValue )
                             : '')
                     }, '')
+
+        this.attrs(attrs)
 
         return React.createElement(this.tag(), {className:cls, ...this.attrs()}, this.content())
     },

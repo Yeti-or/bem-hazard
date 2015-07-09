@@ -19,14 +19,6 @@ var common___button2 = {
         }
     },
     componentWillReceiveProps: function(props) {
-        //mutable attrs
-        this.attrs({
-            //TODO: how to remove tabIndex instead of using -1
-            tabIndex : props.disabled ? -1 : props.tabindex,
-            //TODO: why disabled=true?
-            disabled: props.disabled,
-            'aria-disabled': props.disabled
-        })
 
         if (props.disabled && this.state.focus) {
             this.setState({focus: false})
@@ -49,15 +41,17 @@ var common___button2 = {
                 id : this.props.id,
                 name : this.props.name,
                 title : this.props.title,
-                tabIndex: this.props.tabindex,
                 value : this.props.val,
             })
 
-            //TODO: 2 methods - mut/immut attrs
-            .attrs({
-                tabIndex : this.props.disabled ? -1 : this.props.tabindex,
-                disabled: this.props.disabled,
-                'aria-disabled': this.props.disabled
+            .muAttrs(function(props) {
+                return {
+                    //TODO: how to remove tabIndex instead of using -1
+                    tabIndex : props.disabled ? -1 : props.tabindex,
+                    //TODO: why disabled=true?
+                    disabled: props.disabled,
+                    'aria-disabled': props.disabled
+                }
             })
 
             .mods(function() {
