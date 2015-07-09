@@ -3,7 +3,18 @@ var common___button2_type_link = {
     componentWillMount: function() {
         if (this.props.type === 'link') {
             this.tag('a')
-            this.attr
+            this.attr({
+                href: this.props.disabled ? undefined : this.props.url,
+                type: undefined,
+                target: this.props.target
+            })
+        }
+    },
+    componentWillReceiveProps: function(props) {
+        if (this.props.type === 'link') {
+            this.attr({
+                href: this.props.disabled ? undefined : this.props.url
+            })
         }
     }
 }
@@ -60,6 +71,13 @@ var common___button2 = {
             title : this.props.title,
             tabIndex: this.props.tabindex,
             value : this.props.val,
+        })
+
+        //TODO: 2 methods - mut/immut attrs
+        this.attr({
+            tabIndex : this.props.disabled ? -1 : this.props.tabindex,
+            disabled: this.props.disabled,
+            'aria-disabled': this.props.disabled
         })
 
         this.mods(function() {
