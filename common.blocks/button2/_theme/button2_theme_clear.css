@@ -1,0 +1,66 @@
+.button2_theme_clear
+{
+    position: relative;
+    z-index: 0;
+
+    color: #000;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.button2_theme_clear:before
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+
+    border-radius: 3px;
+}
+
+.button2_theme_clear > *
+{
+    opacity: .25;
+}
+
+html:not(.pointerfocus) .button2_theme_clear.button2_focused_yes:before
+{
+    -webkit-box-shadow: 0 0 10px #fc0;
+            box-shadow: 0 0 10px #fc0;
+}
+
+.button2_theme_clear.button2_pressed_yes:before
+{
+    background-color: rgba(0,0,0,.05);
+}
+
+.button2_theme_clear.button2_checked_yes > *
+{
+    opacity: 1;
+}
+
+.button2_theme_clear.button2_checked_yes.button2_pressed_yes > *,
+.button2_theme_clear.button2_checked_yes.button2_disabled_yes > *
+{
+    opacity: .25;
+}
+
+.button2_theme_clear.button2_checked_yes.button2_pressed_yes:before
+{
+    background-color: transparent;
+}
+
+.button2_theme_clear.button2_disabled_yes:before
+{
+    background-color: rgba(0,0,0,.08);
+}
+
+.button2_theme_clear.button2_disabled_yes.button2_checked_yes:before
+{
+    background-color: rgba(0,0,0,.15);
+}

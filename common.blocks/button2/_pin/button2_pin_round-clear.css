@@ -1,0 +1,6 @@
+.button2.button2_pin_round-clear:before
+{
+    border-right-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}

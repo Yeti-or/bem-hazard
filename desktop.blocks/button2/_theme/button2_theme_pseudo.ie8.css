@@ -1,0 +1,75 @@
+/**
+ * В IE8 не работает pointerfocus, деградируем до нейтрального нативного outline.
+ * Фокус будет показываться вне зависимости от того каким образом он был получен.
+ */
+.button2_theme_pseudo.button2_focused_yes
+{
+    outline: 1px dotted invert;
+}
+
+.button2_theme_pseudo:before
+{
+    border-color: #cbcbcb;
+}
+
+.button2_theme_pseudo.button2_hovered_yes:before
+{
+    border-color: #b2b2b2;
+}
+
+/**
+ * Делаем полупрозрачный фон на псевдо-элементе
+ * с помощью черного png размером 1x1px и прозрачностью 5%.
+ */
+.button2_theme_pseudo.button2_pressed_yes:before
+{
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMNPlek2wAAAApJREFUCB1jYAAAAAIAAc/INeUAAAAASUVORK5CYII=) repeat;
+}
+
+.button2_theme_pseudo.button2_checked_yes:before
+{
+    border-color: #cbbc7f;
+}
+
+.button2_theme_pseudo.button2_checked_yes.button2_hovered_yes:before
+{
+    border-color: #a49558;
+}
+
+.button2_theme_pseudo.button2_checked_yes.button2_pressed_yes:before
+{
+    border-color: #b2a265;
+}
+
+/**
+ * Делаем полупрозрачный фон на псевдо-элементе
+ * с помощью черного png размером 1x1px и прозрачностью 8%.
+ */
+.button2_theme_pseudo.button2_disabled_yes:before
+{
+    border: none;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMUWjwMGwAAAApJREFUCB1jYAAAAAIAAc/INeUAAAAASUVORK5CYII=) repeat;
+}
+
+.button2_theme_pseudo.button2_disabled_yes > *
+{
+    filter: alpha(opacity=50);
+}
+
+/**
+ * IE8 выставляет серый цвет текста в любом контроле с атрибутом disabled.
+ * http://stackoverflow.com/a/1411303/1491432
+ * Поэтому выкручиваем тексту opacity на 100%, чтобы он хоть как-то был виден.
+ */
+.button2_theme_pseudo.button2_disabled_yes .button2__text
+{
+    filter: alpha(opacity=100);
+}
+
+/**
+ * Тут зашит черный квадратик с прозрачностью 15%.
+ */
+.button2_theme_pseudo.button2_disabled_yes.button2_checked_yes:before
+{
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUhISFeAxSwAAAAAXRSTlMmkutdmwAAAApJREFUCB1jYAAAAAIAAc/INeUAAAAASUVORK5CYII=) repeat;
+}

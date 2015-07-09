@@ -1,0 +1,15 @@
+.button2_theme_pseudo.button2_hovered_yes:before
+{
+    border-color: rgba(0,0,0,.3);
+}
+
+.button2_theme_pseudo.button2_checked_yes.button2_hovered_yes:before
+{
+    border-color: rgba(118,94,0,.65);
+}
+
+.button2_theme_pseudo:before
+{
+    -webkit-transition: border-color .1s ease-out 0s, background-color .1s ease-out 0s;
+            transition: border-color .1s ease-out 0s, background-color .1s ease-out 0s;
+}
