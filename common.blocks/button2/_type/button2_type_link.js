@@ -4,7 +4,7 @@ var common___button2_type_link = {
         if (this.props.type === 'link') {
             this
                 .tag('a')
-                .attr({
+                .attrs({
                     href: this.props.disabled ? undefined : this.props.url,
                     type: undefined,
                     target: this.props.target
@@ -13,9 +13,7 @@ var common___button2_type_link = {
     },
     componentWillReceiveProps: function(props) {
         if (props.type === 'link') {
-            this.attr({
-                href: props.disabled ? undefined : props.url
-            })
+            this.attr('href', props.disabled ? undefined : props.url)
         }
     }
 }

@@ -1,10 +1,18 @@
 var BEM = {
-    attr: function(attrs) {
+    attrs: function(attrs) {
         if (attrs) {
             this.__attrs =  {...this.__attrs, ...attrs}
             return this
         } else {
             return this.__attrs
+        }
+    },
+    attr: function(key, val) {
+        if (arguments.length > 1) {
+            this.__attrs[key] = val;
+            return this
+        } else {
+            return this.__attrs[key]
         }
     },
     content: function(content) {
@@ -37,7 +45,7 @@ var BEM = {
                             : '')
                     }, '')
 
-        return React.createElement(this.tag(), {className:cls, ...this.attr()}, this.content())
+        return React.createElement(this.tag(), {className:cls, ...this.attrs()}, this.content())
     },
     bind: function(events) {
         var attrs = {}
@@ -55,7 +63,7 @@ var BEM = {
                 }.bind(this)
             }, this)
 
-        this.attr(attrs)
+        this.attrs(attrs)
         return this
     },
     mods: function(mods) {

@@ -20,7 +20,7 @@ var common___button2 = {
     },
     componentWillReceiveProps: function(props) {
         //mutable attrs
-        this.attr({
+        this.attrs({
             //TODO: how to remove tabIndex instead of using -1
             tabIndex : props.disabled ? -1 : props.tabindex,
             //TODO: why disabled=true?
@@ -44,7 +44,7 @@ var common___button2 = {
             .tag('button')
 
             //immutable attrs
-            .attr({
+            .attrs({
                 type: this.props.type,
                 id : this.props.id,
                 name : this.props.name,
@@ -54,7 +54,7 @@ var common___button2 = {
             })
 
             //TODO: 2 methods - mut/immut attrs
-            .attr({
+            .attrs({
                 tabIndex : this.props.disabled ? -1 : this.props.tabindex,
                 disabled: this.props.disabled,
                 'aria-disabled': this.props.disabled
