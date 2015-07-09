@@ -1,4 +1,23 @@
 var BEM = {
+    match: function(decl, cb) {
+        var emptyFn = function() {return this}.bind(this)
+            empty = {
+                attrs: emptyFn,
+                attr: emptyFn,
+                muAttrs: emptyFn,
+                content: emptyFn,
+                tag: emptyFn,
+                mods: emptyFn,
+                bind: emptyFn
+            }
+
+        if (decl.modName && decl.modVal) {
+            if (this.props[decl.modName] === decl.modVal) {
+                return cb.bind(this)(this)
+            }
+        }
+        cb.bind(this)(empty)
+    },
     attrs: function(attrs) {
         if (attrs) {
             this.__attrs =  {...this.__attrs, ...attrs}
