@@ -1,5 +1,5 @@
 
-var button2_type_link = {
+var common___button2_type_link = {
     componentWillMount: function() {
         if (this.props.type === 'link') {
             this.tag('a')
@@ -8,11 +8,18 @@ var button2_type_link = {
     }
 }
 
-var button2 = {
+var common___button2 = {
     block: 'button2',
+    propTypes: {
+        tabindex: React.PropTypes.number,
+        //TODO: declare all props
+        //TODO: type - enum
+        type: React.PropTypes.string
+    },
     getDefaultProps: function() {
         return {
-            tabindex: 0
+            tabindex: 0,
+            type: 'button'
         }
     },
     getInitialState: function() {
@@ -21,11 +28,21 @@ var button2 = {
             focus: false
         }
     },
-    componentWillReceiveProps: function(nextProps) {
-        if (nextProps.disabled && this.state.focus) {
+    componentWillReceiveProps: function(props) {
+        //mutable attrs
+        this.attr({
+            //TODO: how to remove tabIndex instead of using -1
+            tabIndex : props.disabled ? -1 : props.tabindex,
+            //TODO: why disabled=true?
+            disabled: props.disabled,
+            'aria-disabled': props.disabled
+        })
+
+        if (props.disabled && this.state.focus) {
             this.setState({focus: false})
             React.findDOMNode(this).blur()
         }
+
     },
     componentWillMount: function() {
         var block = this.block,
@@ -34,6 +51,16 @@ var button2 = {
 
         this.content(<span className={cls__text}>{content}</span>)
         this.tag('button')
+
+        //immutable attrs
+        this.attr({
+            type: this.props.type,
+            id : this.props.id,
+            name : this.props.name,
+            title : this.props.title,
+            tabIndex: this.props.tabindex,
+            value : this.props.val,
+        })
 
         this.mods(function() {
             return {
@@ -101,14 +128,9 @@ var desktop___button2 = {
 }
 
 var Button = Button2 = React.createClass({
-    mixins: [BEM, button2, desktop___button2, button2_type_link],
-    propTypes: {
-        tabindex: React.PropTypes.number,
-        //TODO: declare all props
-        //TODO: type - enum
-        type: React.PropTypes.string
-    },
+    mixins: [BEM, common___button2, desktop___button2, common___button2_type_link],
     render: function() {
+
         this.mods(function() {
             return {
                 type: this.props.type,
@@ -118,35 +140,6 @@ var Button = Button2 = React.createClass({
                 disabled: this.props.disabled
             }
         })
-        var
-            //mods
-            type = this.props.type,
-            size = this.props.size,
-            theme = this.props.theme,
-            disabled = this.props.disabled,
-            pin = this.props.pin,
-            //attrs
-            attrs = {
-                type: this.props.type || 'button',
-                id : this.props.id,
-                name : this.props.name,
-                title : this.props.title,
-                value : this.props.val,
-                //TODO: how to remove tabIndex instead of using -1
-                tabIndex : disabled ? -1 : this.props.tabindex,
-                //TODO: why disabled=true?
-                disabled: disabled,
-                'aria-disabled': disabled
-            }
-            /*,
-
-            att = {
-                className:cls, ...attrs,
-            }
-
-            */
-
-            //this.attr(att)
 
         return this.node()
     },

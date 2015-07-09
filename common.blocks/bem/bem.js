@@ -1,4 +1,4 @@
-var log = {
+var Logger = {
     componentWillMount: function() {
         console.log('componentWillMount')
         //console.log(this.state)
@@ -17,8 +17,8 @@ var log = {
         return true
     },
     componentWillUpdate: function() {
-        //console.log('componentWillUpdate')
-        console.log(this.state)
+        console.log('componentWillUpdate')
+        //console.log(this.state)
     },
     componentDidUpdate: function() {
         console.log('componentDidUpdate')
