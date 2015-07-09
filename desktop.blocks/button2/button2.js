@@ -18,7 +18,7 @@ var desktop___button2 = {
 
         .mods(function() {
             return {
-                hovered: this.state.hover
+                hovered: this.props.disabled ? false : this.state.hover
             }
         })
     }
