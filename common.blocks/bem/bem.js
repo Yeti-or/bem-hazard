@@ -1,35 +1,3 @@
-var Logger = {
-    componentWillMount: function() {
-        console.log('componentWillMount')
-        //console.log(this.state)
-    },
-    componentDidMount: function() {
-        console.log('componentWillMount')
-        //console.log(this.state)
-    },
-    componentWillReceiveProps: function() {
-        console.log('componentWillReceiveProps')
-        //console.log(this.state)
-    },
-    shouldComponentUpdate: function() {
-        console.log('shouldComponentUpdate')
-        //console.log(this.state)
-        return true
-    },
-    componentWillUpdate: function() {
-        console.log('componentWillUpdate')
-        //console.log(this.state)
-    },
-    componentDidUpdate: function() {
-        console.log('componentDidUpdate')
-        //console.log(this.state)
-    },
-    componentWillUnmount: function() {
-        console.log('componentWillUnmount')
-        //console.log(this.state)
-    }
-}
-
 var BEM = {
     attr: function(attrs) {
         if (attrs) {
@@ -93,6 +61,38 @@ var BEM = {
         } else {
             return this.__mods
         }
+    }
+}
+
+var Logger = {
+    componentWillMount: function() {
+        console.log('componentWillMount')
+        //console.log(this.state)
+    },
+    componentDidMount: function() {
+        console.log('componentWillMount')
+        //console.log(this.state)
+    },
+    componentWillReceiveProps: function() {
+        console.log('componentWillReceiveProps')
+        //console.log(this.state)
+    },
+    shouldComponentUpdate: function() {
+        console.log('shouldComponentUpdate')
+        //console.log(this.state)
+        return true
+    },
+    componentWillUpdate: function() {
+        console.log('componentWillUpdate')
+        //console.log(this.state)
+    },
+    componentDidUpdate: function() {
+        console.log('componentDidUpdate')
+        //console.log(this.state)
+    },
+    componentWillUnmount: function() {
+        console.log('componentWillUnmount')
+        //console.log(this.state)
     }
 }
 
