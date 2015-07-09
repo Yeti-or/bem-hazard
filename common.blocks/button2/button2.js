@@ -1,27 +1,5 @@
 
-var common___button2_type_link = {
-    componentWillMount: function() {
-        if (this.props.type === 'link') {
-            this
-                .tag('a')
-                .attr({
-                    href: this.props.disabled ? undefined : this.props.url,
-                    type: undefined,
-                    target: this.props.target
-                })
-        }
-    },
-    componentWillReceiveProps: function(props) {
-        if (props.type === 'link') {
-            this.attr({
-                href: props.disabled ? undefined : props.url
-            })
-        }
-    }
-}
-
 var common___button2 = {
-    block: 'button2',
     propTypes: {
         tabindex: React.PropTypes.number,
         //TODO: declare all props
@@ -123,45 +101,3 @@ var common___button2 = {
     }
 }
 
-var desktop___button2 = {
-    getInitialState: function() {
-        return {
-            hover: false
-        }
-    },
-    componentWillMount: function() {
-        this
-        .bind({
-            onMouseEnter: function() {
-                this.props.disabled || this.setState({hover: true})
-            },
-            onMouseLeave: function() {
-                this.setState({hover: false})
-            }
-        })
-
-        .mods(function() {
-            return {
-                hovered: this.state.hover
-            }
-        })
-    }
-}
-
-var Button = Button2 = React.createClass({
-    mixins: [BEM, common___button2, desktop___button2, common___button2_type_link],
-    render: function() {
-
-        this.mods(function() {
-            return {
-                type: this.props.type,
-                size: this.props.size,
-                theme: this.props.theme,
-                pin: this.props.pin,
-                disabled: this.props.disabled
-            }
-        })
-
-        return this.node()
-    },
-})
