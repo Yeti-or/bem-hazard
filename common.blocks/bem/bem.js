@@ -1,6 +1,6 @@
 var BEM = {
     match: function(decl, cb) {
-        var emptyFn = function() {return this}.bind(this)
+        var emptyFn = function() {return empty}.bind(this)
             empty = {
                 attrs: emptyFn,
                 attr: emptyFn,
@@ -16,7 +16,7 @@ var BEM = {
                 return cb.bind(this)(this)
             }
         }
-        cb.bind(this)(empty)
+        cb.bind(this)(empty, {})
     },
     attrs: function(attrs) {
         if (attrs) {
