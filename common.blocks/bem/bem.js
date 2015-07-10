@@ -7,13 +7,14 @@ var BEM = {
                 muAttrs: emptyFn,
                 content: emptyFn,
                 tag: emptyFn,
-                mods: emptyFn,
+                muMods: emptyFn,
+                mod: emptyFn,
                 bind: emptyFn
             }
 
         if (decl.modName && decl.modVal) {
-            if (this.props[decl.modName] === decl.modVal) {
-                return cb.bind(this)(this)
+            if (this.props['_' + decl.modName] === decl.modVal) {
+                return cb.bind(this)(this, this.props)
             }
         }
         cb.bind(this)(empty, {})
@@ -43,7 +44,21 @@ var BEM = {
             return this.__attrsFn || []
         }
     },
-
+    muMods: function(mods) {
+        if (mods) {
+            this.__muMods || (this.__muMods = [])
+            this.__muMods.push(mods)
+            return this
+        } else {
+            return this.__muMods
+        }
+    },
+    mod: function(mod, val) {
+        //merge with this.mods
+        return this.props[mod] || this.state[mod] || this.props['_' + mod]
+    },
+    getInitialState: function() {
+    },
     componentWillMount: function() {
         Object.keys(this.state).forEach(function(key){
             this.props[key] && (this.state[key] = this.props[key])
@@ -74,12 +89,13 @@ var BEM = {
             return this.__tag
         }
     },
-    node: function() {
-        var b_ = this.block,
+    __node: function() {
+        var b_ = this.__block,
             props = this.props,
-            mods = this.mods().reduce(function(prev, fn) {
-                return {...prev, ...fn.bind(this)()}
-            }.bind(this), {}),
+
+            mods = Object.keys(props).reduce(function(mods, key) {
+                return key[0] === '_' && (mods[key.slice(1)] = props[key]), mods
+            }, {}),
 
             attrs = this.muAttrs().reduce(function(prev, fn) {
                 return {...prev, ...fn.bind(this)(props)}
@@ -116,15 +132,6 @@ var BEM = {
 
         this.attrs(attrs)
         return this
-    },
-    mods: function(mods) {
-        if (mods) {
-            this.__mods || (this.__mods = [])
-            this.__mods.push(mods)
-            return this
-        } else {
-            return this.__mods
-        }
     }
 }
 

@@ -2,23 +2,23 @@
 var desktop___button2 = {
     getInitialState: function() {
         return {
-            hover: false
+            hovered: false
         }
     },
     componentWillMount: function() {
         this
         .bind({
             onMouseEnter: function() {
-                this.props.disabled || this.setState({hover: true})
+                this.props.disabled || this.setState({hovered: true})
             },
             onMouseLeave: function() {
-                this.setState({hover: false})
+                this.setState({hovered: false})
             }
         })
 
-        .mods(function() {
+        .muMods(function() {
             return {
-                hovered: this.props.disabled ? false : this.state.hover
+                hovered: this.props.disabled ? false : this.state.hovered
             }
         })
     }

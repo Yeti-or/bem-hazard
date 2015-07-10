@@ -27,7 +27,7 @@ var common___button2 = {
 
     },
     componentWillMount: function() {
-        var block = this.block,
+        var block = this.__block,
             content = this.props.children,
             cls__text = block + '__' + 'text'
 
@@ -54,7 +54,19 @@ var common___button2 = {
                 }
             })
 
-            .mods(function() {
+            /*
+            this.mods(function() {
+                return {
+                    type: this.props.type,
+                    size: this.props.size,
+                    theme: this.props.theme,
+                    pin: this.props.pin,
+                    disabled: this.props.disabled
+                }
+            })
+            */
+
+            .muMods(function() {
                 return {
                     pressed: this.state.active,
                     focused: this.state.focus

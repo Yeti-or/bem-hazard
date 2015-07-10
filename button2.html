@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Hello Button2!</title>
+    <meta charset="utf-8"></meta>
     <!-- Vendor -->
     <script src="bower_components/react/react.js"></script>
     <script src="bower_components/react/JSXTransformer.js"></script>
@@ -51,50 +52,50 @@
                             <tbody className="example-toggler">
                                 <tr>
                                     <th>Button</th>
-                                    <td><Button theme="normal" type="button" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="pseudo" type="button" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="action" type="button" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="clear"  type="button" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="normal" _type="button" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="pseudo" _type="button" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="action" _type="button" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="clear"  _type="button" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
                                 </tr>
                                 <tr>
                                     <th>Link</th>
-                                    <td><Button theme="normal" type="link" size="s" target="_blank" url="http://ya.ru" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="pseudo" type="link" size="s" url="http://yandex.ru" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="action" type="link" size="s" url="https://yandex.com.tr" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="clear"  type="link" size="s" url="" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="normal" _type="link" _size="s" target="_blank" url="http://ya.ru" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="pseudo" _type="link" _size="s" url="http://yandex.ru" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="action" _type="link" _size="s" url="https://yandex.com.tr" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="clear"  _type="link" _size="s" url="" _disabled={this.state.disabled}>Кнопка</Button></td>
                                 </tr>
                                 <tr>
                                     <th>Submit</th>
-                                    <td><Button theme="normal" type="submit" size="s" checked disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="pseudo" type="submit" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="action" type="submit" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="clear"  type="submit" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="normal" _type="submit" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="pseudo" _type="submit" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="action" _type="submit" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="clear"  _type="submit" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
                                 </tr>
                                 <tr>
                                     <th>Check</th>
-                                    <td><Button theme="normal" type="check" checked size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="pseudo" type="check" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="normal" _type="check" _checked _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="pseudo" _type="check" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
                                     <td></td>
-                                    <td><Button theme="clear"  type="check" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="clear"  _type="check" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
                                 </tr>
                                 <tr>
                                     <th>Radio</th>
-                                    <td><Button theme="normal" type="radio" checked size="s" disabled={this.state.disabled}>Кнопка</Button></td>
-                                    <td><Button theme="pseudo" type="radio" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="normal" _type="radio" _checked _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="pseudo" _type="radio" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
                                     <td></td>
-                                    <td><Button theme="clear"  type="radio" size="s" disabled={this.state.disabled}>Кнопка</Button></td>
+                                    <td><Button _theme="clear"  _type="radio" _size="s" _disabled={this.state.disabled}>Кнопка</Button></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <Button theme="normal" size="s" type="check" onClick={this.handleClick}>toggle disabled</Button>
+                        <Button _theme="normal" _size="s" _type="check" onClick={this.handleClick}>toggle disabled</Button>
                         <h2>Size</h2>
                         <table className="example-area example-area_bordered_yes example-table">
                         <thead><tr><th>xs</th><th>s</th><th>m</th></tr></thead>
                         <tbody>
                             <tr>
-                                <td><Button theme="normal" size="xs">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" onMouseDown={console.log.bind(console)}>Кнопка</Button></td>
-                                <td><Button theme="normal" size="m" >Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="xs">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" onMouseDown={console.log.bind(console)}>Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="m" >Кнопка</Button></td>
                             </tr>
                         </tbody>
                         </table>
@@ -102,15 +103,15 @@
                             <thead><tr><th></th><th>round-clear</th><th>clear-round</th><th>round-brick</th><th>brick-round</th><th>brick-clear</th><th>clear-brick</th><th>brick-brick</th><th>clear-clear</th></tr></thead>
                             <tbody>
                             <tr>
-                                <td><Button theme="normal" size="s">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="round-clear">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="clear-round">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="round-brick">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="brick-round">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="brick-clear">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="clear-brick">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="brick-brick">Кнопка</Button></td>
-                                <td><Button theme="normal" size="s" pin="clear-clear">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="round-clear">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="clear-round">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="round-brick">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="brick-round">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="brick-clear">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="clear-brick">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="brick-brick">Кнопка</Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="clear-clear">Кнопка</Button></td>
                             </tr>
                             </tbody>
                         </table>
