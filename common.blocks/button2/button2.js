@@ -1,13 +1,5 @@
 
-var common___button2 = {
-    componentWillReceiveProps: function(props) {
-
-
-    },
-    componentWillMount: function() {
-
-    }
-}
+var common___button2 = { }
 
 bh.match({block: 'button2'}, function(ctx, json) {
     var block = 'button2',

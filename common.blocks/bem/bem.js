@@ -132,7 +132,7 @@ var BEM = {
     },
     _events: function(events) {
         if (events) {
-            this._eventsProps = events
+            this._eventsProps = {...this._eventsProps, ...events}
         } else {
             return this._eventsProps
         }
