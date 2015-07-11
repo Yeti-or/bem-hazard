@@ -1,22 +1,7 @@
 
 var common___button2 = {
-    propTypes: {
-        tabindex: React.PropTypes.number,
-        //TODO: declare all props
-        //TODO: type - enum
-        type: React.PropTypes.string
-    },
-    getDefaultProps: function() {
-        return {
-            tabIndex: 0
-        }
-    },
     componentWillReceiveProps: function(props) {
 
-        if (props.disabled && this.state.focus) {
-            this.setState({focus: false})
-            React.findDOMNode(this).blur()
-        }
 
     },
     componentWillMount: function() {
@@ -29,28 +14,48 @@ bh.match({block: 'button2'}, function(ctx, json) {
         content = json.children,
         cls__text = block + '__' + 'text'
 
-    ctx
-        .tag('button')
+    var attrs = {
+        type: 'button',
+        id: json.id,
+        title: json.title,
+        name: json.name,
+        value: json.val
+    };
 
+    ctx
         .content(<span className={cls__text}>{content}</span>)
 
-        .attrs({
-            type: 'button',
-            id : json.id,
-            name : json.name,
-            title : json.title,
-            value : json.val,
-            //TODO: how to remove tabIndex instead of using -1
-            tabIndex : ctx.mod('disabled') ? -1 : json.tabIndex,
-            //TODO: why disabled=true?
-            disabled: json.disabled,
-            'aria-disabled': json.disabled
-        })
+        ctx.param('tabindex', '0');
+
+        if(ctx.mod('disabled')) {
+            attrs.disabled = true;
+            attrs['aria-disabled'] = true;
+        } else {
+            attrs.tabIndex = json.tabIndex;
+        }
+
+        ctx
+            .tag('button')
+            .js({_tabindex: json.tabindex})
+            .attrs(attrs)
+            .tParam('_size', ctx.mod('size'));
 
 
+        ctx
         .muMods({
             pressed: false,
             focused: false
+        })
+
+        .beforeUpdate(function() {
+            debugger;
+            if (this.mod('disabled')) {
+                this.attr('tabIndex', undefined)
+                if (this.state.focus) {
+                    this.setState({focus: false})
+                    React.findDOMNode(this).blur()
+                }
+            }
         })
 
         .bind({

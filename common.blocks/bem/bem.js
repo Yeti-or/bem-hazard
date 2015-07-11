@@ -9,6 +9,8 @@ var bh = {
 }
 
 var BEM = {
+    param: function() {return this},
+    tParam: function() {return this},
     js: function() {return this},
     attrs: function(attrs, force) {
         if (attrs) {
@@ -29,7 +31,7 @@ var BEM = {
         }
     },
     mods: function(mods) {
-        var props = this.props
+        var props = this.__props || this.props
         return Object.keys(props).reduce(function(mods, key) {
             return key[0] === '_' && (mods[key.slice(1)] = props[key]), mods
         }, {})
@@ -59,7 +61,8 @@ var BEM = {
         }
     },
     mod: function(mod, val) {
-        return this.props['_' + mod] || this.muMod(mod)
+        var props = this.__props || this.props
+        return props['_' + mod] || this.muMod(mod)
     },
     tag: function(tag, force) {
         if (tag) {
@@ -71,7 +74,9 @@ var BEM = {
     },
     content: function(content) {
         if (content) {
-            this.__content || (this.__content = content)
+            if (this.__flag) {
+                this.__content || (this.__content = content)
+            }
             return this
         } else {
             return this.__content
@@ -99,10 +104,17 @@ var BEM = {
     componentDidMount: function() {
         this.state = {...this.state, ...this.muMods()}
     },
+    componentWillReceiveProps: function(props) {
+        this.__attrs = {}
+        this.__props = props;
+        this.beforeUpdate().forEach(function(bUpdate) {
+            bUpdate.bind(this)(props)
+        }, this)
+        this.__props = undefined
+    },
     __node: function() {
 
         this.__flag = false
-        this.__attrs = {} //mutable
         this.__match()
 
         var b_ = this.__block,
@@ -125,23 +137,33 @@ var BEM = {
             return this._eventsProps
         }
     },
+    beforeUpdate: function(cb) {
+        if (cb) {
+            this.__flag && (this.__bUpdate || (this.__bUpdate = [])).push(cb)
+            return this
+        } else {
+            return this.__bUpdate || []
+        }
+    },
     bind: function(events) {
-        var attrs = {}
-        this.__events || (this.__events = {})
-        Object
-            .keys(events)
-            .forEach(function(eventName){
-                var cb = events[eventName]
-                this.__events[eventName] || (this.__events[eventName] = [])
-                this.__events[eventName].push(cb)
-                attrs[eventName] = function(e) {
-                    this.__events[eventName].forEach(function(fn) {
-                        fn.bind(this)(e)
-                    }, this)
-                }.bind(this)
-            }, this)
+        if (this.__flag) {
+            var attrs = {}
+            this.__events || (this.__events = {})
+            Object
+                .keys(events)
+                .forEach(function(eventName){
+                    var cb = events[eventName]
+                    this.__events[eventName] || (this.__events[eventName] = [])
+                    this.__events[eventName].push(cb)
+                    attrs[eventName] = function(e) {
+                        this.__events[eventName].forEach(function(fn) {
+                            fn.bind(this)(e)
+                        }, this)
+                    }.bind(this)
+                }, this)
 
-        this._events(attrs)
+            this._events(attrs)
+        }
         return this
     }
 }
