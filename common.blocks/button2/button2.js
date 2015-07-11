@@ -8,8 +8,7 @@ var common___button2 = {
     },
     getDefaultProps: function() {
         return {
-            tabindex: 0,
-            type: 'button'
+            tabindex: 0
         }
     },
     getInitialState: function() {
@@ -31,17 +30,18 @@ var common___button2 = {
             content = this.props.children,
             cls__text = block + '__' + 'text'
 
-        this
+        this.match({block: 'button2'}, function(ctx, json) {
+        ctx
             .content(<span className={cls__text}>{content}</span>)
             .tag('button')
 
             //immutable attrs
             .attrs({
-                type: this.props.type,
-                id : this.props.id,
-                name : this.props.name,
-                title : this.props.title,
-                value : this.props.val,
+                type: 'button',
+                id : json.id,
+                name : json.name,
+                title : json.title,
+                value : json.val,
             })
 
             .muAttrs(function(props) {
@@ -53,18 +53,6 @@ var common___button2 = {
                     'aria-disabled': props.disabled
                 }
             })
-
-            /*
-            this.mods(function() {
-                return {
-                    type: this.props.type,
-                    size: this.props.size,
-                    theme: this.props.theme,
-                    pin: this.props.pin,
-                    disabled: this.props.disabled
-                }
-            })
-            */
 
             .muMods(function() {
                 return {
@@ -104,6 +92,6 @@ var common___button2 = {
                     this.setState({focus: false})
                 }
             })
+        })
     }
 }
-

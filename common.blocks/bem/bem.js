@@ -16,6 +16,8 @@ var BEM = {
             if (this.props['_' + decl.modName] === decl.modVal) {
                 return cb.bind(this)(this, this.props)
             }
+        } else if (decl.block) {
+            return cb.bind(this)(this, this.props)
         }
         cb.bind(this)(empty, {})
     },
