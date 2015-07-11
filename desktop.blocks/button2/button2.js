@@ -9,10 +9,10 @@ bh.match({block: 'button2'}, function(ctx, json) {
         })
         .bind({
             onMouseEnter: function() {
-                this.mod('disabled') || this.setState({hovered: true})
+                ctx.mod('disabled') || ctx.muMod('hovered', true)
             },
             onMouseLeave: function() {
-                this.setState({hovered: false})
+                ctx.muMod('hovered', false)
             }
         })
 })

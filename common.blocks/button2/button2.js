@@ -15,7 +15,6 @@ bh.match({block: 'button2'}, function(ctx, json) {
     };
 
     ctx
-        .content(<span className={cls__text}>{content}</span>)
 
         ctx.param('tabindex', '0');
 
@@ -33,6 +32,8 @@ bh.match({block: 'button2'}, function(ctx, json) {
             .tParam('_size', ctx.mod('size'));
 
 
+        ctx.content(<span className={cls__text}>{content}</span>)
+
         ctx
         .muMods({
             pressed: false,
@@ -40,45 +41,45 @@ bh.match({block: 'button2'}, function(ctx, json) {
         })
 
         .beforeUpdate(function() {
-            debugger;
-            if (this.mod('disabled')) {
-                this.attr('tabIndex', undefined)
-                if (this.state.focus) {
-                    this.setState({focus: false})
-                    React.findDOMNode(this).blur()
+            if (ctx.mod('disabled')) {
+                ctx.attr('tabIndex', undefined)
+                if (ctx.muMod('focused')) {
+                    ctx
+                        .muMod('focused', false)
+                        .domElem().bind()
                 }
             }
         })
 
         .bind({
             onClick: function(e) {
-                this.props.disabled || this.props.onClick && this.props.onClick(e)
+                ctx.mod('disabled') || json.onClick && json.onClick(e)
             },
             onMouseLeave: function() {
                 //TODO: bindToDoc diff from native btn
-                this.setState({pressed: false})
+                ctx.muMod('pressed', false)
             },
             onMouseDown: function() {
-                this.setState({pressed: true})
+                ctx.muMod('pressed', true)
             },
             onMouseUp: function() {
-                this.setState({pressed: false})
+                ctx.muMod('pressed', false)
             },
             onKeyDown: function(e) {
                 if (e.key === ' ' || e.key === 'Enter') {
-                    this.setState({pressed: true})
+                    ctx.muMod('pressed', true)
                 }
             },
             onKeyUp: function(e) {
-                this.setState({pressed: false})
+                ctx.muMod('pressed', false)
             },
             onFocus: function() {
-                if (!this.props.disabled) {
-                    this.setState({focused: true})
+                if (!ctx.mod('disabled')) {
+                    ctx.muMod('focused', true)
                 }
             },
             onBlur: function() {
-                this.setState({focused: false})
+                ctx.muMod('focused', false)
             }
         })
 

@@ -51,9 +51,13 @@ var BEM = {
         }
     },
     muMod: function(mod, val) {
-        if (val) {
+        if (arguments.length > 1) {
             if (this.__flag) {
                 (this.__muMods || (this.__muMods = {}))[mod] = val
+            } else {
+                var newState = {}
+                newState[mod] = val
+                this.setState(newState)
             }
             return this
         } else {
@@ -165,5 +169,8 @@ var BEM = {
             this._events(attrs)
         }
         return this
+    },
+    domElem: function() {
+        return React.findDOMNode(this)
     }
 }
