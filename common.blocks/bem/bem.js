@@ -1,7 +1,9 @@
 var BEM = {
+    js: function() {return this},
     match: function(decl, cb) {
         var emptyFn = function() {return empty}.bind(this)
             empty = {
+                js: emptyFn,
                 attrs: emptyFn,
                 attr: emptyFn,
                 muAttrs: emptyFn,
