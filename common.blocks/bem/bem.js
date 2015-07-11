@@ -64,9 +64,20 @@ var BEM = {
             return this.muMods()[mod]
         }
     },
-    mod: function(mod, val) {
-        var props = this.__props || this.props
-        return props['_' + mod] || this.muMod(mod)
+    toggleMuMod : function(modName) {
+        this.muMod(modName, !this.muMod(modName))
+        return this
+    },
+    //TODO: merge mod, _mod, muMod
+    //Think about declMumods ? setMuMod delMuMod getMuMod
+    mod: function(mod) {
+        var _mod = '_' + mod,
+            props = this.__props || this.props
+        if(props.hasOwnProperty(_mod)) {
+            return props[_mod]
+        } else {
+            return this.muMod(mod)
+        }
     },
     tag: function(tag, force) {
         if (tag) {
