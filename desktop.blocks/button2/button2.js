@@ -1,7 +1,4 @@
 
-var desktop___button2 = {
-}
-
 bh.match({block: 'button2'}, function(ctx, json) {
     ctx
         .muMods({
