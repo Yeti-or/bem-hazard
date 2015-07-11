@@ -114,7 +114,13 @@ var BEM = {
         this.beforeUpdate().forEach(function(bUpdate) {
             bUpdate.bind(this)(props)
         }, this)
-        this.__props = undefined
+    },
+    componentWillUpdate: function() {
+        if (this.__props) {
+            this.__props = undefined
+        } else {
+            this.__attrs = {}
+        }
     },
     __node: function() {
 
