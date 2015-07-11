@@ -8,13 +8,7 @@ var common___button2 = {
     },
     getDefaultProps: function() {
         return {
-            tabindex: 0
-        }
-    },
-    getInitialState: function() {
-        return {
-            active: false,
-            focus: false
+            tabIndex: 0
         }
     },
     componentWillReceiveProps: function(props) {
@@ -47,49 +41,48 @@ bh.match({block: 'button2'}, function(ctx, json) {
             title : json.title,
             value : json.val,
             //TODO: how to remove tabIndex instead of using -1
-            tabIndex : ctx.mod('disabled') ? -1 : json.tabindex,
+            tabIndex : ctx.mod('disabled') ? -1 : json.tabIndex,
             //TODO: why disabled=true?
             disabled: json.disabled,
             'aria-disabled': json.disabled
         })
 
 
-            .muMods(function() {
-                return {
-                    pressed: this.state.active,
-                    focused: this.state.focus
-                }
-            })
+        .muMods({
+            pressed: false,
+            focused: false
+        })
 
-            .bind({
-                onClick: function(e) {
-                    this.props.disabled || this.props.onClick && this.props.onClick(e)
-                },
-                onMouseLeave: function() {
-                    //TODO: bindToDoc diff from native btn
-                    this.setState({active: false})
-                },
-                onMouseDown: function() {
-                    this.setState({active: true})
-                },
-                onMouseUp: function() {
-                    this.setState({active: false})
-                },
-                onKeyDown: function(e) {
-                    if (e.key === ' ' || e.key === 'Enter') {
-                        this.setState({active: true})
-                    }
-                },
-                onKeyUp: function(e) {
-                    this.setState({active: false})
-                },
-                onFocus: function() {
-                    if (!this.props.disabled) {
-                        this.setState({focus: true})
-                    }
-                },
-                onBlur: function() {
-                    this.setState({focus: false})
+        .bind({
+            onClick: function(e) {
+                this.props.disabled || this.props.onClick && this.props.onClick(e)
+            },
+            onMouseLeave: function() {
+                //TODO: bindToDoc diff from native btn
+                this.setState({pressed: false})
+            },
+            onMouseDown: function() {
+                this.setState({pressed: true})
+            },
+            onMouseUp: function() {
+                this.setState({pressed: false})
+            },
+            onKeyDown: function(e) {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    this.setState({pressed: true})
                 }
-            })
+            },
+            onKeyUp: function(e) {
+                this.setState({pressed: false})
+            },
+            onFocus: function() {
+                if (!this.props.disabled) {
+                    this.setState({focused: true})
+                }
+            },
+            onBlur: function() {
+                this.setState({focused: false})
+            }
+        })
+
 })
