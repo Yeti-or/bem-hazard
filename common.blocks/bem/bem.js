@@ -1,27 +1,32 @@
+var bh = {
+    match: function(decl, matcher) {
+        this.__matchers.push([decl, matcher])
+    },
+    __matchers: [],
+    clearMatchers: function() {
+        this.__matchers = []
+    }
+}
+
 var BEM = {
     js: function() {return this},
     match: function(decl, cb) {
-        var emptyFn = function() {return empty}.bind(this)
-            empty = {
-                js: emptyFn,
-                attrs: emptyFn,
-                attr: emptyFn,
-                muAttrs: emptyFn,
-                content: emptyFn,
-                tag: emptyFn,
-                muMods: emptyFn,
-                mod: emptyFn,
-                bind: emptyFn
-            }
 
         if (decl.modName && decl.modVal) {
             if (this.props['_' + decl.modName] === decl.modVal) {
-                return cb.bind(this)(this, this.props)
+                cb.bind(this)(this, this.props)
             }
         } else if (decl.block) {
-            return cb.bind(this)(this, this.props)
+            cb.bind(this)(this, this.props)
         }
-        cb.bind(this)(empty, {})
+    },
+    componentWillMount: function() {
+        debugger
+        for (var i = this.__matchers.length - 1; i >= 0; i--) {
+            var rule = this.__matchers[i]
+            debugger
+            this.match(rule[0], rule[1])
+        }
     },
     attrs: function(attrs) {
         if (attrs) {
@@ -31,9 +36,11 @@ var BEM = {
             return this.__attrs
         }
     },
-    attr: function(key, val) {
+    attr: function(key, val, force) {
         if (arguments.length > 1) {
-            this.__attrs[key] = val
+            this.__attrs ?
+                (!this.__attrs[key] || force) && (this.__attrs[key] = val) :
+                (this.__attrs = {key: val});
             return this
         } else {
             return this.__attrs[key]
@@ -61,13 +68,6 @@ var BEM = {
         //merge with this.mods
         return this.props[mod] || this.state[mod] || this.props['_' + mod]
     },
-    getInitialState: function() {
-    },
-    componentWillMount: function() {
-        Object.keys(this.state).forEach(function(key){
-            this.props[key] && (this.state[key] = this.props[key])
-        }, this)
-    },
     componentDidMount: function() {
         var props = this.props,
             attrs = this.muAttrs().reduce(function(prev, fn) {
@@ -85,9 +85,9 @@ var BEM = {
             return this.__content
         }
     },
-    tag: function(tag) {
+    tag: function(tag, force) {
         if (tag) {
-            (this.__tag = tag)
+            (!this.__tag || force) && (this.__tag = tag)
             return this
         } else {
             return this.__tag
