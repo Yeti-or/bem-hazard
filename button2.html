@@ -52,16 +52,17 @@
                             </thead>
                             <tbody className="example-toggler">
                                 <tr>
+
                                     <th>Button</th>
                                     <td><Button _theme="normal" _type="button" _size="s" _disabled={this.state.disabled}>1Кнопка</Button></td>
-                                </tr>
-                                <tr>
                                     <th>Link</th>
                                     <td><Button _theme="normal" _type="link" _size="s" target="_blank" url="http://ya.ru" _disabled={this.state.disabled}>2Кнопка</Button></td>
+                                    <th>Submit</th>
+                                    <td><Button _theme="normal" _size="s" _type="submit" onClick={this.handleClick}>toggle disabled</Button></td>
+
                                 </tr>
                             </tbody>
                         </table>
-                        <Button _theme="normal" _size="s" _type="submit" onClick={this.handleClick}>toggle disabled</Button>
                         <h2>Size</h2>
                     </div>
                 )

@@ -10,27 +10,10 @@ var bh = {
 
 var BEM = {
     js: function() {return this},
-    match: function(decl, cb) {
-
-        if (decl.modName && decl.modVal) {
-            if (this.props['_' + decl.modName] === decl.modVal) {
-                cb.bind(this)(this, this.props)
-            }
-        } else if (decl.block) {
-            cb.bind(this)(this, this.props)
-        }
-    },
-    componentWillMount: function() {
-        debugger
-        for (var i = this.__matchers.length - 1; i >= 0; i--) {
-            var rule = this.__matchers[i]
-            debugger
-            this.match(rule[0], rule[1])
-        }
-    },
-    attrs: function(attrs) {
+    attrs: function(attrs, force) {
         if (attrs) {
-            this.__attrs =  {...this.__attrs, ...attrs}
+            (this.__attrs || (this.__attrs = {}))
+            this.__attrs =  force ? {...this.__attrs, ...attrs} : {...attrs, ...this.__attrs}
             return this
         } else {
             return this.__attrs
@@ -39,11 +22,11 @@ var BEM = {
     attr: function(key, val, force) {
         if (arguments.length > 1) {
             this.__attrs ?
-                (!this.__attrs[key] || force) && (this.__attrs[key] = val) :
-                (this.__attrs = {key: val});
+                (!this.__attrs.hasOwnProperty(key) || force) && (this.__attrs[key] = val) :
+                (this.__attrs = {})[key] = val
             return this
         } else {
-            return this.__attrs[key]
+            return this.__attrs && this.__attrs[key]
         }
     },
     muAttrs: function(attrsFn) {
@@ -68,15 +51,14 @@ var BEM = {
         //merge with this.mods
         return this.props[mod] || this.state[mod] || this.props['_' + mod]
     },
-    componentDidMount: function() {
-        var props = this.props,
-            attrs = this.muAttrs().reduce(function(prev, fn) {
-                return {...prev, ...fn.bind(this)(props)}
-            }.bind(this), {})
-
-        this.attrs(attrs)
+    tag: function(tag, force) {
+        if (tag) {
+            this.__flag && (!this.__tag || force) && (this.__tag = tag)
+            return this
+        } else {
+            return this.__tag
+        }
     },
-
     content: function(content) {
         if (content) {
             this.__content || (this.__content = content)
@@ -85,15 +67,40 @@ var BEM = {
             return this.__content
         }
     },
-    tag: function(tag, force) {
-        if (tag) {
-            (!this.__tag || force) && (this.__tag = tag)
-            return this
-        } else {
-            return this.__tag
+    __match: function(decl, cb) {
+        //TODO: write cache here
+        debugger
+        for (var i = this.__matchers.length - 1; i >= 0; i--) {
+            var rule = this.__matchers[i],
+                decl = rule[0],
+                cb = rule[1]
+            if (decl.modName && decl.modVal) {
+                if (this.props['_' + decl.modName] === decl.modVal) {
+                    cb.bind(this)(this, this.props)
+                }
+            } else if (decl.block) {
+                cb.bind(this)(this, this.props)
+            }
         }
     },
+    componentWillMount: function() {
+        this.__flag = true
+        this.__match()
+    },
+    componentDidMount: function() {
+        //var props = this.props,
+        //    attrs = this.muAttrs().reduce(function(prev, fn) {
+        //        return {...prev, ...fn.bind(this)(props)}
+        //    }.bind(this), {})
+
+        //this.attrs(attrs)
+    },
     __node: function() {
+
+        this.__flag = false
+        this.__attrs = {} //mutable
+        this.__match()
+
         var b_ = this.__block,
             props = this.props,
 
@@ -101,9 +108,9 @@ var BEM = {
                 return key[0] === '_' && (mods[key.slice(1)] = props[key]), mods
             }, {}),
 
-            attrs = this.muAttrs().reduce(function(prev, fn) {
-                return {...prev, ...fn.bind(this)(props)}
-            }.bind(this), {}),
+            //attrs = this.muAttrs().reduce(function(prev, fn) {
+            //    return {...prev, ...fn.bind(this)(props)}
+            //}.bind(this), {}),
 
             cls = b_ +
                 Object
@@ -114,9 +121,9 @@ var BEM = {
                             : '')
                     }, '')
 
-        this.attrs(attrs)
+        //this.attrs(attrs)
 
-        return React.createElement(this.tag(), {className:cls, ...this.attrs()}, this.content())
+        return React.createElement(this.tag(), {className:cls, ...props, ...this.attrs() }, this.content())
     },
     bind: function(events) {
         var attrs = {}
