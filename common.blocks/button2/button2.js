@@ -14,7 +14,7 @@ bh.match({block: 'button2'}, function(ctx, json) {
 
     ctx
 
-        ctx.param('tabindex', '0');
+        ctx.param('tabIndex', '0');
 
         if(ctx.mod('disabled')) {
             attrs.disabled = true;
@@ -25,7 +25,7 @@ bh.match({block: 'button2'}, function(ctx, json) {
 
         ctx
             .tag('button')
-            .js({_tabindex: json.tabindex})
+            .js({_tabindex: json.tabIndex})
             .attrs(attrs)
             .tParam('_size', ctx.mod('size'));
 

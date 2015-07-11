@@ -9,7 +9,15 @@ var bh = {
 }
 
 var BEM = {
-    param: function() {return this},
+    param: function(param, val, force) {
+        if (val) {
+            //TODO: this is Bad think how to make React happy here
+            (!this.props[param] || force) && (this.props[param] = val)
+            return this
+        } else {
+            return this.props[param]
+        }
+    },
     tParam: function() {return this},
     js: function() {return this},
     attrs: function(attrs, force) {
