@@ -66,14 +66,14 @@ var BEM_Hazard = {
     muMods: function(mods) {
         if (mods) {
             if (this.__flag) {
-                this.__muMods = {...this.__muMods, ...mods}
+                this.__muMods = this.extend({}, this.__muMods, mods)
             }
             return this
         } else {
             if (this.__flag) {
                 return this.__muMods || {}
             } else {
-                return {...this.__muMods, ...this.state}
+                return this.extend({}, this.__muMods, this.state)
             }
         }
     },
@@ -155,7 +155,7 @@ var BEM_Hazard = {
         this.__match()
     },
     componentDidMount: function() {
-        this.state = {...this.state, ...this.muMods()}
+        this.state = this.extend({}, this.state, this.muMods())
     },
     componentWillReceiveProps: function(props) {
         this.__attrs = {}
@@ -189,13 +189,13 @@ var BEM_Hazard = {
 
         var cls = b_,
             ent = b_,
-            mods = {...this.mods(), ...this.muMods()}
+            mods = this.extend({}, this.mods(), this.muMods())
 
         if (__e) {
             ent += '__' + __e
             cls += ' ' + ent
         }
-        mods && (cls += modsToStr(ent, mods))
+        cls += modsToStr(ent, mods)
         return cls
     },
     _processTree: function() {
@@ -222,11 +222,12 @@ var BEM_Hazard = {
             attrs = this.attrs(),
             events = this._events()
 
-        return React.createElement(this.tag() || 'div', {className:cls, ...events, ...attrs, children: content})
+        return React.createElement(this.tag() || 'div', this.extend(attrs, events, {className:cls,  children: content}))
     },
     _events: function(events) {
         if (events) {
-            this._eventsProps = {...this._eventsProps, ...events}
+            this._eventsProps || (this._eventsProps = {})
+            this.extend(this._eventsProps, events)
         } else {
             return this._eventsProps
         }
