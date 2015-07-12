@@ -14,28 +14,39 @@
 <body class="body">
     <!-- BEM -->
     <script type="text/jsx;harmony=true" src="common.blocks/bem/bem.js"></script>
-    <script type="text/jsx;harmony=true" src="desktop.bundle/button2/button2.js"></script>
     <!-- BEM -->
     <script type="text/jsx">
         var Example = React.createClass({
             render: function() {
-                var bemJson = [{
-                    tag: "a",
-                    attrs: {href:'http://ya.ru'},
-                    content: [{
-                        block: 'hello',
-                        content: "Hello BEM"
-                    }, {
-                        tag: 'hello',
-                        content: "Hello BEM"
-                    },
-                    {content: '@'}]
-                }, {
-                    elem: "inner",
-                    content: "bye-bye"
-                }]
+                var bemJson = {
+                    tag: 'div',
+                    content: [
+                        {
+                            tag: "a",
+                            attrs: {href:"http://ya.ru"},
+                            content: [{
+                                        block: "hello",
+                                        mods: {theme: "normal", size: "s"},
+                                        content: "Hello BEM"
+                                    }, {
+                                        tag: "hello",
+                                        content: "Hello!"
+                                    },
+                                    {content: "@"}
+                            ]
+                        }, {
+                            block: "bu",
+                            elem: "inner",
+                            elemMods: {theme: "normal", size: "s"},
+                            content: "bye-bye"
+                        },
+                        <BEM block="inna">Ink</BEM>
+                    ]
+                }
                 return (
-                    <BEM elem="example" content={bemJson}></BEM>
+                    <BEM block="example" _theme="basic">
+                        <BEM block="example" elem="inner" _theme="basek">{bemJson}</BEM>
+                    </BEM>
                 )
             }
         })

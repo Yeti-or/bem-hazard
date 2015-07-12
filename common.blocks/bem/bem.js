@@ -13,6 +13,14 @@ var bh = {
 }
 
 var BEM_Hazard = {
+    js: function() {return this},
+    bem: function() {return this},
+    extend: Object.assign,
+    isSimple: function(obj) {
+        if (!obj || obj === true) return true
+        var t = typeof obj
+        return t === 'string' || t === 'number'
+    },
     param: function(param, val, force) {
         if (val) {
             (!this.__json[param] || force) && (this.__json[param] = val)
@@ -21,14 +29,7 @@ var BEM_Hazard = {
             return this.__json[param]
         }
     },
-    extend: Object.assign,
-    isSimple: function(obj) {
-        if (!obj || obj === true) return true
-        var t = typeof obj
-        return t === 'string' || t === 'number'
-    },
     tParam: function() {return this},
-    js: function() {return this},
     attrs: function(attrs, force) {
         if (attrs) {
             this.__attrs =  force ? {...this.__attrs, ...attrs} : {...attrs, ...this.__attrs}
@@ -47,11 +48,19 @@ var BEM_Hazard = {
             return this.attrs()[key]
         }
     },
+    //TODO: merge mod, _mod, muMod
+    //Think about declMumods ? setMuMod delMuMod getMuMod
+    mod: function(mod) {
+        var _mod = '_' + mod,
+            props = this.__props || this.props
+        if(props.hasOwnProperty(_mod)) {
+            return props[_mod]
+        } else {
+            return this.muMod(mod)
+        }
+    },
     mods: function(mods) {
-        var props = this.__props || this.props
-        return Object.keys(props).reduce(function(mods, key) {
-            return key[0] === '_' && (mods[key.slice(1)] = props[key]), mods
-        }, {})
+        return (this.__elem || this.__json.elem) ? this.__json.elemMods : this.__json.mods
     },
     muMods: function(mods) {
         if (mods) {
@@ -85,17 +94,6 @@ var BEM_Hazard = {
         this.muMod(modName, !this.muMod(modName))
         return this
     },
-    //TODO: merge mod, _mod, muMod
-    //Think about declMumods ? setMuMod delMuMod getMuMod
-    mod: function(mod) {
-        var _mod = '_' + mod,
-            props = this.__props || this.props
-        if(props.hasOwnProperty(_mod)) {
-            return props[_mod]
-        } else {
-            return this.muMod(mod)
-        }
-    },
     tag: function(tag, force) {
         if (tag) {
             this.__flag && (!this.__json.tag || force) && (this.__json.tag = tag)
@@ -104,14 +102,14 @@ var BEM_Hazard = {
             return this.__json.tag
         }
     },
-    content: function(content) {
-        if (content) {
+    content: function(content, force) {
+        if (arguments.length > 0) {
             if (this.__flag) {
-                this.__content || (this.__content = content)
+                (!this.__json.content || force) && (this.__json.content = content)
             }
             return this
         } else {
-            return this.__content || this.__json.content
+            return this.__json.content
         }
     },
     __match: function() {
@@ -137,9 +135,21 @@ var BEM_Hazard = {
             }
         }
     },
+    _composeCurNode: function(pp) {
+        var mods = Object.keys(pp).reduce(function(mods, key) {
+            return key[0] === '_' && (mods[key.slice(1)] = pp[key]), mods
+        }, {})
+        this.__json || (this.__json = this.extend({}, pp, {content: pp.children || pp.content}))
+        if (Object.keys(mods).length > 0) {
+            if (this.__elem || pp.elem) {
+                this.__json.elemMods = this.extend({}, pp.elemMods, mods)
+            } else {
+                this.__json.mods = this.extend({}, pp.mods, mods)
+            }
+        }
+    },
     componentWillMount: function() {
-        var pp = this.props
-        this.__json || (this.__json = {...pp, content: pp.children || pp.content})
+        this._composeCurNode(this.props)
         this.__flag = true
         this.__match()
     },
@@ -150,7 +160,7 @@ var BEM_Hazard = {
         this.__attrs = {}
         this.__props = props;
         this.beforeUpdate().forEach(function(bUpdate) {
-            this.__json = {...props, content: props.children}
+            this._composeCurNode(props)
             bUpdate.bind(this)(this.__json)
         }, this)
     },
@@ -161,70 +171,57 @@ var BEM_Hazard = {
             this.__attrs = {}
         }
     },
+    _buildClassName: function() {
+        var b_ = this.__block || this.__json.block,
+            __e = this.__elem || this.__json.elem
+
+        if (!b_) return
+
+        function modsToStr(entity, mods) {
+            return Object.keys(mods).reduce(function(str, modName) {
+                var modValue = mods[modName]
+                return str + (modValue ? ' ' + entity + '_' + modName + '_' +
+                        (typeof modValue === 'boolean' ? 'yes' : modValue )
+                    : '')
+            }, '')
+        }
+
+        var cls = b_,
+            ent = b_,
+            mods = {...this.mods(), ...this.muMods()}
+
+        if (__e) {
+            ent += '__' + __e
+            cls += ' ' + ent
+        }
+        mods && (cls += modsToStr(ent, mods))
+        return cls
+    },
+    _processTree: function() {
+        return [].concat(this.content()).map(function(node) {
+            if (!node || (!node.block && !node.elem && !node.tag && !node.content)) {
+                return node
+            }
+            var __e = node.elem,
+                b = node.block || (__e && this.__json.block || this.__Block),
+                entity = b + (__e ? '__' + __e : ''),
+                component = window[entity] || BEM
+
+            b && (node.block = b.toLowerCase())
+
+            return React.createElement(component, node)
+        }, this)
+    },
     __node: function() {
         this.__flag = false
         this.__match()
 
-        var b_ = this.__block || this.__json.block,
-            __e = this.__elem || this.__json.elem,
-            mods = {...this.mods(), ...this.muMods()},
-            cls = b_ && b_ +
-                Object
-                    .keys(mods).reduce(function(prev, modName) {
-                        var modValue = mods[modName]
-                        return prev + (modValue ? ' ' + b_ + '_' + modName + '_' +
-                                (typeof modValue === 'boolean' ? 'yes' : modValue )
-                            : '')
-                    }, '')
+        var cls = this._buildClassName(),
+            content = this._processTree(),
+            attrs = this.attrs(),
+            events = this._events()
 
-        b_ && __e && (cls += ' ' + b_ + '__' + __e)
-
-        var content = [].concat(this.content()).map(function(node) {
-            if (!node || (!node.block && !node.elem && !node.tag && !node.content)) {
-                return node
-            }
-            var b = node.block || (b = this.__Block || this.__json.block),
-                elem = node.elem,
-                mods = node.mods,
-//TODO: Fix elemMods
-                elemMods = node.elemMods,
-//TODO: Fix mix
-                mix = node.mix,
-                tag = node.tag,
-//TODO: Fix attrs
-                attrs = node.attrs,
-//TODO: Fix cls
-                cls = node.cls,
-                content = node.content
-
-            function createComp(mods, e) {
-                var props  = {...mods, ...attrs},
-                    compName = b + (e ? '__' + elem : ''),
-                    component = window[compName] || BEM
-
-                mix && (props['mix'] = mix)
-                tag && (props['tag'] = tag)
-                cls && (props['cls'] = cls)
-                b && (props.block = b.toLowerCase())
-                e && (props.elem = elem)
-                return React.createElement(component, props, content)
-            }
-
-            mods && mods.map(function(mod) {
-                return '_' + mod
-            })
-
-            if (elem) {
-                elemMods && elemMods.map(function(mod) {
-                    return '_' + mod
-                })
-                return createComp(elemMods, true)
-            } else {
-                return createComp(mods)
-            }
-        }, this)
-
-        return React.createElement(this.tag() || 'div', {className:cls, ...this._events(), ...this.attrs(), children: content})
+        return React.createElement(this.tag() || 'div', {className:cls, ...events, ...attrs, children: content})
     },
     _events: function(events) {
         if (events) {
