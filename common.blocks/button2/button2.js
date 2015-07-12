@@ -4,15 +4,13 @@ bh.match({block: 'button2'}, function(ctx, json) {
         content = json.children,
         cls__text = block + '__' + 'text'
 
-    var attrs = {
-        type: 'button',
-        id: json.id,
-        title: json.title,
-        name: json.name,
-        value: json.val
-    };
-
-    ctx
+        var attrs = {
+            type: 'button',
+            id: json.id,
+            title: json.title,
+            name: json.name,
+            value: json.val
+        };
 
         ctx.param('tabIndex', '0');
 
@@ -40,7 +38,9 @@ bh.match({block: 'button2'}, function(ctx, json) {
 
         .beforeUpdate(function() {
             if (ctx.mod('disabled')) {
-                ctx.attr('tabIndex', undefined)
+                //TODO: could not delete tabIndex from node
+                //I suppose it's bug in React
+                ctx.attr('tabIndex', -1)
                 if (ctx.muMod('focused')) {
                     ctx
                         .muMod('focused', false)
