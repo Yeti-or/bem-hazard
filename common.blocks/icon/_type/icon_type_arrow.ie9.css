@@ -1,0 +1,24 @@
+.icon_type_arrow.icon_direction_left
+{
+    background-image: url(icon_type_arrow.assets/arrow-l.svg);
+}
+.icon_type_arrow.icon_direction_top
+{
+    background-image: url(icon_type_arrow.assets/arrow-t.svg);
+}
+.icon_type_arrow.icon_direction_right
+{
+    background-image: url(icon_type_arrow.assets/arrow-r.svg);
+}
+.icon_size_xs.icon_type_arrow.icon_direction_left
+{
+    background-image: url(icon_type_arrow.assets/arrow-l-xs.svg);
+}
+.icon_size_xs.icon_type_arrow.icon_direction_top
+{
+    background-image: url(icon_type_arrow.assets/arrow-t-xs.svg);
+}
+.icon_size_xs.icon_type_arrow.icon_direction_right
+{
+    background-image: url(icon_type_arrow.assets/arrow-r-xs.svg);
+}
