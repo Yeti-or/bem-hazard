@@ -5,6 +5,10 @@ var bh = {
     __matchers: [],
     clearMatchers: function() {
         this.__matchers = []
+    },
+    xmlEscape: function(x) {
+        //because React will do it for us
+        return x
     }
 }
 
@@ -18,6 +22,11 @@ var BEM = {
         }
     },
     extend: Object.assign,
+    isSimple: function(obj) {
+        if (!obj || obj === true) return true
+        var t = typeof obj
+        return t === 'string' || t === 'number'
+    },
     tParam: function() {return this},
     js: function() {return this},
     attrs: function(attrs, force) {
@@ -102,7 +111,7 @@ var BEM = {
             }
             return this
         } else {
-            return this.__content
+            return this.__content || this.__json.content
         }
     },
     __match: function() {
@@ -169,7 +178,40 @@ var BEM = {
 
         __e && (cls += ' ' + b_ + '__' + __e)
 
-        return React.createElement(this.tag(), {className:cls, ...this._events(), ...this.attrs() }, this.content())
+        var content = [].concat(this.content()).map(function(node) {
+            var props = {},
+                b = node.block,
+                e = node.elem,
+                mods = node.mods,
+                elemMods = node.elemMods,
+                mix = node.mix,
+                tag = node.tag,
+                attrs = node.attrs,
+                cls = node.cls,
+                content = node.content
+
+            mods && mods.map(function(mod) {
+                return '_' + mod
+            })
+
+            if (node.elem) {
+                elemMods && elemMods.map(function(mod) {
+                    return '_' + mod
+                })
+                b || (b = this.__Block)
+                tagName += 
+                props  = {...mods, ...elemMods, mix: mix, tag: tag, ...attrs, cls: cls}
+    //TODO: In Progress
+                return React.createElement(window[b + '__' + e;, props, content)
+            } else if (node.block) {
+                props  = {...mods, mix: mix, tag: tag, ...attrs, cls: cls}
+                return React.createElement(b, props, content)
+            } else {
+                return node
+            }
+        }, this)
+
+        return React.createElement(this.tag(), {className:cls, ...this._events(), ...this.attrs() }, content)
     },
     _events: function(events) {
         if (events) {
