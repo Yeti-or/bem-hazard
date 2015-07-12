@@ -105,19 +105,26 @@ var BEM = {
             return this.__content
         }
     },
-    __match: function(decl, cb) {
+    __match: function() {
         //TODO: write cache here
         for (var i = this.__matchers.length - 1; i >= 0; i--) {
             var rule = this.__matchers[i],
                 decl = rule[0],
                 cb = rule[1],
                 json = this.__json || (this.__json = {...this.props, content: this.props.children})
-            if (decl.modName && decl.modVal) {
-                if (this.props['_' + decl.modName] === decl.modVal) {
+
+            if (this.__elem || decl.elem) {
+                if (decl.elem === this.__elem) {
                     cb.bind(this)(this, json)
                 }
-            } else if (decl.block) {
-                cb.bind(this)(this, json)
+            } else {
+                if (decl.modName && decl.modVal) {
+                    if (this.props['_' + decl.modName] === decl.modVal) {
+                        cb.bind(this)(this, json)
+                    }
+                } else if (decl.block === this.__block) {
+                    cb.bind(this)(this, json)
+                }
             }
         }
     },
@@ -149,6 +156,7 @@ var BEM = {
         this.__match()
 
         var b_ = this.__block,
+            __e = this.__elem,
             mods = {...this.mods(), ...this.muMods()},
             cls = b_ +
                 Object
@@ -158,6 +166,8 @@ var BEM = {
                                 (typeof modValue === 'boolean' ? 'yes' : modValue )
                             : '')
                     }, '')
+
+        __e && (cls += ' ' + b_ + '__' + __e)
 
         return React.createElement(this.tag(), {className:cls, ...this._events(), ...this.attrs() }, this.content())
     },
