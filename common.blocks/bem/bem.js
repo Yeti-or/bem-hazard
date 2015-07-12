@@ -30,12 +30,13 @@ var BEM_Hazard = {
         }
     },
     tParam: function() {return this},
-    attrs: function(attrs, force) {
-        if (attrs) {
-            this.__attrs =  force ? {...this.__attrs, ...attrs} : {...attrs, ...this.__attrs}
+    attrs: function(values, force) {
+        var attrs = this.__json.attrs || {}
+        if (values !== undefined) {
+            this.__json.attrs = force ? this.extend(attrs, values) : this.extend(values, attrs)
             return this
         } else {
-            return this.__attrs || {}
+            return attrs
         }
     },
     attr: function(key, val, force) {
