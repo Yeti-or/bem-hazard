@@ -4,7 +4,7 @@ var Icon = React.createClass({
     __Block: 'Icon',
     __block: 'icon',
     __matchers: bh.__matchers,
-    mixins: [BEM],
+    mixins: [BEM_Hazard],
     render: function() {
         return this.__node()
     },

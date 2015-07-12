@@ -7,12 +7,12 @@ var bh = {
         this.__matchers = []
     },
     xmlEscape: function(x) {
-        //because React will do it for us
+        //Because React will do it for us
         return x
     }
 }
 
-var BEM = {
+var BEM_Hazard = {
     param: function(param, val, force) {
         if (val) {
             (!this.__json[param] || force) && (this.__json[param] = val)
@@ -98,10 +98,10 @@ var BEM = {
     },
     tag: function(tag, force) {
         if (tag) {
-            this.__flag && (!this.__tag || force) && (this.__tag = tag)
+            this.__flag && (!this.__json.tag || force) && (this.__json.tag = tag)
             return this
         } else {
-            return this.__tag
+            return this.__json.tag
         }
     },
     content: function(content) {
@@ -120,7 +120,7 @@ var BEM = {
             var rule = this.__matchers[i],
                 decl = rule[0],
                 cb = rule[1],
-                json = this.__json || (this.__json = {...this.props, content: this.props.children})
+                json = this.__json
 
             if (this.__elem || decl.elem) {
                 if (decl.elem === this.__elem) {
@@ -138,6 +138,8 @@ var BEM = {
         }
     },
     componentWillMount: function() {
+        var pp = this.props
+        this.__json || (this.__json = {...pp, content: pp.children || pp.content})
         this.__flag = true
         this.__match()
     },
@@ -160,14 +162,13 @@ var BEM = {
         }
     },
     __node: function() {
-
         this.__flag = false
         this.__match()
 
-        var b_ = this.__block,
-            __e = this.__elem,
+        var b_ = this.__block || this.__json.block,
+            __e = this.__elem || this.__json.elem,
             mods = {...this.mods(), ...this.muMods()},
-            cls = b_ +
+            cls = b_ && b_ +
                 Object
                     .keys(mods).reduce(function(prev, modName) {
                         var modValue = mods[modName]
@@ -176,42 +177,54 @@ var BEM = {
                             : '')
                     }, '')
 
-        __e && (cls += ' ' + b_ + '__' + __e)
+        b_ && __e && (cls += ' ' + b_ + '__' + __e)
 
         var content = [].concat(this.content()).map(function(node) {
-            var props = {},
-                b = node.block,
-                e = node.elem,
+            if (!node || (!node.block && !node.elem && !node.tag && !node.content)) {
+                return node
+            }
+            var b = node.block || (b = this.__Block || this.__json.block),
+                elem = node.elem,
                 mods = node.mods,
+//TODO: Fix elemMods
                 elemMods = node.elemMods,
+//TODO: Fix mix
                 mix = node.mix,
                 tag = node.tag,
+//TODO: Fix attrs
                 attrs = node.attrs,
+//TODO: Fix cls
                 cls = node.cls,
                 content = node.content
+
+            function createComp(mods, e) {
+                var props  = {...mods, ...attrs},
+                    compName = b + (e ? '__' + elem : ''),
+                    component = window[compName] || BEM
+
+                mix && (props['mix'] = mix)
+                tag && (props['tag'] = tag)
+                cls && (props['cls'] = cls)
+                b && (props.block = b.toLowerCase())
+                e && (props.elem = elem)
+                return React.createElement(component, props, content)
+            }
 
             mods && mods.map(function(mod) {
                 return '_' + mod
             })
 
-            if (node.elem) {
+            if (elem) {
                 elemMods && elemMods.map(function(mod) {
                     return '_' + mod
                 })
-                b || (b = this.__Block)
-                tagName += 
-                props  = {...mods, ...elemMods, mix: mix, tag: tag, ...attrs, cls: cls}
-    //TODO: In Progress
-                return React.createElement(window[b + '__' + e;, props, content)
-            } else if (node.block) {
-                props  = {...mods, mix: mix, tag: tag, ...attrs, cls: cls}
-                return React.createElement(b, props, content)
+                return createComp(elemMods, true)
             } else {
-                return node
+                return createComp(mods)
             }
         }, this)
 
-        return React.createElement(this.tag(), {className:cls, ...this._events(), ...this.attrs() }, content)
+        return React.createElement(this.tag() || 'div', {className:cls, ...this._events(), ...this.attrs(), children: content})
     },
     _events: function(events) {
         if (events) {
@@ -253,3 +266,12 @@ var BEM = {
         return React.findDOMNode(this)
     }
 }
+
+var BEM = React.createClass({
+    __block: '',
+    __matchers: [],
+    mixins: [BEM_Hazard],
+    render: function() {
+        return this.__node()
+    },
+})
