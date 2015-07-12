@@ -1,7 +1,7 @@
 //Could be generated
 
-var Button = Button2 = React.createClass({
-    __block: 'button2',
+var Icon = React.createClass({
+    __block: 'icon',
     __matchers: bh.__matchers,
     mixins: [BEM],
     render: function() {
