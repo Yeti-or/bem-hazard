@@ -17,6 +17,7 @@ var BEM = {
             return this.__json[param]
         }
     },
+    extend: Object.assign,
     tParam: function() {return this},
     js: function() {return this},
     attrs: function(attrs, force) {
