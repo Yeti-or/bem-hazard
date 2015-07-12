@@ -11,11 +11,10 @@ var bh = {
 var BEM = {
     param: function(param, val, force) {
         if (val) {
-            //TODO: this is Bad think how to make React happy here
-            (!this.props[param] || force) && (this.props[param] = val)
+            (!this.__json[param] || force) && (this.__json[param] = val)
             return this
         } else {
-            return this.props[param]
+            return this.__json[param]
         }
     },
     tParam: function() {return this},
@@ -110,13 +109,14 @@ var BEM = {
         for (var i = this.__matchers.length - 1; i >= 0; i--) {
             var rule = this.__matchers[i],
                 decl = rule[0],
-                cb = rule[1]
+                cb = rule[1],
+                json = this.__json || (this.__json = {...this.props, content: this.props.children})
             if (decl.modName && decl.modVal) {
                 if (this.props['_' + decl.modName] === decl.modVal) {
-                    cb.bind(this)(this, this.props)
+                    cb.bind(this)(this, json)
                 }
             } else if (decl.block) {
-                cb.bind(this)(this, this.props)
+                cb.bind(this)(this, json)
             }
         }
     },
@@ -131,7 +131,8 @@ var BEM = {
         this.__attrs = {}
         this.__props = props;
         this.beforeUpdate().forEach(function(bUpdate) {
-            bUpdate.bind(this)(props)
+            this.__json = {...props, content: props.children}
+            bUpdate.bind(this)(this.__json)
         }, this)
     },
     componentWillUpdate: function() {
