@@ -50,7 +50,11 @@
             handleClick: function(e) {
                 console.log('^_^')
                 this.setState({disabled: !this.state.disabled})
+                //debugger
                 //console.log('disabled: ' + this.state.disabled);
+            },
+            changeBg: function() {
+                this.setState({squares: !this.state.squares})
             },
             getInitialState: function() {
                 return {disabled: false}
@@ -69,7 +73,7 @@
 
                         return {
                             block: 'example-area',
-                            mods: {bordered: 'yes'},
+                            mods: {bordered: 'yes', squares: this.state.squares},
                             mix: [
                                 {block: 'example-table'},
                                 {block: 'example-toggler', js: {id: 'toggle-bg'}}
@@ -94,12 +98,13 @@
                                                         {
                                                             block: 'button2',
                                                             mods: {theme: theme, type: type, size: 's'},
+                                                            _disabled: this.state.disabled,
                                                             icon: {mods: {type: 'load'}},
                                                             url: url
                                                         }, ' ',
                                                         {
                                                             block: 'button2',
-                                                            mods: {theme: theme, type: type, size: 's'},
+                                                            mods: {theme: theme, type: type, size: 's', disabled: this.state.disabled},
                                                             text: 'Кнопка',
                                                             url: url
                                                         }
@@ -118,18 +123,19 @@
 
                                                     return {tag: 'td', content: content};
                                                 }
-                                            })
+                                            }, this)
                                         ]};
-                                    })
+                                    }, this)
                                 }
                             ]
                         };
-                    })(),
+                    }.bind(this))(),
                     {
                         block: 'example-area',
                         content: [
                             {
                                 block: 'button2',
+                                onClick: this.handleClick,
                                 mix: {
                                     block: 'example-toggler',
                                     js: {id: 'toggle-disabled', block: 'button2', mod: 'disabled', val: 'yes'}
@@ -139,6 +145,7 @@
                             }, {tag: 'br'}, {tag: 'br'},
                             {
                                 block: 'button2',
+                                onClick: this.changeBg,
                                 mix: {
                                     block: 'example-toggler',
                                     js: {id: 'toggle-bg', block: 'example-area', mod: 'squares', val: 'yes'}
