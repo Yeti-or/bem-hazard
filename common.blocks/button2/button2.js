@@ -25,7 +25,6 @@ bh.match('button2', function(ctx, json) {
 
         if(!json.content) {
             ctx.content([
-                /*
                 json.icon && {
                     elem: 'icon',
                     icon: json.icon
@@ -40,7 +39,6 @@ bh.match('button2', function(ctx, json) {
                     elemMods: {side: 'right'},
                     icon: json.iconRight
                 },
-                */
                 // Текст может быть пустой строкой, поэтому hasOwnProperty.
                 json.hasOwnProperty('text') && (ctx.isSimple(json.text)
                     ? {elem: 'text', content: bh.xmlEscape(json.text)}
