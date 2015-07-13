@@ -178,11 +178,13 @@ var BEM_Hazard = {
         }
     },
     _composeCurNode: function(pp) {
-        var mods = Object.keys(pp).reduce(function(mods, key) {
-            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
-        }, {})
         //TODO: Think about caching/diffing bemJsonTree/content
         this.__json = this.extend({}, pp, {content: pp.children || pp.content})
+        var mods = Object.keys(this.__json).reduce(function(mods, key) {
+            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
+        }, {})
+        console.log('Mods: ' + Object.keys(mods))
+        console.log('_dis: ' + mods.disabled)
         this.__block && (this.__json.block = this.__block)
         this.__elem && (this.__json.elem = this.__elem)
         if (Object.keys(mods).length > 0) {
@@ -203,10 +205,9 @@ var BEM_Hazard = {
         this.state = this.extend({}, this.state, this.muMods())
     },
     componentWillReceiveProps: function(props) {
-        this.__attrs = {}
         this.__props = props
+        this._composeCurNode(props)
         this.beforeUpdate().forEach(function(bUpdate) {
-            this._composeCurNode(props)
             bUpdate.bind(this)(this.__json)
         }, this)
     },
@@ -214,7 +215,6 @@ var BEM_Hazard = {
         if (this.__props) {
             this.__props = undefined
         } else {
-            this.__attrs = {}
             this._composeCurNode(this.props)
         }
     },
