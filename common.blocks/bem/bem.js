@@ -127,6 +127,16 @@ var BEM_Hazard = {
             return this.__json.tag
         }
     },
+    mix: function(mix, force) {
+        if (mix) {
+            (this.__json.mix || force) ?
+                this.__json.mix = [].concat(mix) :
+                this.__json.mix.concat(mix)
+            return this
+        } else {
+            return this.__json.mix
+        }
+    },
     content: function(content, force) {
         if (arguments.length > 0) {
                 (!this.__json.content || force) && (this.__json.content = content)
@@ -211,12 +221,22 @@ var BEM_Hazard = {
 
     _buildClassName: function() {
         var b_ = this.__json.block,
-            __e = this.__json.elem
+            __e = this.__json.elem,
+            cls = '',
+            mods = this.extend({}, this.mods(), this.muMods())
 
-        if (!b_) return
+        function declToStr(b_, __e, mods, mix) {
+            if (!b_ && !__e) return ''
+            if (!b_ && !mix) return ''
+            var cls = '',
+                entity = b_
 
-        function modsToStr(entity, mods) {
-            return Object.keys(mods).reduce(function(str, modName) {
+            if (__e) {
+                mix || (cls += entity + ' ')
+                entity += bh.__ + __e
+            }
+            cls += entity
+            return cls + Object.keys(mods).reduce(function(str, modName) {
                 var modValue = mods[modName]
                 return str + (modValue ? ' ' + entity + bh._ + modName + bh._ +
                         (typeof modValue === 'boolean' ? 'yes' : modValue )
@@ -224,15 +244,11 @@ var BEM_Hazard = {
             }, '')
         }
 
-        var cls = b_,
-            ent = b_,
-            mods = this.extend({}, this.mods(), this.muMods())
+        cls += declToStr(b_, __e, mods, false)
+        this.__json.mix && this.__json.mix.forEach(function(mix) {
+            cls += ' ' + declToStr(mix.block, mix.elem, mix.mods || mix.elemMods || {}, true)
+        })
 
-        if (__e) {
-            ent += bh.__ + __e
-            cls += ' ' + ent
-        }
-        cls += modsToStr(ent, mods)
         return cls
     },
     _processTree: function(tree) {
