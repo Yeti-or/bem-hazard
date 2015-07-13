@@ -19,12 +19,10 @@ var bh = {
         decl.modName = decls.shift()
         decl.modVal = decls.shift()
 
-        this.__matchers.push([decl, matcher])
+        this.__matchers[decl.block] || (this.__matchers[decl.block] = [])
+        this.__matchers[decl.block].push([decl, matcher])
     },
-    __matchers: [],
-    clearMatchers: function() {
-        this.__matchers = []
-    },
+    __matchers: {},
     xmlEscape: function(x) {
         //Because React will do it for us
         return x
@@ -132,25 +130,28 @@ var BEM_Hazard = {
         }
     },
     __match: function() {
-        //TODO: write cache here
-        for (var i = this.__matchers.length - 1; i >= 0; i--) {
-            var rule = this.__matchers[i],
-                mods = this.mods(),
-                decl = rule[0],
-                cb = rule[1],
-                json = this.__json
+        var b_ = this.__block || this.__json.block,
+            __e = this.__elem || this.__json.elem,
+            mods = this.mods(),
+            json = this.__json,
+            matchers = bh.__matchers[b_]
 
-            if (this.__elem || decl.elem) {
-                if (decl.elem === this.__elem) {
-                    cb.bind(this)(this, json)
+        for (var i = matchers.length - 1; i >= 0; i--) {
+            var rule = matchers[i],
+                decl = rule[0],
+                cb = rule[1]
+
+            if (decl.modName && decl.modVal) {
+                if (mods && (mods[decl.modName] === decl.modVal)) {
+                    cb(this, json)
                 }
             } else {
-                if (decl.modName && decl.modVal) {
-                    if (mods[decl.modName] === decl.modVal) {
-                        cb.bind(this)(this, json)
+                if (decl.elem || __e) {
+                    if (decl.elem === __e) {
+                        cb(this, json)
                     }
-                } else if (decl.block === this.__block) {
-                    cb.bind(this)(this, json)
+                } else {
+                    cb(this, json)
                 }
             }
         }
@@ -287,7 +288,7 @@ var BEM_Hazard = {
 
 var BEM = React.createClass({
     __block: '',
-    __matchers: [],
+    __matchers: bh.__matchers,
     mixins: [BEM_Hazard],
     render: function() {
         return this.__node()

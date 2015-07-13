@@ -9,5 +9,3 @@ var Icon = React.createClass({
         return this.__node()
     },
 })
-
-bh.clearMatchers()
