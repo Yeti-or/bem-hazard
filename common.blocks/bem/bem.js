@@ -66,15 +66,15 @@ var BEM_Hazard = {
     },
     attr: function(key, val, force) {
         if (arguments.length > 1) {
-            this.__attrs ?
-                (!this.__attrs.hasOwnProperty(key) || force) && (this.__attrs[key] = val) :
-                (this.__attrs = {})[key] = val
+            this.__json.attrs ?
+                (!this.__json.attrs.hasOwnProperty(key) || force) && (this.__json.attrs[key] = val) :
+                (this.__json.attrs = {})[key] = val
             return this
         } else {
-            return this.attrs()[key]
+            return this.__json.attrs[key]
         }
     },
-    //TODO: merge mod, _mod, muMod
+    //TODO: Refactor mod, mods, muMod, muMods
     //Think about declMumods ? setMuMod delMuMod getMuMod
     mod: function(mod) {
         var mods = this.mods()
@@ -121,7 +121,7 @@ var BEM_Hazard = {
     },
     tag: function(tag, force) {
         if (tag) {
-            this.__flag && (!this.__json.tag || force) && (this.__json.tag = tag)
+            (!this.__json.tag || force) && (this.__json.tag = tag)
             return this
         } else {
             return this.__json.tag
@@ -129,9 +129,7 @@ var BEM_Hazard = {
     },
     content: function(content, force) {
         if (arguments.length > 0) {
-            if (this.__flag) {
                 (!this.__json.content || force) && (this.__json.content = content)
-            }
             return this
         } else {
             return this.__json.content
@@ -173,7 +171,8 @@ var BEM_Hazard = {
         var mods = Object.keys(pp).reduce(function(mods, key) {
             return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
         }, {})
-        this.__json || (this.__json = this.extend({}, pp, {content: pp.children || pp.content}))
+        //TODO: Think about caching/diffing bemJsonTree/content
+        this.__json = this.extend({}, pp, {content: pp.children || pp.content})
         this.__block && (this.__json.block = this.__block)
         this.__elem && (this.__json.elem = this.__elem)
         if (Object.keys(mods).length > 0) {
@@ -206,6 +205,7 @@ var BEM_Hazard = {
             this.__props = undefined
         } else {
             this.__attrs = {}
+            this._composeCurNode(this.props)
         }
     },
 
@@ -235,8 +235,8 @@ var BEM_Hazard = {
         cls += modsToStr(ent, mods)
         return cls
     },
-    _processTree: function() {
-        return [].concat(this.content()).map(function(node) {
+    _processTree: function(tree) {
+        return [].concat(tree).map(function(node) {
             if (!node || (!node.block && !node.elem && !node.tag && !node.content)) {
                 return node
             }
@@ -256,7 +256,7 @@ var BEM_Hazard = {
         this.__match()
 
         var cls = this._buildClassName(),
-            content = this._processTree(),
+            content = this._processTree(this.content()),
             attrs = this.attrs(),
             events = this._events()
 
