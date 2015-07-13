@@ -245,7 +245,7 @@ var BEM_Hazard = {
         }
 
         cls += declToStr(b_, __e, mods, false)
-        this.__json.mix && this.__json.mix.forEach(function(mix) {
+        this.__json.mix && [].concat(this.__json.mix).forEach(function(mix) {
             cls += ' ' + declToStr(mix.block, mix.elem, mix.mods || mix.elemMods || {}, true)
         })
 
@@ -253,6 +253,7 @@ var BEM_Hazard = {
     },
     _processTree: function(tree) {
         return [].concat(tree).map(function(node) {
+            if (Array.isArray(node)) { return this._processTree(node) }
             if (!node || (!node.block && !node.elem && !node.tag && !node.content)) {
                 return node
             }
