@@ -1,4 +1,6 @@
 var bh = {
+    _ :'_',
+    __ : '__',
     match: function(decl, matcher) {
         this.__matchers.push([decl, matcher])
     },
@@ -52,10 +54,9 @@ var BEM_Hazard = {
     //TODO: merge mod, _mod, muMod
     //Think about declMumods ? setMuMod delMuMod getMuMod
     mod: function(mod) {
-        var _mod = '_' + mod,
-            props = this.__props || this.props
-        if(props.hasOwnProperty(_mod)) {
-            return props[_mod]
+        var mods = this.mods();
+        if(mods.hasOwnProperty(mod)) {
+            return mods[mod]
         } else {
             return this.muMod(mod)
         }
@@ -117,6 +118,7 @@ var BEM_Hazard = {
         //TODO: write cache here
         for (var i = this.__matchers.length - 1; i >= 0; i--) {
             var rule = this.__matchers[i],
+                mods = this.mods(),
                 decl = rule[0],
                 cb = rule[1],
                 json = this.__json
@@ -127,7 +129,7 @@ var BEM_Hazard = {
                 }
             } else {
                 if (decl.modName && decl.modVal) {
-                    if (this.props['_' + decl.modName] === decl.modVal) {
+                    if (mods[decl.modName] === decl.modVal) {
                         cb.bind(this)(this, json)
                     }
                 } else if (decl.block === this.__block) {
@@ -138,7 +140,7 @@ var BEM_Hazard = {
     },
     _composeCurNode: function(pp) {
         var mods = Object.keys(pp).reduce(function(mods, key) {
-            return key[0] === '_' && (mods[key.slice(1)] = pp[key]), mods
+            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
         }, {})
         this.__json || (this.__json = this.extend({}, pp, {content: pp.children || pp.content}))
         if (Object.keys(mods).length > 0) {
@@ -181,7 +183,7 @@ var BEM_Hazard = {
         function modsToStr(entity, mods) {
             return Object.keys(mods).reduce(function(str, modName) {
                 var modValue = mods[modName]
-                return str + (modValue ? ' ' + entity + '_' + modName + '_' +
+                return str + (modValue ? ' ' + entity + bh._ + modName + bh._ +
                         (typeof modValue === 'boolean' ? 'yes' : modValue )
                     : '')
             }, '')
@@ -192,7 +194,7 @@ var BEM_Hazard = {
             mods = this.extend({}, this.mods(), this.muMods())
 
         if (__e) {
-            ent += '__' + __e
+            ent += bh.__ + __e
             cls += ' ' + ent
         }
         cls += modsToStr(ent, mods)
@@ -205,7 +207,7 @@ var BEM_Hazard = {
             }
             var __e = node.elem,
                 b = node.block || (__e && this.__json.block || this.__Block),
-                entity = b + (__e ? '__' + __e : ''),
+                entity = b + (__e ? bh.__ + __e : ''),
                 component = window[entity] || BEM
 
             b && (node.block = b.toLowerCase())
