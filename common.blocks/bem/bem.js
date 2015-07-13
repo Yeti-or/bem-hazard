@@ -85,7 +85,7 @@ var BEM_Hazard = {
         }
     },
     mods: function(mods) {
-        return (this.__elem || this.__json.elem) ? this.__json.elemMods : this.__json.mods
+        return (this.__json.elem) ? this.__json.elemMods : this.__json.mods
     },
     muMods: function(mods) {
         if (mods) {
@@ -138,30 +138,35 @@ var BEM_Hazard = {
         }
     },
     __match: function() {
-        var b_ = this.__block || this.__json.block,
-            __e = this.__elem || this.__json.elem,
+        var b_ =  this.__json.block,
+            __e = this.__json.elem,
             mods = this.mods(),
             json = this.__json,
+            retVal,
             matchers = bh.__matchers[b_] || []
 
-        for (var i = matchers.length - 1; i >= 0; i--) {
+        for (var i = matchers.length - 1; i >= 0 && !retVal; i--) {
             var rule = matchers[i],
                 decl = rule[0],
                 cb = rule[1]
 
             if (decl.modName && decl.modVal) {
                 if (mods && (mods[decl.modName] === decl.modVal)) {
-                    cb(this, json)
+                    retVal = cb(this, json)
                 }
             } else {
                 if (decl.elem || __e) {
                     if (decl.elem === __e) {
-                        cb(this, json)
+                        retVal = cb(this, json)
                     }
                 } else {
-                    cb(this, json)
+                    retVal = cb(this, json)
                 }
             }
+        }
+        if (retVal)  {
+            this.__json = retVal
+            this.__match()
         }
     },
     _composeCurNode: function(pp) {
@@ -169,14 +174,17 @@ var BEM_Hazard = {
             return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
         }, {})
         this.__json || (this.__json = this.extend({}, pp, {content: pp.children || pp.content}))
+        this.__block && (this.__json.block = this.__block)
+        this.__elem && (this.__json.elem = this.__elem)
         if (Object.keys(mods).length > 0) {
-            if (this.__elem || pp.elem) {
+            if (this.__json.elem) {
                 this.__json.elemMods = this.extend({}, pp.elemMods, mods)
             } else {
                 this.__json.mods = this.extend({}, pp.mods, mods)
             }
         }
     },
+
     componentWillMount: function() {
         this._composeCurNode(this.props)
         this.__flag = true
@@ -200,9 +208,10 @@ var BEM_Hazard = {
             this.__attrs = {}
         }
     },
+
     _buildClassName: function() {
-        var b_ = this.__block || this.__json.block,
-            __e = this.__elem || this.__json.elem
+        var b_ = this.__json.block,
+            __e = this.__json.elem
 
         if (!b_) return
 
