@@ -1,0 +1,133 @@
+<!doctype>
+<html>
+<head>
+    <title>Hello Button2!</title>
+    <meta charset="utf-8"></meta>
+    <!-- Vendor -->
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/JSXTransformer.js"></script>
+    <!-- //TODO:Changed module to window -->
+    <script src="bower_components/object-assign/index.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!-- Vendor -->
+    <!-- Lego -->
+        <!-- Button2 -->
+        <link rel="stylesheet" href="css/button2.css"/>
+        <!-- Button2 -->
+    <!-- Lego -->
+    <link rel="stylesheet" href="css/button2-example.css"/>
+</head>
+<body class="body">
+    <!-- Lego -->
+        <!-- Pointerfocus -->
+        <script type="text/jsx" src="common.blocks/pointerfocus/pointerfocus.js"></script>
+        <!-- BEM__helper -->
+        <script type="text/jsx;harmony=true" src="common.blocks/bem/bem.js"></script>
+        <!-- Button2 -->
+        <script type="text/jsx;harmony=true" src="common.blocks/button2/button2.js"></script>
+        <script type="text/jsx;harmony=true" src="desktop.blocks/button2/button2.js"></script>
+        <script type="text/jsx;harmony=true" src="common.blocks/button2/__text/button2__text.js"></script>
+        <script type="text/jsx;harmony=true" src="common.blocks/button2/_type/button2_type_link.js"></script>
+        <script type="text/jsx;harmony=true" src="common.blocks/button2/_type/button2_type_submit.js"></script>
+        <script type="text/jsx;harmony=true" src="common.blocks/button2/_type/button2_type_radio.js"></script>
+        <script type="text/jsx;harmony=true" src="common.blocks/button2/_type/button2_type_check.js"></script>
+        <script type="text/jsx;harmony=true" src="desktop.bundle/button2/button2.js"></script>
+        <script type="text/jsx;harmony=true" src="desktop.bundle/button2/__text/button2__text.js"></script>
+    <!-- Lego -->
+    <script type="text/jsx">
+        var Example = React.createClass({
+            handleClick: function(e) {
+                console.log('^_^')
+                this.setState({disabled: !this.state.disabled})
+                //console.log('disabled: ' + this.state.disabled);
+            },
+            getInitialState: function() {
+                return {disabled: false}
+            },
+            render: function() {
+                return (
+                    <div>
+                        <h2>Type & Theme</h2>
+                        <table className="example-area example-area_bordered_yes example-table example-toggler">
+                            <thead>
+                                <tr><th>type\theme</th><th>normal</th><th>pseudo</th><th>action</th><th>clear</th></tr>
+                            </thead>
+                            <tbody className="example-toggler">
+                                <tr>
+                                    <th>Button</th>
+                                    <td><Button _theme="normal" _type="button" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="pseudo" _type="button" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="action" _type="button" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="clear"  _type="button" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                </tr>
+                                <tr>
+                                    <th>Link</th>
+                                    <td><Button _theme="normal" _type="link" _size="s" target="_blank" url="http://ya.ru" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="pseudo" _type="link" _size="s" url="http://yandex.ru" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="action" _type="link" _size="s" url="https://yandex.com.tr" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="clear"  _type="link" _size="s" url="" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                </tr>
+                                <tr>
+                                    <th>Submit</th>
+                                    <td><Button _theme="normal" _type="submit" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="pseudo" _type="submit" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="action" _type="submit" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="clear"  _type="submit" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                </tr>
+                                <tr>
+                                    <th>Check</th>
+                                    <td><Button _theme="normal" _type="check" _checked _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="pseudo" _type="check" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td></td>
+                                    <td><Button _theme="clear"  _type="check" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                </tr>
+                                <tr>
+                                    <th>Radio</th>
+                                    <td><Button _theme="normal" _type="radio" _checked _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td><Button _theme="pseudo" _type="radio" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                    <td></td>
+                                    <td><Button _theme="clear"  _type="radio" _size="s" _disabled={this.state.disabled} text="Кнопка"></Button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <Button _theme="normal" _size="s" _type="check" onClick={this.handleClick}>
+                            <Button__text>toggle disabled</Button__text>
+                        </Button>
+                        <h2>Size</h2>
+                        <table className="example-area example-area_bordered_yes example-table">
+                        <thead><tr><th>xs</th><th>s</th><th>m</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><Button _theme="normal" _size="xs" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" onMouseDown={console.log.bind(console)} text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="m"  text="Кнопка"></Button></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                        <table className="example-area example-area_bordered_yes example-table">
+                            <thead><tr><th></th><th>round-clear</th><th>clear-round</th><th>round-brick</th><th>brick-round</th><th>brick-clear</th><th>clear-brick</th><th>brick-brick</th><th>clear-clear</th></tr></thead>
+                            <tbody>
+                            <tr>
+                                <td><Button _theme="normal" _size="s" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="round-clear" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="clear-round" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="round-brick" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="brick-round" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="brick-clear" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="clear-brick" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="brick-brick" text="Кнопка"></Button></td>
+                                <td><Button _theme="normal" _size="s" _pin="clear-clear" text="Кнопка"></Button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
+        })
+        React.render(
+            <Example />,
+            document.body
+        )
+    </script>
+</body>
+</html>

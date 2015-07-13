@@ -16,9 +16,11 @@
         <!-- Button2 -->
         <!-- Icon -->
         <link rel="stylesheet" href="css/icon.css"/>
+        <link rel="stylesheet" href="common.blocks/icon/icon.css"/>
         <!-- Icon -->
     <!-- Lego -->
     <link rel="stylesheet" href="css/button2-example.css"/>
+    <link rel="stylesheet" href="common.blocks/icon/_type/icon_type_arrow.css"/>
 </head>
 <body class="body">
     <!-- Lego -->
@@ -31,6 +33,7 @@
         <script src="desktop.bundle/icon/icon.js"></script>
         <!-- Button2 -->
         <script src="common.blocks/button2/button2.js"></script>
+        <script src="desktop.blocks/button2/button2.js"></script>
         <script src="common.blocks/button2/__text/button2__text.js"></script>
         <script src="common.blocks/button2/__icon/button2__icon.bh.js"></script>
         <script src="common.blocks/button2/_type/button2_type_link.js"></script>
@@ -53,29 +56,354 @@
                 return {disabled: false}
             },
             render: function() {
-                return (
-                    <div>
-                        <h2>Type & Theme</h2>
-                        <table className="example-area example-area_bordered_yes example-table example-toggler">
-                            <thead>
-                                <tr><th>type\theme</th><th>normal</th><th>pseudo</th><th>action</th><th>clear</th></tr>
-                            </thead>
-                            <tbody className="example-toggler">
-                                <tr>
-                                    <th>Button</th>
-                                    <td>
-                                        <Button _theme="normal" _type="button" _size="s" text={{tag: 'i', content: 'hey'}} _disabled={this.state.disabled} icon={{mods: {type: 'arrow'}}}></Button>
-                                        <Button _theme="normal" _type="check" _size="s" _disabled={this.state.disabled}>
-                                            <Button__text>
-                                                Кнопка
-                                            </Button__text>
-                                        </Button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                )
+
+                var bemJson = 
+                [
+                    // Type & Theme
+                    {tag: 'h2', content: 'Type & Theme'},
+                    (function() {
+                        var themes = ['normal', 'pseudo', 'action', 'clear'],
+                            types = [undefined, 'link', 'submit', 'check', 'radio'];
+
+                        var header = ['type\\theme'].concat(themes).map(function(t) {return {tag: 'th', content: t}});
+
+                        return {
+                            block: 'example-area',
+                            mods: {bordered: 'yes'},
+                            mix: [
+                                {block: 'example-table'},
+                                {block: 'example-toggler', js: {id: 'toggle-bg'}}
+                            ],
+                            tag: 'table',
+                            content: [
+                                {tag: 'thead', content: header},
+                                {
+                                    tag: 'tbody',
+                                    block: 'example-toggler',
+                                    js: {id: 'toggle-disabled'},
+                                    content: types.map(function(type) {
+                                        return {tag: 'tr', content: [
+                                            {tag: 'th', content: type},
+                                            themes.map(function(theme) {
+                                                if(theme === 'action' && (type === 'check' || type === 'radio')) {
+                                                    return {tag: 'td', attrs: {styles: 'text-align: center'}, content: 'N/A'};
+                                                } else {
+                                                    var url = type === 'link' ? '//yandex.ru' : undefined;
+
+                                                    var content = [
+                                                        {
+                                                            block: 'button2',
+                                                            mods: {theme: theme, type: type, size: 's'},
+                                                            icon: {mods: {type: 'load'}},
+                                                            url: url
+                                                        }, ' ',
+                                                        {
+                                                            block: 'button2',
+                                                            mods: {theme: theme, type: type, size: 's'},
+                                                            text: 'Кнопка',
+                                                            url: url
+                                                        }
+                                                    ];
+
+                                                    if(type === 'submit') {
+                                                        content = {
+                                                            tag: 'form',
+                                                            attrs: {action: 'https://yandex.ru/yandsearch'},
+                                                            content: [
+                                                                {tag: 'input', attrs: {type: 'hidden', name: 'text', value: 'lol'}},
+                                                                content
+                                                            ]
+                                                        };
+                                                    }
+
+                                                    return {tag: 'td', content: content};
+                                                }
+                                            })
+                                        ]};
+                                    })
+                                }
+                            ]
+                        };
+                    })(),
+                    {
+                        block: 'example-area',
+                        content: [
+                            {
+                                block: 'button2',
+                                mix: {
+                                    block: 'example-toggler',
+                                    js: {id: 'toggle-disabled', block: 'button2', mod: 'disabled', val: 'yes'}
+                                },
+                                mods: {size: 's', type: 'check', theme: 'normal'},
+                                text: 'toggle disabled'
+                            }, {tag: 'br'}, {tag: 'br'},
+                            {
+                                block: 'button2',
+                                mix: {
+                                    block: 'example-toggler',
+                                    js: {id: 'toggle-bg', block: 'example-area', mod: 'squares', val: 'yes'}
+                                },
+                                mods: {size: 's', type: 'check', theme: 'normal'},
+                                text: 'toggle background'
+                            }
+                        ]
+                    },
+
+                    // Size
+                    {tag: 'h2', content: 'Size'},
+                    {
+                        block: 'example-area',
+                        mods: {bordered: 'yes'},
+                        mix: {block: 'example-table'},
+                        tag: 'table',
+                        content: (function() {
+                            var sizes = ['xs', 's', 'm'];
+                            return [
+                                {tag: 'thead', content: sizes.map(function(size) {return {tag: 'th', content: size}})},
+                                {tag: 'tr', content: sizes.map(function(size) {
+                                    return {
+                                        tag: 'td',
+                                        content: {
+                                            block: 'button2',
+                                            mods: {theme: 'normal', size: size},
+                                            text: 'Кнопка'
+                                        }
+                                    };
+                                })}
+                            ];
+                        })()
+                    },
+
+                    // Pin
+                    {tag: 'h2', content: 'Pin'},
+                    {
+                        block: 'example-area',
+                        mix: {block: 'example-table'},
+                        mods: {bordered: 'yes'},
+                        tag: 'table',
+                        content: (function() {
+                            var pins = [undefined, 'round-clear', 'clear-round', 'round-brick', 'brick-round', 'brick-clear',
+                                'clear-brick', 'brick-brick', 'clear-clear'];
+                            return [
+                                {tag: 'thead', content: pins.map(function(pin) {return {tag: 'th', content: pin}})},
+                                {tag: 'tr', content: pins.map(function(pin) {
+                                    return {
+                                        tag: 'td',
+                                        content: {
+                                            block: 'button2',
+                                            mods: {theme: 'normal', size: 's', pin: pin},
+                                            text: 'Кнопка'
+                                        }
+                                    };
+                                })}
+                            ];
+                        })()
+                    },
+                    {
+                        block: 'example-area',
+                        mods: {bordered: 'yes'},
+                        content: [
+                            [
+                                {
+                                    block: 'button2',
+                                    mods: {theme: 'normal', size: 's', pin: 'round-clear'},
+                                    text: 'Кнопка'
+                                },
+                                {
+                                    block: 'input',
+                                    attrs: {styles: 'width: 200px; vertical-align: baseline;'},
+                                    mods: {size: 's', theme: 'normal'},
+                                    value: 'Инпут',
+                                    content: {elem: 'control'}
+                                },
+                                {
+                                    block: 'button2',
+                                    mods: {theme: 'normal', size: 's', pin: 'clear-clear'},
+                                    icon: {mods: {type: 'arrow', direction: 'bottom'}}
+                                },
+                                {
+                                    block: 'input',
+                                    attrs: {styles: 'width: 200px; vertical-align: baseline;'},
+                                    mods: {size: 's', theme: 'normal'},
+                                    value: 'Инпут',
+                                    content: {elem: 'control'}
+                                },
+                                {
+                                    block: 'button2',
+                                    mods: {theme: 'action', size: 's', pin: 'clear-round'},
+                                    text: 'Найти'
+                                }
+
+                            ],
+                            {tag: 'br'}, {tag: 'br'},
+                            ['round-clear', 'brick-clear', 'brick-clear', 'brick-clear', 'brick-round'].map(function(pin, i) {
+                                return {
+                                    block: 'button2',
+                                    mods: {theme: 'normal', size: 's', pin: pin},
+                                    text: i + 1
+                                };
+                            })
+                        ]
+                    },
+
+                    // Width
+                    {tag: 'h2', content: 'Width'},
+                    {
+                        block: 'example-area',
+                        mods: {bordered: 'yes', resize: 'yes'},
+                        content: [
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's'},
+                                text: 'Условия передачи данных'
+                            },
+                            {block: 'vs'},
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's', width: 'auto'},
+                                text: 'Условия передачи данных (_width_auto)'
+                            },
+                            {block: 'vs'},
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's', width: 'max'},
+                                text: 'Условия передачи данных (_width_max)'
+                            }
+                        ]
+                    },
+
+                    // Иконки
+                    {tag: 'h2', content: 'Иконки'},
+                    {
+                        block: 'example-area',
+                        mix: {block: 'example-table'},
+                        mods: {bordered: 'yes'},
+                        tag: 'table',
+                        content: (function() {
+                            var icons = ['icon', 'iconLeft', 'iconRight', 'iconLeft+iconRight'],
+                                buildButton = function(iconKey, iconValue) {
+                                    var button = {
+                                        block: 'button2',
+                                        mods: {theme: 'normal', size: 's'},
+                                        text: 'Кнопка'
+                                    };
+
+                                    iconKey.split('+').forEach(function(icon) {
+                                        button[icon] = iconValue;
+
+                                        if(icon === 'icon') {
+                                            delete button.text;
+                                        }
+                                    });
+
+                                    return {
+                                        tag: 'td',
+                                        content: button
+                                    };
+                                };
+
+                            return [
+                                {tag: 'thead', content: [''].concat(icons).map(function(icon) {return {tag: 'th', content: icon}})},
+                                {tag: 'tr', content: [
+                                    {tag: 'th', content: 'Обычные'},
+                                    icons.map(function(icon) {
+                                        return buildButton(icon, {mods: {type: 'load'}});
+                                    })
+                                ]},
+                                {tag: 'tr', content: [
+                                    {tag: 'th', content: 'Стрелочки'},
+                                    icons.map(function(icon) {
+                                        return buildButton(icon, {mods: {type: 'arrow', direction: 'bottom'}});
+                                    })
+                                ]}
+                            ];
+                        })()
+                    },
+
+                    {tag: 'h3', content: 'Иконки + _width_max'},
+                    {
+                        block: 'example-area',
+                        mods: {bordered: 'yes', resize: 'yes'},
+                        content: [
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's', width: 'max'},
+                                icon: {mods: {type: 'load'}}
+                            },
+                            {block: 'vs'},
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's', width: 'max'},
+                                iconLeft: {mods: {type: 'arrow', direction: 'left'}},
+                                text: 'Условия передачи данных'
+                            },
+                            {block: 'vs'},
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's', width: 'max'},
+                                iconRight: {mods: {type: 'arrow', direction: 'right'}},
+                                text: 'Условия передачи данных'
+                            },
+                            {block: 'vs'},
+                            {
+                                block: 'button2',
+                                mods: {theme: 'normal', size: 's', width: 'max'},
+                                iconLeft: {mods: {type: 'arrow', direction: 'left'}},
+                                iconRight: {mods: {type: 'arrow', direction: 'right'}},
+                                text: 'Условия передачи данных'
+                            }
+                        ]
+                    },
+
+                    {tag: 'h3', content: 'Иконки + выравнивание по базовой линии + вращение стрелочек'},
+                    {
+                        block: 'example-area',
+                        mix: [
+                            {block: 'example-table'},
+                            {block: 'example-icon-rotor', js: true}
+                        ],
+                        mods: {bordered: 'yes'},
+                        tag: 'table',
+                        content: ['xs', 's', 'm'].map(function(size) {
+                            return {tag: 'tr', content: [
+                                {tag: 'th', content: size},
+                                {tag: 'td', content: [
+                                    {
+                                        block: 'button2',
+                                        mods: {theme: 'normal', size: size},
+                                        text: 'Кнопка'
+                                    },
+                                    ' Размер ',
+                                    {
+                                        block: 'button2',
+                                        mods: {theme: 'normal', size: size},
+                                        icon: {mods: {type: 'arrow', direction: 'bottom'}}
+                                    },
+                                    ' кнопки ',
+                                    {
+                                        block: 'button2',
+                                        mods: {theme: 'normal', size: size},
+                                        iconRight: {mods: {type: 'arrow', direction: 'bottom'}},
+                                        text: 'Кнопка'
+                                    },
+                                    ' прокидывается ',
+                                    {
+                                        block: 'button2',
+                                        mods: {theme: 'normal', size: size},
+                                        iconLeft: {mods: {type: 'arrow', direction: 'left'}},
+                                        text: 'Кнопка',
+                                        iconRight: {mods: {type: 'arrow', direction: 'right'}}
+                                    },
+                                    ' в иконку.'
+                                ]}
+                            ]};
+                        })
+                    }
+                ]
+                //bemJson = [{tag: 'h2', content: 'Type & Theme'}]
+
+
+                return (<BEM>{bemJson}</BEM>)
             }
         })
         React.render(
