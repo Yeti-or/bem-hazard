@@ -46,7 +46,15 @@ var BEM_Hazard = {
             return this.__json[param]
         }
     },
-    tParam: function() {return this},
+    tParam: function(key, val, force) {
+        if (val) {
+            this.__json.$tParam || (this.__json.$tParam = {})
+            if (!this.__json.$tParam[key] || force) {this.__json.$tParam[key] = val}
+            return this
+        } else {
+            return this.__json.$tParam && this.__json.$tParam[key]
+        }
+    },
     attrs: function(values, force) {
         var attrs = this.__json.attrs || {}
         if (values !== undefined) {
@@ -134,7 +142,7 @@ var BEM_Hazard = {
             __e = this.__elem || this.__json.elem,
             mods = this.mods(),
             json = this.__json,
-            matchers = bh.__matchers[b_]
+            matchers = bh.__matchers[b_] || []
 
         for (var i = matchers.length - 1; i >= 0; i--) {
             var rule = matchers[i],
@@ -229,6 +237,7 @@ var BEM_Hazard = {
                 component = window[entity] || BEM
 
             b && (node.block = b.toLowerCase())
+            this.__json.$tParam && (node.$tParam = this.__json.$tParam)
 
             return React.createElement(component, node)
         }, this)
