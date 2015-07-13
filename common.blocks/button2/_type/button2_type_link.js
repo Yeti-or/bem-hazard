@@ -1,5 +1,5 @@
 
-bh.match({block: 'button2', modName: 'type', modVal: 'link'}, function(ctx, json) {
+bh.match('button2_type_link', function(ctx, json) {
     ctx
         .tag('a')
         .js({_url: json.url})

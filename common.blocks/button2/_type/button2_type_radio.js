@@ -1,5 +1,5 @@
 
-bh.match({block: 'button2', modName: 'type', modVal: 'radio'}, function(ctx) {
+bh.match('button2_type_radio', function(ctx) {
         ctx
             .muMods({
                 checked: ctx.mod('checked') || false

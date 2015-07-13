@@ -1,9 +1,5 @@
 
-bh.match({block: 'button2'}, function(ctx, json) {
-    var block = 'button2',
-        content = json.children,
-        cls__text = block + '__' + 'text'
-
+bh.match('button2', function(ctx, json) {
         var attrs = {
             type: 'button',
             id: json.id,
@@ -27,9 +23,6 @@ bh.match({block: 'button2'}, function(ctx, json) {
             .attrs(attrs)
             .tParam('_size', ctx.mod('size'));
 
-
-        //ctx.content(<span className={cls__text}>{json.content}</span>)
-        
         if(!json.content) {
             ctx.content([
                 /*

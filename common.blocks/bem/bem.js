@@ -1,7 +1,24 @@
 var bh = {
     _ :'_',
     __ : '__',
-    match: function(decl, matcher) {
+    match: function(selector, matcher) {
+        var decl = {},
+            decls,
+            isElem = ~selector.indexOf(bh.__)
+        isElem ?
+            decls = selector.split(bh.__) :
+            decls = selector.split(bh._)
+
+        decl.block = decls.shift()
+
+        if (isElem) {
+            decls = decls[0].split(bh._)
+            decl.elem = decls.shift()
+        }
+
+        decl.modName = decls.shift()
+        decl.modVal = decls.shift()
+
         this.__matchers.push([decl, matcher])
     },
     __matchers: [],
@@ -54,8 +71,8 @@ var BEM_Hazard = {
     //TODO: merge mod, _mod, muMod
     //Think about declMumods ? setMuMod delMuMod getMuMod
     mod: function(mod) {
-        var mods = this.mods();
-        if(mods.hasOwnProperty(mod)) {
+        var mods = this.mods()
+        if (mods.hasOwnProperty(mod)) {
             return mods[mod]
         } else {
             return this.muMod(mod)
@@ -161,7 +178,7 @@ var BEM_Hazard = {
     },
     componentWillReceiveProps: function(props) {
         this.__attrs = {}
-        this.__props = props;
+        this.__props = props
         this.beforeUpdate().forEach(function(bUpdate) {
             this._composeCurNode(props)
             bUpdate.bind(this)(this.__json)

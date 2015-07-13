@@ -1,4 +1,4 @@
 
-bh.match({block: 'button2', modName: 'type', modVal: 'submit'}, function(ctx, json) {
+bh.match('button2_type_submit', function(ctx, json) {
     ctx.attr('type', 'submit')
 })
