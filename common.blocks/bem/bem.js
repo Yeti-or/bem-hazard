@@ -1,7 +1,7 @@
 var bh = {
     _ :'_',
     __ : '__',
-    match: function(selector, matcher) {
+    _getDecl(selector) {
         var decl = {},
             decls,
             isElem = ~selector.indexOf(bh.__)
@@ -18,9 +18,14 @@ var bh = {
 
         decl.modName = decls.shift()
         decl.modVal = decls.shift()
-
+        return decl
+    },
+    match: function(selector, matcher) {
+        if (!selector || !matcher) return this
+        var decl = this._getDecl(selector)
         this.__matchers[decl.block] || (this.__matchers[decl.block] = [])
         this.__matchers[decl.block].push([decl, matcher])
+        return this
     },
     __matchers: {},
     xmlEscape: function(x) {
@@ -116,6 +121,7 @@ var BEM_Hazard = {
         }
     },
     toggleMuMod : function(modName) {
+        //TODO: Refactor me
         this.muMod(modName, !this.muMod(modName))
         return this
     },
@@ -183,8 +189,6 @@ var BEM_Hazard = {
         var mods = Object.keys(this.__json).reduce(function(mods, key) {
             return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
         }, {})
-        console.log('Mods: ' + Object.keys(mods))
-        console.log('_dis: ' + mods.disabled)
         this.__block && (this.__json.block = this.__block)
         this.__elem && (this.__json.elem = this.__elem)
         if (Object.keys(mods).length > 0) {
@@ -254,18 +258,23 @@ var BEM_Hazard = {
     _processTree: function(tree) {
         return [].concat(tree).map(function(node) {
             if (Array.isArray(node)) { return this._processTree(node) }
-            if (!node || (!node.block && !node.elem && !node.tag && !node.content)) {
+            if (!node || (!node.block && !node.elem && !node.tag && !node.content && !node.type)) {
                 return node
             }
-            var __e = node.elem,
-                b = node.block || (__e && this.__json.block || this.__Block),
-                entity = b + (__e ? bh.__ + __e : ''),
-                component = window[entity] || BEM
-
-            b && (node.block = b.toLowerCase())
+            if (node.type) {
+                var name = node.type.displayName
+                if (!name) { return node }
+                var decl = bh._getDecl(name)
+                node = node.props || {}
+                node.block = decl.block.toLowerCase()
+                node.elem = decl.elem
+            }
+            if (node.elem) {
+                node.block || (node.block = this.__json.block)
+            }
             this.__json.$tParam && (node.$tParam = this.__json.$tParam)
 
-            return React.createElement(component, node)
+            return React.createElement(BEM, node)
         }, this)
     },
     __node: function() {
@@ -322,6 +331,7 @@ var BEM_Hazard = {
 }
 
 var BEM = React.createClass({
+    displayName: '',
     __block: '',
     __matchers: bh.__matchers,
     mixins: [BEM_Hazard],
