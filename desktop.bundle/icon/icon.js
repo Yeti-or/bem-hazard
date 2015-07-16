@@ -1,7 +1,7 @@
 //Could be generated
 
 var Icon = React.createClass({
-    __Block: 'Icon',
+    displayName: 'icon',
     __block: 'icon',
     __matchers: bh.__matchers,
     mixins: [BEM_Hazard],

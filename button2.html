@@ -15,12 +15,12 @@
         <link rel="stylesheet" href="css/button2.css"/>
         <!-- Button2 -->
         <!-- Icon -->
-        <link rel="stylesheet" href="css/icon.css"/>
         <link rel="stylesheet" href="common.blocks/icon/icon.css"/>
+        <link rel="stylesheet" href="common.blocks/icon/_type/icon_type_arrow.css"/>
+        <link rel="stylesheet" href="desktop.blocks/icon/_type/icon_type_arrow.css"/>
         <!-- Icon -->
     <!-- Lego -->
     <link rel="stylesheet" href="css/button2-example.css"/>
-    <link rel="stylesheet" href="common.blocks/icon/_type/icon_type_arrow.css"/>
 </head>
 <body class="body">
     <!-- Lego -->
@@ -44,14 +44,88 @@
         <script src="desktop.bundle/button2/button2.js"></script>
         <script src="desktop.bundle/button2/__text/button2__text.js"></script>
         <script src="desktop.bundle/button2/__icon/button2__icon.js"></script>
+        <script>
+            bh.match('button2_rotor_yes', function(ctx, json) {
+                if (json.icon || json.iconLeft || json.iconRight) {
+                    ctx
+                        .bind({
+                            onClick: function() {
+                                function rotor(icon) {
+                                    var direction = icon.mods.direction
+                                    var newDirection = direction
+                                    direction === 'bottom' && (newDirection = 'top')
+                                    direction === 'right' && (newDirection = 'left')
+                                    direction === 'top' && (newDirection = 'bottom')
+                                    direction === 'left' && (newDirection = 'right')
+                                    icon.mods.direction = newDirection
+                                }
+
+                                json.icon && rotor(json.icon)
+                                json.iconRight && rotor(json.iconRight)
+                                json.iconLeft && rotor(json.iconLeft)
+                                ctx.forceUpdate()
+                            }
+                        })
+                }
+            })
+
+            !(function() {
+                var hell = 'foo'
+                handleMouseDown = function(e) {
+                    var handle = e.target
+                    var exampleArea = handle.parentElement
+
+                    this.diff = exampleArea.clientWidth - handle.offsetLeft
+                    this.startMove = true
+                }
+                handleMouseMove = function(e) {
+                    if (!this.startMove) return
+                    var handle = e.target
+                    var exampleArea = handle.parentElement
+                    var d = (e.pageX - exampleArea.offsetLeft)
+                    console.log(d)
+                    exampleArea.style.width =  (d) + 'px'
+                    this.moved = true
+                }
+                handleMouseUp = function(e) {
+                    var handle = e.target
+                    var exampleArea = handle.parentElement
+                    if (!this.moved) {
+                        this.startMove && (exampleArea.style.width =  ( exampleArea.clientWidth + 50 ) + 'px')
+                    } else {
+                        this.moved = false
+                    }
+                    this.startMove = false
+                }
+
+                bh.match('example-area_resize_yes', function(ctx) {
+                    hell = 'awesome'
+                    ctx
+                        .content([{
+                            elem: 'content',
+                            content: ctx.content()
+                        }, {elem: 'handle'}], true)
+
+                })
+                .match('example-area__handle', function(ctx) {
+                    ctx.bind({
+                        onMouseDown: handleMouseDown,
+                        onMouseMove: handleMouseMove,
+                        onMouseUp: handleMouseUp
+                    })
+                })
+            })()
+            
+        bh.match('input', function(ctx) {
+            ctx.tag('span').attr('style', {width: 200, display: 'inline-block'})
+        })
+        </script>
     <!-- Lego -->
     <script type="text/jsx">
         var Example = React.createClass({
             handleClick: function(e) {
                 console.log('^_^')
                 this.setState({disabled: !this.state.disabled})
-                //debugger
-                //console.log('disabled: ' + this.state.disabled);
             },
             changeBg: function() {
                 this.setState({squares: !this.state.squares})
@@ -90,7 +164,7 @@
                                             {tag: 'th', content: type},
                                             themes.map(function(theme) {
                                                 if(theme === 'action' && (type === 'check' || type === 'radio')) {
-                                                    return {tag: 'td', attrs: {styles: 'text-align: center'}, content: 'N/A'};
+                                                    return {tag: 'td', attrs: {style: {textAlign: 'center'}}, content: 'N/A'};
                                                 } else {
                                                     var url = type === 'link' ? '//yandex.ru' : undefined;
 
@@ -384,11 +458,13 @@
                                     {
                                         block: 'button2',
                                         mods: {theme: 'normal', size: size},
-                                        icon: {mods: {type: 'arrow', direction: 'bottom'}}
+                                        _rotor: 'yes',
+                                        icon: { mods: {type: 'arrow', direction: 'bottom'}}
                                     },
                                     ' кнопки ',
                                     {
                                         block: 'button2',
+                                        _rotor: 'yes',
                                         mods: {theme: 'normal', size: size},
                                         iconRight: {mods: {type: 'arrow', direction: 'bottom'}},
                                         text: 'Кнопка'
@@ -396,19 +472,18 @@
                                     ' прокидывается ',
                                     {
                                         block: 'button2',
+                                        _rotor: 'yes',
                                         mods: {theme: 'normal', size: size},
-                                        iconLeft: {mods: {type: 'arrow', direction: 'left'}},
-                                        text: 'Кнопка',
-                                        iconRight: {mods: {type: 'arrow', direction: 'right'}}
+                                        iconLeft: {mods: {type: 'arrow', direction: 'right'}},
+                                        iconRight: {mods: {type: 'arrow', direction: 'left'}},
+                                        text: 'Кнопка'
                                     },
                                     ' в иконку.'
                                 ]}
                             ]};
-                        })
+                        }.bind(this))
                     }
                 ]
-                //bemJson = [{tag: 'h2', content: 'Type & Theme'}]
-
 
                 return (<BEM>{bemJson}</BEM>)
             }

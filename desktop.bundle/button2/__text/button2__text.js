@@ -1,7 +1,7 @@
 //Could be generated
 
 var Button__text = Button2__text = React.createClass({
-    __Block: 'Button2',
+    displayName: 'button2__text',
     __block: 'button2',
     __elem: 'text',
     __matchers: bh.__matchers,

@@ -21,3 +21,5 @@
 @import url("../common.blocks/button2/_pin/button2_pin_clear-round.css");
 @import url("../common.blocks/button2/_pin/button2_pin_round-brick.css");
 @import url("../common.blocks/button2/_pin/button2_pin_round-clear.css");
+@import url("../common.blocks/button2/_width/button2_width_auto.css");
+@import url("../common.blocks/button2/_width/button2_width_max.css");

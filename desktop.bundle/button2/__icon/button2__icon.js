@@ -1,7 +1,7 @@
 //Could be generated
 
 var Button__icon = Button2__icon = React.createClass({
-    __Block: 'Button2',
+    displayName: 'button2__icon',
     __block: 'button2',
     __elem: 'icon',
     __matchers: bh.__matchers,
