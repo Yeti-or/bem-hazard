@@ -1,14 +1,48 @@
 var bh = {
-    match: function(decl, matcher) {
-        this.__matchers.push([decl, matcher])
+    _ :'_',
+    __ : '__',
+    _getDecl: function(selector) {
+        var decl = {},
+            decls,
+            isElem = ~selector.indexOf(bh.__)
+        isElem ?
+            decls = selector.split(bh.__) :
+            decls = selector.split(bh._)
+
+        decl.block = decls.shift()
+
+        if (isElem) {
+            decls = decls[0].split(bh._)
+            decl.elem = decls.shift()
+        }
+
+        decl.modName = decls.shift()
+        decl.modVal = decls.shift()
+        return decl
     },
-    __matchers: [],
-    clearMatchers: function() {
-        this.__matchers = []
+    match: function(selector, matcher) {
+        if (!selector || !matcher) return this
+        var decl = this._getDecl(selector)
+        this.__matchers[decl.block] || (this.__matchers[decl.block] = [])
+        this.__matchers[decl.block].push([decl, matcher])
+        return this
+    },
+    __matchers: {},
+    xmlEscape: function(x) {
+        //Because React will do it for us
+        return x
     }
 }
 
-var BEM = {
+var BEM_Hazard = {
+    js: function() {return this},
+    bem: function() {return this},
+    extend: Object.assign,
+    isSimple: function(obj) {
+        if (!obj || obj === true) return true
+        var t = typeof obj
+        return t === 'string' || t === 'number'
+    },
     param: function(param, val, force) {
         if (val) {
             (!this.__json[param] || force) && (this.__json[param] = val)
@@ -17,44 +51,58 @@ var BEM = {
             return this.__json[param]
         }
     },
-    extend: Object.assign,
-    tParam: function() {return this},
-    js: function() {return this},
-    attrs: function(attrs, force) {
-        if (attrs) {
-            this.__attrs =  force ? {...this.__attrs, ...attrs} : {...attrs, ...this.__attrs}
+    tParam: function(key, val, force) {
+        if (val) {
+            this.__json.$tParam || (this.__json.$tParam = {})
+            if (!this.__json.$tParam[key] || force) {this.__json.$tParam[key] = val}
             return this
         } else {
-            return this.__attrs || {}
+            return this.__json.$tParam && this.__json.$tParam[key]
+        }
+    },
+    attrs: function(values, force) {
+        var attrs = this.__json.attrs || {}
+        if (values !== undefined) {
+            this.__json.attrs = force ? this.extend(attrs, values) : this.extend(values, attrs)
+            return this
+        } else {
+            return attrs
         }
     },
     attr: function(key, val, force) {
         if (arguments.length > 1) {
-            this.__attrs ?
-                (!this.__attrs.hasOwnProperty(key) || force) && (this.__attrs[key] = val) :
-                (this.__attrs = {})[key] = val
+            this.__json.attrs ?
+                (!this.__json.attrs.hasOwnProperty(key) || force) && (this.__json.attrs[key] = val) :
+                (this.__json.attrs = {})[key] = val
             return this
         } else {
-            return this.attrs()[key]
+            return this.__json.attrs[key]
+        }
+    },
+    //TODO: Refactor mod, mods, muMod, muMods
+    //Think about declMumods ? setMuMod delMuMod getMuMod
+    mod: function(mod) {
+        var mods = this.mods()
+        if (mods.hasOwnProperty(mod)) {
+            return mods[mod]
+        } else {
+            return this.muMod(mod)
         }
     },
     mods: function(mods) {
-        var props = this.__props || this.props
-        return Object.keys(props).reduce(function(mods, key) {
-            return key[0] === '_' && (mods[key.slice(1)] = props[key]), mods
-        }, {})
+        return (this.__json.elem) ? this.__json.elemMods : this.__json.mods
     },
     muMods: function(mods) {
         if (mods) {
             if (this.__flag) {
-                this.__muMods = {...this.__muMods, ...mods}
+                this.__muMods = this.extend({}, this.__muMods, mods)
             }
             return this
         } else {
             if (this.__flag) {
                 return this.__muMods || {}
             } else {
-                return {...this.__muMods, ...this.state}
+                return this.extend({}, this.__muMods, this.state)
             }
         }
     },
@@ -73,107 +121,182 @@ var BEM = {
         }
     },
     toggleMuMod : function(modName) {
+        //TODO: Refactor me
         this.muMod(modName, !this.muMod(modName))
         return this
     },
-    //TODO: merge mod, _mod, muMod
-    //Think about declMumods ? setMuMod delMuMod getMuMod
-    mod: function(mod) {
-        var _mod = '_' + mod,
-            props = this.__props || this.props
-        if(props.hasOwnProperty(_mod)) {
-            return props[_mod]
-        } else {
-            return this.muMod(mod)
-        }
-    },
     tag: function(tag, force) {
         if (tag) {
-            this.__flag && (!this.__tag || force) && (this.__tag = tag)
+            (!this.__json.tag || force) && (this.__json.tag = tag)
             return this
         } else {
-            return this.__tag
+            return this.__json.tag
         }
     },
-    content: function(content) {
-        if (content) {
-            if (this.__flag) {
-                this.__content || (this.__content = content)
-            }
+    mix: function(mix, force) {
+        if (mix) {
+            (this.__json.mix || force) ?
+                this.__json.mix = [].concat(mix) :
+                this.__json.mix.concat(mix)
             return this
         } else {
-            return this.__content
+            return this.__json.mix
+        }
+    },
+    content: function(content, force) {
+        if (arguments.length > 0) {
+                (!this.__json.content || force) && (this.__json.content = content)
+            return this
+        } else {
+            return this.__json.content
         }
     },
     __match: function() {
-        //TODO: write cache here
-        for (var i = this.__matchers.length - 1; i >= 0; i--) {
-            var rule = this.__matchers[i],
-                decl = rule[0],
-                cb = rule[1],
-                json = this.__json || (this.__json = {...this.props, content: this.props.children})
+        var b_ =  this.__json.block,
+            __e = this.__json.elem,
+            mods = this.mods(),
+            json = this.__json,
+            retVal,
+            matchers = bh.__matchers[b_] || []
 
-            if (this.__elem || decl.elem) {
-                if (decl.elem === this.__elem) {
-                    cb.bind(this)(this, json)
+        for (var i = matchers.length - 1; i >= 0 && !retVal; i--) {
+            var rule = matchers[i],
+                decl = rule[0],
+                cb = rule[1]
+
+            if (decl.modName && decl.modVal) {
+                if (mods && (mods[decl.modName] === decl.modVal)) {
+                    retVal = cb(this, json)
                 }
             } else {
-                if (decl.modName && decl.modVal) {
-                    if (this.props['_' + decl.modName] === decl.modVal) {
-                        cb.bind(this)(this, json)
+                if (decl.elem || __e) {
+                    if (decl.elem === __e) {
+                        retVal = cb(this, json)
                     }
-                } else if (decl.block === this.__block) {
-                    cb.bind(this)(this, json)
+                } else {
+                    retVal = cb(this, json)
                 }
             }
         }
+        if (retVal)  {
+            this.__json = retVal
+            this.__match()
+        }
     },
+
     componentWillMount: function() {
+        this._composeCurNode(this.props)
         this.__flag = true
         this.__match()
     },
     componentDidMount: function() {
-        this.state = {...this.state, ...this.muMods()}
+        this.state = this.extend({}, this.state, this.muMods())
     },
     componentWillReceiveProps: function(props) {
-        this.__attrs = {}
-        this.__props = props;
+        this.__props = props
+        this._composeCurNode(props)
         this.beforeUpdate().forEach(function(bUpdate) {
-            this.__json = {...props, content: props.children}
-            bUpdate.bind(this)(this.__json)
+            bUpdate.bind(this)(this, this.__json)
         }, this)
     },
     componentWillUpdate: function() {
         if (this.__props) {
             this.__props = undefined
         } else {
-            this.__attrs = {}
+            this._composeCurNode(this.props)
         }
     },
     __node: function() {
+        if (this.__flag) {
+            this.__flag = false
+        } else {
+            this.__match()
+        }
 
-        this.__flag = false
-        this.__match()
+        var cls = this._buildClassName(),
+            content = this._processTree(this.content()),
+            attrs = this.attrs(),
+            events = this._events()
 
-        var b_ = this.__block,
-            __e = this.__elem,
-            mods = {...this.mods(), ...this.muMods()},
-            cls = b_ +
-                Object
-                    .keys(mods).reduce(function(prev, modName) {
-                        var modValue = mods[modName]
-                        return prev + (modValue ? ' ' + b_ + '_' + modName + '_' +
-                                (typeof modValue === 'boolean' ? 'yes' : modValue )
-                            : '')
-                    }, '')
+        return React.createElement(this.tag() || 'div', this.extend({className:cls,  children: content}, attrs, events))
+    },
 
-        __e && (cls += ' ' + b_ + '__' + __e)
+    _composeCurNode: function(pp) {
+        //TODO: Think about caching/diffing bemJsonTree/content
+        this.__json = this.extend({}, pp, {content: pp.children || pp.content})
+        var mods = Object.keys(this.__json).reduce(function(mods, key) {
+            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
+        }, {})
+        this.__block && (this.__json.block = this.__block)
+        this.__elem && (this.__json.elem = this.__elem)
+        if (Object.keys(mods).length > 0) {
+            if (this.__json.elem) {
+                this.__json.elemMods = this.extend({}, pp.elemMods, mods)
+            } else {
+                this.__json.mods = this.extend({}, pp.mods, mods)
+            }
+        }
+    },
+    _buildClassName: function() {
+        var b_ = this.__json.block,
+            __e = this.__json.elem,
+            cls = '',
+            mods = this.extend({}, this.mods(), this.muMods())
 
-        return React.createElement(this.tag(), {className:cls, ...this._events(), ...this.attrs() }, this.content())
+        function declToStr(b_, __e, mods, mix) {
+            if (!b_ && !__e) return ''
+            if (!b_ && !mix) return ''
+            var cls = '',
+                entity = b_
+
+            if (__e) {
+                entity += bh.__ + __e
+            }
+            cls += entity
+            return cls + Object.keys(mods).reduce(function(str, modName) {
+                var modValue = mods[modName]
+                return str + (modValue ? ' ' + entity + bh._ + modName + bh._ +
+                        (typeof modValue === 'boolean' ? 'yes' : modValue )
+                    : '')
+            }, '')
+        }
+
+        cls += declToStr(b_, __e, mods, false)
+        this.__json.mix && [].concat(this.__json.mix).forEach(function(mix) {
+            cls += ' ' + declToStr(mix.block, mix.elem, mix.mods || mix.elemMods || {}, true)
+        })
+
+        return cls
+    },
+    _processTree: function(tree) {
+        var content = [].concat(tree).map(function(node) {
+            if (Array.isArray(node)) { return this._processTree(node) }
+            if (!node || (!node.block && !node.elem && !node.tag && !node.content && !node.type)) {
+                return node
+            }
+            if (node.type) {
+                var name = node.type.displayName
+                if (!name) { return node }
+                var decl = bh._getDecl(name)
+                node = node.props || {}
+                node.block = decl.block.toLowerCase()
+                node.elem = decl.elem
+            }
+            if (node.elem) {
+                node.block || (node.block = this.__json.block)
+                //node.ref = node.block + bh.__ + node.elem
+            }
+            this.__json.$tParam && (node.$tParam = this.__json.$tParam)
+
+            return React.createElement(BEM, node)
+        }, this)
+        content.length == 1 && (content = content[0])
+        return content
     },
     _events: function(events) {
         if (events) {
-            this._eventsProps = {...this._eventsProps, ...events}
+            this._eventsProps || (this._eventsProps = {})
+            this.extend(this._eventsProps, events)
         } else {
             return this._eventsProps
         }
@@ -211,3 +334,13 @@ var BEM = {
         return React.findDOMNode(this)
     }
 }
+
+var BEM = React.createClass({
+    displayName: '',
+    __block: '',
+    __matchers: bh.__matchers,
+    mixins: [BEM_Hazard],
+    render: function() {
+        return this.__node()
+    },
+})

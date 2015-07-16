@@ -1,9 +1,5 @@
 
-bh.match({block: 'button2'}, function(ctx, json) {
-    var block = 'button2',
-        content = json.children,
-        cls__text = block + '__' + 'text'
-
+bh.match('button2', function(ctx, json) {
         var attrs = {
             type: 'button',
             id: json.id,
@@ -27,8 +23,28 @@ bh.match({block: 'button2'}, function(ctx, json) {
             .attrs(attrs)
             .tParam('_size', ctx.mod('size'));
 
-
-        ctx.content(<span className={cls__text}>{content}</span>)
+        if(!json.content) {
+            ctx.content([
+                json.icon && {
+                    elem: 'icon',
+                    icon: json.icon
+                },
+                json.iconLeft && {
+                    elem: 'icon',
+                    elemMods: {side: 'left'},
+                    icon: json.iconLeft
+                },
+                json.iconRight && {
+                    elem: 'icon',
+                    elemMods: {side: 'right'},
+                    icon: json.iconRight
+                },
+                // Текст может быть пустой строкой, поэтому hasOwnProperty.
+                json.hasOwnProperty('text') && (ctx.isSimple(json.text)
+                    ? {elem: 'text', content: bh.xmlEscape(json.text)}
+                    : ctx.extend({}, json.text, {elem: 'text'}))
+            ].filter(Boolean)); // Удаляем все undefined в массиве.
+        }
 
         ctx
         .muMods({

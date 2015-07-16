@@ -1,4 +1,4 @@
-    bh.match({block: 'icon'}, function(ctx, json) {
+    bh.match('icon', function(ctx, json) {
         ctx
             .tag('i')
             .attrs({

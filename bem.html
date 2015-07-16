@@ -1,0 +1,62 @@
+<!doctype>
+<html>
+<head>
+    <title>Hello BEM!</title>
+    <meta charset="utf-8"></meta>
+    <!-- Vendor -->
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/JSXTransformer.js"></script>
+    <!-- //TODO:Changed module to window -->
+    <script src="bower_components/object-assign/index.js"></script>
+    <!-- Vendor -->
+    <link rel="stylesheet" href="css/button2-example.css"/>
+</head>
+<body class="body">
+    <!-- BEM -->
+    <script src="common.blocks/bem/bem.js"></script>
+    <!-- BEM -->
+    <script type="text/jsx">
+        var Example = React.createClass({
+            render: function() {
+                var bemJson = {
+                    tag: 'div',
+                    content: [
+                        {
+                            tag: "a",
+                            attrs: {href:"http://ya.ru", target:"_blank"},
+                            content: [{
+                                        block: "hello",
+                                        mods: {theme: "normal", size: "s"},
+                                        content: "Hello BEM"
+                                    }, {
+                                        tag: "hello",
+                                        content: "Hello!"
+                                    },
+                                    {content: "@"}
+                            ]
+                        },
+                        [
+                        {
+                            block: "bu",
+                            elem: "inner",
+                            elemMods: {theme: "normal", size: "s"},
+                            content: "bye-bye"
+                        },
+                            <BEM block="inna">Ink</BEM>
+                        ]
+                    ]
+                }
+                return (
+                    <BEM block="example" _theme="basic">
+                        <BEM block="example" elem="inner" _theme="basek">{bemJson}</BEM>
+                    </BEM>
+                )
+            }
+        })
+        React.render(
+            <Example />,
+            document.body
+        )
+    </script>
+</body>
+</html>

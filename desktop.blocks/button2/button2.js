@@ -1,5 +1,5 @@
 
-bh.match({block: 'button2'}, function(ctx, json) {
+bh.match('button2', function(ctx, json) {
     ctx
         .muMods({
             hovered: false

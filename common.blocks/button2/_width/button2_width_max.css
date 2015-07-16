@@ -1,0 +1,12 @@
+.button2_width_max
+{
+    width: 100%;
+}
+
+.button2_width_max .button2__text
+{
+    display: block;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}

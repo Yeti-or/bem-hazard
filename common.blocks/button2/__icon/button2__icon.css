@@ -1,0 +1,25 @@
+/**
+ * 1. Устраняет проблему с mouseover/mouseout внутри кнопки.
+ * 2. В IE9+ с помощью position:relative у <button> лечится супер эффект "нажимания".
+ *    Подробнее: http://stackoverflow.com/questions/6744406;
+ */
+.button2__icon
+{
+    position: relative; /*2*/
+
+    pointer-events: none; /*1*/
+}
+
+.button2__icon_side_left
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.button2__icon_side_right
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
