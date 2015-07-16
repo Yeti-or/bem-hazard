@@ -1,7 +1,7 @@
 var bh = {
     _ :'_',
     __ : '__',
-    _getDecl(selector) {
+    _getDecl: function(selector) {
         var decl = {},
             decls,
             isElem = ~selector.indexOf(bh.__)
