@@ -212,7 +212,7 @@ var BEM_Hazard = {
         this.__props = props
         this._composeCurNode(props)
         this.beforeUpdate().forEach(function(bUpdate) {
-            bUpdate.bind(this)(this.__json)
+            bUpdate.bind(this)(this, this.__json)
         }, this)
     },
     componentWillUpdate: function() {
@@ -271,6 +271,7 @@ var BEM_Hazard = {
             }
             if (node.elem) {
                 node.block || (node.block = this.__json.block)
+                //node.ref = node.block + bh.__ + node.elem
             }
             this.__json.$tParam && (node.$tParam = this.__json.$tParam)
 
