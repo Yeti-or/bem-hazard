@@ -183,22 +183,6 @@ var BEM_Hazard = {
             this.__match()
         }
     },
-    _composeCurNode: function(pp) {
-        //TODO: Think about caching/diffing bemJsonTree/content
-        this.__json = this.extend({}, pp, {content: pp.children || pp.content})
-        var mods = Object.keys(this.__json).reduce(function(mods, key) {
-            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
-        }, {})
-        this.__block && (this.__json.block = this.__block)
-        this.__elem && (this.__json.elem = this.__elem)
-        if (Object.keys(mods).length > 0) {
-            if (this.__json.elem) {
-                this.__json.elemMods = this.extend({}, pp.elemMods, mods)
-            } else {
-                this.__json.mods = this.extend({}, pp.mods, mods)
-            }
-        }
-    },
 
     componentWillMount: function() {
         this._composeCurNode(this.props)
@@ -234,9 +218,25 @@ var BEM_Hazard = {
             attrs = this.attrs(),
             events = this._events()
 
-        return React.createElement(this.tag() || 'div', this.extend(attrs, events, {className:cls,  children: content}))
+        return React.createElement(this.tag() || 'div', this.extend({className:cls,  children: content}, attrs, events))
     },
 
+    _composeCurNode: function(pp) {
+        //TODO: Think about caching/diffing bemJsonTree/content
+        this.__json = this.extend({}, pp, {content: pp.children || pp.content})
+        var mods = Object.keys(this.__json).reduce(function(mods, key) {
+            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
+        }, {})
+        this.__block && (this.__json.block = this.__block)
+        this.__elem && (this.__json.elem = this.__elem)
+        if (Object.keys(mods).length > 0) {
+            if (this.__json.elem) {
+                this.__json.elemMods = this.extend({}, pp.elemMods, mods)
+            } else {
+                this.__json.mods = this.extend({}, pp.mods, mods)
+            }
+        }
+    },
     _buildClassName: function() {
         var b_ = this.__json.block,
             __e = this.__json.elem,
@@ -250,7 +250,6 @@ var BEM_Hazard = {
                 entity = b_
 
             if (__e) {
-                mix || (cls += entity + ' ')
                 entity += bh.__ + __e
             }
             cls += entity
