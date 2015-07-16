@@ -270,7 +270,7 @@ var BEM_Hazard = {
         return cls
     },
     _processTree: function(tree) {
-        return [].concat(tree).map(function(node) {
+        var content = [].concat(tree).map(function(node) {
             if (Array.isArray(node)) { return this._processTree(node) }
             if (!node || (!node.block && !node.elem && !node.tag && !node.content && !node.type)) {
                 return node
@@ -291,6 +291,8 @@ var BEM_Hazard = {
 
             return React.createElement(BEM, node)
         }, this)
+        content.length == 1 && (content = content[0])
+        return content
     },
     _events: function(events) {
         if (events) {
