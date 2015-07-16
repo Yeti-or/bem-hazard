@@ -222,6 +222,20 @@ var BEM_Hazard = {
             this._composeCurNode(this.props)
         }
     },
+    __node: function() {
+        if (this.__flag) {
+            this.__flag = false
+        } else {
+            this.__match()
+        }
+
+        var cls = this._buildClassName(),
+            content = this._processTree(this.content()),
+            attrs = this.attrs(),
+            events = this._events()
+
+        return React.createElement(this.tag() || 'div', this.extend(attrs, events, {className:cls,  children: content}))
+    },
 
     _buildClassName: function() {
         var b_ = this.__json.block,
@@ -277,17 +291,6 @@ var BEM_Hazard = {
 
             return React.createElement(BEM, node)
         }, this)
-    },
-    __node: function() {
-        this.__flag = false
-        this.__match()
-
-        var cls = this._buildClassName(),
-            content = this._processTree(this.content()),
-            attrs = this.attrs(),
-            events = this._events()
-
-        return React.createElement(this.tag() || 'div', this.extend(attrs, events, {className:cls,  children: content}))
     },
     _events: function(events) {
         if (events) {
