@@ -69,52 +69,39 @@
                 }
             })
 
-            !(function() {
-                var hell = 'foo'
-                handleMouseDown = function(e) {
-                    var handle = e.target
-                    var exampleArea = handle.parentElement
+        bh.match('example-area_resize_yes', function(ctx) {
+            ctx.content([{
+                    elem: 'content',
+                    content: ctx.content()
+                }, {elem: 'handle'}], true)
 
-                    this.diff = exampleArea.clientWidth - handle.offsetLeft
-                    this.startMove = true
-                }
-                handleMouseMove = function(e) {
-                    if (!this.startMove) return
-                    var handle = e.target
-                    var exampleArea = handle.parentElement
-                    var d = (e.pageX - exampleArea.offsetLeft)
-                    console.log(d)
-                    exampleArea.style.width =  (d) + 'px'
-                    this.moved = true
-                }
-                handleMouseUp = function(e) {
-                    var handle = e.target
-                    var exampleArea = handle.parentElement
-                    if (!this.moved) {
-                        this.startMove && (exampleArea.style.width =  ( exampleArea.clientWidth + 50 ) + 'px')
+            var handlers = {
+                onMouseDown: function(e) {
+                    ctx.startMove = true
+                },
+                onMouseMove: function(e) {
+                    if (!ctx.startMove) return
+                    var exampleArea = ctx.domElem()
+
+                    exampleArea.style.width =  (e.pageX - exampleArea.offsetLeft) + 'px'
+                    ctx.moved = true
+                },
+                onMouseUp: function(e) {
+                    var exampleArea = ctx.domElem()
+
+                    if (!ctx.moved) {
+                        ctx.startMove && (exampleArea.style.width =  ( exampleArea.clientWidth + 50 ) + 'px')
                     } else {
-                        this.moved = false
+                        ctx.moved = false
                     }
-                    this.startMove = false
+                    ctx.startMove = false
                 }
+            }
 
-                bh.match('example-area_resize_yes', function(ctx) {
-                    hell = 'awesome'
-                    ctx
-                        .content([{
-                            elem: 'content',
-                            content: ctx.content()
-                        }, {elem: 'handle'}], true)
-
-                })
-                .match('example-area__handle', function(ctx) {
-                    ctx.bind({
-                        onMouseDown: handleMouseDown,
-                        onMouseMove: handleMouseMove,
-                        onMouseUp: handleMouseUp
-                    })
-                })
-            })()
+            ctx.__flag && bh.match('example-area__handle', function(ctx) {
+                ctx.bind(handlers)
+            })
+        })
             
         bh.match('input', function(ctx) {
             ctx.tag('span').attr('style', {width: 200, display: 'inline-block'})
