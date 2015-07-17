@@ -1,7 +1,7 @@
 var BH = require('../');
 require('chai').should();
 
-describe('ctx.bem()', function() {
+xdescribe('ctx.bem()', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();
