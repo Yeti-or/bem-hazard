@@ -98,8 +98,9 @@
                 }
             }
 
+            //TODO: Refactor to ctx.match || ctx.bind('elem', handlers | {})
             ctx.__flag && bh.match('example-area__handle', function(ctx) {
-                ctx.bind(handlers)
+                ctx.__events || ctx.bind(handlers)
             })
         })
             
