@@ -25,11 +25,11 @@ describe('ctx.attrs()', function() {
         bh.match('checkbox', function(ctx) {
             ctx.attrs({
                 type: 'button',
-                disabled: false,
+                disabled: true,
                 name: undefined
             });
         });
-        bh.apply({ block: 'checkbox' }).should.equal('<div class="checkbox" type="button" disabled="false"></div>');
+        bh.apply({ block: 'checkbox' }).should.equal('<div class="checkbox" type="button" disabled></div>');
     });
 
     it('should not override user attrs', function() {
@@ -51,7 +51,7 @@ describe('ctx.attrs()', function() {
 
     it('should not override later declarations', function() {
         bh.match('button', function(ctx) {
-            ctx.attrs({ type: 'control', tabindex: 0 });
+            ctx.attrs({ type: 'control', tabIndex: 0 });
         });
         bh.match('button', function(ctx) {
             ctx.attrs({ type: 'button' });
@@ -64,7 +64,7 @@ describe('ctx.attrs()', function() {
             ctx.attrs({ type: 'control' }, true);
         });
         bh.match('button', function(ctx) {
-            ctx.attrs({ type: 'button', tabindex: 0 });
+            ctx.attrs({ type: 'button', tabIndex: 0 });
         });
         bh.apply({ block: 'button' }).should.equal('<div class="button" type="control" tabindex="0"></div>');
     });
