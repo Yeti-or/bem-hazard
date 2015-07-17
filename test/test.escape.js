@@ -1,7 +1,7 @@
 var BH = require('../');
 require('chai').should();
 
-describe('bh.xmlEscape()', function() {
+xdescribe('bh.xmlEscape()', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();
@@ -15,7 +15,7 @@ describe('bh.xmlEscape()', function() {
     });
 });
 
-describe('bh.attrEscape()', function() {
+xdescribe('bh.attrEscape()', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();
@@ -29,7 +29,7 @@ describe('bh.attrEscape()', function() {
     });
 });
 
-describe('bh.jsAttrEscape()', function() {
+xdescribe('bh.jsAttrEscape()', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();

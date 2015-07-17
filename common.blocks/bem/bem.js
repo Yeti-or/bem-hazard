@@ -52,10 +52,16 @@ BH.prototype = {
     },
     xmlEscape: function(x) {
         //Because React will do it for us
+        //TODO: or do we need this?
+        return x
+    },
+    attrEscape: function(x) {
+        return x
+    },
+    jsAttrEscape: function(x) {
         return x
     }
 }
-
 
 var BEM_Hazard = {
     js: function() {return this},
