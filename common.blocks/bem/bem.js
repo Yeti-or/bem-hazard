@@ -1,28 +1,49 @@
-var bh = {
-    _ :'_',
-    __ : '__',
-    _getDecl: function(selector) {
-        var decl = {},
-            decls,
-            isElem = ~selector.indexOf(bh.__)
-        isElem ?
-            decls = selector.split(bh.__) :
-            decls = selector.split(bh._)
+var React = (typeof require !== 'undefined') ? require('react') : window.React
+var assign = Object.assign || require && require('object-assign')
 
-        decl.block = decls.shift()
-
-        if (isElem) {
-            decls = decls[0].split(bh._)
-            decl.elem = decls.shift()
+var BH = function() {
+    //TODO: make it better
+    BEM_Hazard.bh = this
+    this.BEM = React.createClass({
+        displayName: '',
+        __block: '',
+        mixins: [BEM_Hazard],
+        render: function() {
+            return this.__node()
         }
+    })
+}
 
-        decl.modName = decls.shift()
-        decl.modVal = decls.shift()
-        return decl
+BH._ = '_'
+BH.__ = '__'
+BH._getDecl =  function(selector) {
+    var decl = {},
+        decls,
+        isElem = ~selector.indexOf(BH.__)
+    isElem ?
+        decls = selector.split(BH.__) :
+        decls = selector.split(BH._)
+
+    decl.block = decls.shift()
+
+    if (isElem) {
+        decls = decls[0].split(BH._)
+        decl.elem = decls.shift()
+    }
+
+    decl.modName = decls.shift()
+    decl.modVal = decls.shift()
+    return decl
+}
+
+BH.prototype = {
+    apply: function(bemJson) {
+        var el = React.createElement(this.BEM, bemJson)
+        return React.renderToStaticMarkup(el)
     },
     match: function(selector, matcher) {
         if (!selector || !matcher) return this
-        var decl = this._getDecl(selector)
+        var decl = BH._getDecl(selector)
         this.__matchers[decl.block] || (this.__matchers[decl.block] = [])
         this.__matchers[decl.block].push([decl, matcher])
         return this
@@ -34,10 +55,11 @@ var bh = {
     }
 }
 
+
 var BEM_Hazard = {
     js: function() {return this},
     bem: function() {return this},
-    extend: Object.assign,
+    extend: assign,
     isSimple: function(obj) {
         if (!obj || obj === true) return true
         var t = typeof obj
@@ -157,7 +179,7 @@ var BEM_Hazard = {
             mods = this.mods(),
             json = this.__json,
             retVal,
-            matchers = bh.__matchers[b_] || []
+            matchers = this.bh.__matchers[b_] || []
 
         for (var i = matchers.length - 1; i >= 0 && !retVal; i--) {
             var rule = matchers[i],
@@ -225,7 +247,7 @@ var BEM_Hazard = {
         //TODO: Think about caching/diffing bemJsonTree/content
         this.__json = this.extend({}, pp, {content: pp.children || pp.content})
         var mods = Object.keys(this.__json).reduce(function(mods, key) {
-            return key[0] === bh._ && (mods[key.slice(1)] = pp[key]), mods
+            return key[0] === BH._ && (mods[key.slice(1)] = pp[key]), mods
         }, {})
         this.__block && (this.__json.block = this.__block)
         this.__elem && (this.__json.elem = this.__elem)
@@ -250,12 +272,12 @@ var BEM_Hazard = {
                 entity = b_
 
             if (__e) {
-                entity += bh.__ + __e
+                entity += BH.__ + __e
             }
             cls += entity
             return cls + Object.keys(mods).reduce(function(str, modName) {
                 var modValue = mods[modName]
-                return str + (modValue ? ' ' + entity + bh._ + modName + bh._ +
+                return str + (modValue ? ' ' + entity + BH._ + modName + BH._ +
                         (typeof modValue === 'boolean' ? 'yes' : modValue )
                     : '')
             }, '')
@@ -277,7 +299,7 @@ var BEM_Hazard = {
             if (node.type) {
                 var name = node.type.displayName
                 if (!name) { return node }
-                var decl = bh._getDecl(name)
+                var decl = BH._getDecl(name)
                 node = node.props || {}
                 node.block = decl.block.toLowerCase()
                 node.elem = decl.elem
@@ -288,7 +310,7 @@ var BEM_Hazard = {
             }
             this.__json.$tParam && (node.$tParam = this.__json.$tParam)
 
-            return React.createElement(BEM, node)
+            return React.createElement(this.bh.BEM, node)
         }, this)
         content.length == 1 && (content = content[0])
         return content
@@ -335,12 +357,8 @@ var BEM_Hazard = {
     }
 }
 
-var BEM = React.createClass({
-    displayName: '',
-    __block: '',
-    __matchers: bh.__matchers,
-    mixins: [BEM_Hazard],
-    render: function() {
-        return this.__node()
-    },
-})
+BH.BEM_Hazard = BEM_Hazard
+
+if (typeof module !== 'undefined') {
+    module.exports = BH
+}
