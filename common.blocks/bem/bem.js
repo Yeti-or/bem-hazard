@@ -3,6 +3,7 @@ var assign = Object.assign || require && require('object-assign')
 
 var BH = function() {
     //TODO: make it better
+    this.__matchers = {}
     BEM_Hazard.bh = this
     this.BEM = React.createClass({
         displayName: '',
@@ -38,6 +39,7 @@ BH._getDecl =  function(selector) {
 
 BH.prototype = {
     apply: function(bemJson) {
+        if (!bemJson) return ''
         var el = React.createElement(this.BEM, bemJson)
         return React.renderToStaticMarkup(el)
     },
@@ -48,7 +50,6 @@ BH.prototype = {
         this.__matchers[decl.block].push([decl, matcher])
         return this
     },
-    __matchers: {},
     xmlEscape: function(x) {
         //Because React will do it for us
         return x
@@ -98,7 +99,7 @@ var BEM_Hazard = {
                 (this.__json.attrs = {})[key] = val
             return this
         } else {
-            return this.__json.attrs[key]
+            return this.__json.attrs && this.__json.attrs[key]
         }
     },
     //TODO: Refactor mod, mods, muMod, muMods

@@ -11,7 +11,7 @@ describe('bh.apply()', function() {
         bh.apply().should.equal('');
     });
 
-    it('should return empty string on falsy template result', function() {
+    xit('should return empty string on falsy template result', function() {
         bh.match('link', function(ctx, json) {
             if (!json.url) return null;
         });
