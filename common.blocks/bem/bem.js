@@ -1,6 +1,8 @@
 var React = (typeof require !== 'undefined') ? require('react') : window.React
 var assign = Object.assign || require && require('object-assign')
 
+var BH = (function() {
+
 var BH = function() {
     //TODO: make it better
     this.__matchers = {}
@@ -377,6 +379,9 @@ var BEM_Hazard = {
 }
 
 BH.BEM_Hazard = BEM_Hazard
+
+return BH
+})()
 
 if (typeof module !== 'undefined') {
     module.exports = BH
