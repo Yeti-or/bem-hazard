@@ -130,16 +130,28 @@ var BEM_Hazard = {
     },
     //TODO: Refactor mod, mods, muMod, muMods
     //Think about declMumods ? setMuMod delMuMod getMuMod
-    mod: function(mod) {
+    mod: function(mod, val, force) {
         var mods = this.mods()
-        if (mods.hasOwnProperty(mod)) {
-            return mods[mod]
+        if (arguments.length > 1) {
+            (!mods.hasOwnProperty(mod) || force) && (mods[mod] = val)
+            return this
         } else {
-            return this.muMod(mod)
+            if (mods.hasOwnProperty(mod)) {
+                return mods[mod]
+            } else {
+                return this.muMod(mod)
+            }
         }
     },
-    mods: function(mods) {
-        return (this.__json.elem) ? this.__json.elemMods : this.__json.mods
+    mods: function(values, force) {
+        var field = this.__json.elem ? 'elemMods' : 'mods'
+        var mods = this.__json[field]
+        if (values !== undefined) {
+            this.__json[field] = force ? this.extend(mods, values) : this.extend(values, mods)
+            return this
+        } else {
+            return mods
+        }
     },
     muMods: function(mods) {
         if (mods) {
@@ -280,8 +292,11 @@ var BEM_Hazard = {
         }, {})
         this.__block && (this.__json.block = this.__block)
         this.__elem && (this.__json.elem = this.__elem)
-        this.__json.mods || (this.__json.mods = {})
-        this.__json.elem && this.__json.elemMods || (this.__json.elemMods = this.__json.mods)
+        if (this.__json.elem) {
+            this.__json.elemMods || (this.__json.elemMods = (this.__json.mods || {}))
+        } else {
+            this.__json.mods || (this.__json.mods = {})
+        }
         if (Object.keys(mods).length > 0) {
             if (this.__json.elem) {
                 this.__json.elemMods = this.extend(this.__json.elemMods, mods)
