@@ -1,7 +1,7 @@
 var BH = require('../');
 require('chai').should();
 
-describe('options', function() {
+xdescribe('options', function() {
     describe('jsAttr', function() {
         var bh;
         beforeEach(function() {
