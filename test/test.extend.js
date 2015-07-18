@@ -7,7 +7,7 @@ describe('options', function() {
         beforeEach(function() {
             bh = new BH();
         });
-        it('should extend empty target', function() {
+        xit('should extend empty target', function() {
             bh.match('button', function(ctx) {
                 ctx.extend(null, { foo: 'bar' })
                     .foo.should.equal('bar');
