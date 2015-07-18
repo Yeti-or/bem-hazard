@@ -1,7 +1,7 @@
 var BH = require('../');
 require('chai').should();
 
-describe('bh.beforeEach()', function() {
+xdescribe('bh.beforeEach()', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();
@@ -44,7 +44,7 @@ describe('bh.beforeEach()', function() {
     });
 });
 
-describe('bh.afterEach()', function() {
+xdescribe('bh.afterEach()', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();
