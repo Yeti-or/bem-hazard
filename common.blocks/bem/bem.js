@@ -5,6 +5,7 @@ var BH = function() {
     //TODO: make it better
     this.__matchers = {}
     BEM_Hazard.bh = this
+    this.utils = BEM_Hazard
     this.BEM = React.createClass({
         displayName: '',
         __block: '',
@@ -60,6 +61,9 @@ BH.prototype = {
     },
     jsAttrEscape: function(x) {
         return x
+    },
+    enableInfiniteLoopDetection: function() {
+        //V8 will do it for us
     }
 }
 
