@@ -196,9 +196,9 @@ var BEM_Hazard = {
     },
     mix: function(mix, force) {
         if (mix) {
-            (this.__json.mix || force) ?
-                this.__json.mix = [].concat(mix) :
-                this.__json.mix.concat(mix)
+            this.__json.mix = (!this.__json.mix || force) ?
+                mix :
+                (Array.isArray(this.__json.mix) ? this.__json.mix : [this.__json.mix]).concat(mix)
             return this
         } else {
             return this.__json.mix
@@ -308,38 +308,40 @@ var BEM_Hazard = {
     _buildClassName: function() {
         var b_ = this.__json.block,
             __e = this.__json.elem,
-            cls = '',
+            className = '',
+            cls = {},
             mods = this.extend({}, this.mods(), this.muMods())
 
-        function declToStr(b_, __e, mods, mix) {
-            if (!b_ && !__e) return ''
-            if (!b_ && !mix) return ''
-            var cls = '',
-                entity = b_
+        function addEnity(b_, __e, mods, mix) {
+            var entity = b_
 
             if (__e) {
                 entity += BH.__ + __e
             }
-            cls += entity
-            return cls + Object.keys(mods).reduce(function(str, modName) {
+            cls[entity] = entity
+            Object.keys(mods).forEach(function(modName) {
                 var modValue = mods[modName]
-                if (!modValue) return str
-                str += ' ' + entity + BH._ + modName
+                if (!modValue) return
+                var modEntity = entity + BH._ + modName
                 if (typeof modValue === 'boolean') {
-                    BH.noBoolMods && modValue && (str += BH._ + 'yes')
+                    BH.noBoolMods && modValue && (modEntity += BH._ + 'yes')
                 } else {
-                    str += BH._ + modValue
+                    modEntity += BH._ + modValue
                 }
-                return str
-            }, '')
+                cls[modEntity] = modEntity
+            })
         }
 
-        cls += declToStr(b_, __e, mods, false)
+        addEnity(b_, __e, mods, false)
         this.__json.mix && [].concat(this.__json.mix).forEach(function(mix) {
-            cls += ' ' + declToStr(mix.block, mix.elem, mix.mods || mix.elemMods || {}, true)
+            if (!mix.block) {
+                mix.block = b_
+                mix.elem || (mix.elem = __e)
+            }
+            addEnity(mix.block, mix.elem, mix.mods || mix.elemMods || {}, true)
         })
 
-        return cls
+        return Object.keys(cls).join(' ')
     },
     _processTree: function(tree) {
         var content = [].concat(tree).map(function(node) {
