@@ -93,6 +93,14 @@ var BEM_Hazard = {
             return this.__json.$tParam && this.__json.$tParam[key]
         }
     },
+    cls: function(cls, force) {
+        if (cls) {
+            (!this.__json.cls || force) && (this.__json.cls = cls)
+            return this
+        } else {
+            return this.__json.cls
+        }
+    },
     attrs: function(values, force) {
         var attrs = this.__json.attrs || {}
         if (values !== undefined) {
@@ -246,7 +254,7 @@ var BEM_Hazard = {
             this.__match()
         }
 
-        var cls = this._buildClassName(),
+        var cls = this._buildClassName() + (this.cls() ? ' ' + this.cls() : ''),
             content = this._processTree(this.content()),
             attrs = this.attrs(),
             events = this._events()
