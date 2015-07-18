@@ -204,27 +204,29 @@ var BEM_Hazard = {
         var b_ =  this.__json.block,
             __e = this.__json.elem,
             mods = this.mods(),
+            ctx = this,
             json = this.__json,
             retVal,
-            matchers = this.bh.__matchers[b_] || []
+            matchers = this.bh.__matchers[b_] || [],
+            matchMods = function(decl) {
+                if (decl.modName) {
+                    if (mods && mods[decl.modName] && (mods[decl.modName] === decl.modVal || mods[decl.modName] === true)) {
+                        retVal = cb(ctx, json)
+                    }
+                } else {
+                    retVal = cb(ctx, json)
+                }
+            }
 
         for (var i = matchers.length - 1; i >= 0 && !retVal; i--) {
             var rule = matchers[i],
                 decl = rule[0],
                 cb = rule[1]
 
-            if (mods && decl.modName) {
-                if (mods[decl.modName] === decl.modVal || mods[decl.modName] === true) {
-                    retVal = cb(this, json)
-                }
+            if (decl.elem || __e) {
+                (decl.elem === __e) && matchMods(decl)
             } else {
-                if (decl.elem || __e) {
-                    if (decl.elem === __e) {
-                        retVal = cb(this, json)
-                    }
-                } else {
-                    retVal = cb(this, json)
-                }
+                matchMods(decl)
             }
         }
         if (retVal)  {
@@ -278,11 +280,13 @@ var BEM_Hazard = {
         }, {})
         this.__block && (this.__json.block = this.__block)
         this.__elem && (this.__json.elem = this.__elem)
+        this.__json.mods || (this.__json.mods = {})
+        this.__json.elem && this.__json.elemMods || (this.__json.elemMods = this.__json.mods)
         if (Object.keys(mods).length > 0) {
             if (this.__json.elem) {
-                this.__json.elemMods = this.extend({}, pp.elemMods, mods)
+                this.__json.elemMods = this.extend(this.__json.elemMods, mods)
             } else {
-                this.__json.mods = this.extend({}, pp.mods, mods)
+                this.__json.mods = this.extend(this.__json.mods, mods)
             }
         }
     },
