@@ -5,7 +5,7 @@ require('chai').should();
 //   EN - https://en.bem.info/technology/bemjson/v2/bemjson/
 //   RU - http://ru.bem.info/technology/bemjson/
 
-describe('bh.processBemJson', function() {
+xdescribe('bh.processBemJson', function() {
     var bh;
     beforeEach(function() {
         bh = new BH();
