@@ -43,6 +43,7 @@ BH._getDecl =  function(selector) {
 }
 
 BH.prototype = {
+    noBoolMods: false, //For LEGO set true
     apply: function(bemJson) {
         if (!bemJson) return ''
         var el = React.createElement(this.BEM, bemJson)
@@ -212,8 +213,8 @@ var BEM_Hazard = {
                 decl = rule[0],
                 cb = rule[1]
 
-            if (decl.modName && decl.modVal) {
-                if (mods && (mods[decl.modName] === decl.modVal)) {
+            if (mods && decl.modName) {
+                if (mods[decl.modName] === decl.modVal || mods[decl.modName] === true) {
                     retVal = cb(this, json)
                 }
             } else {
@@ -303,9 +304,14 @@ var BEM_Hazard = {
             cls += entity
             return cls + Object.keys(mods).reduce(function(str, modName) {
                 var modValue = mods[modName]
-                return str + (modValue ? ' ' + entity + BH._ + modName + BH._ +
-                        (typeof modValue === 'boolean' ? 'yes' : modValue )
-                    : '')
+                if (!modValue) return str
+                str += ' ' + entity + BH._ + modName
+                if (typeof modValue === 'boolean') {
+                    BH.noBoolMods && modValue && (str += BH._ + 'yes')
+                } else {
+                    str += BH._ + modValue
+                }
+                return str
             }, '')
         }
 
