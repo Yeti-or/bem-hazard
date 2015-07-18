@@ -2,11 +2,13 @@ var React = (typeof require !== 'undefined') ? require('react') : window.React
 var assign = Object.assign || require && require('object-assign')
 
 var BH = (function() {
+var __lastGenId = 0
 
 var BH = function() {
     //TODO: make it better
     this.__matchers = {}
     BEM_Hazard.bh = this
+    BEM_Hazard.__expandoId = new Date().getTime()
     this.utils = BEM_Hazard
     this.BEM = React.createClass({
         displayName: '',
@@ -77,6 +79,9 @@ var BEM_Hazard = {
         if (!obj || obj === true) return true
         var t = typeof obj
         return t === 'string' || t === 'number'
+    },
+    generateId: function() {
+        return 'uniq' + this.__expandoId + (++__lastGenId);
     },
     param: function(param, val, force) {
         if (val) {
