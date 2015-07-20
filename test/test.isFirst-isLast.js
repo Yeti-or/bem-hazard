@@ -68,7 +68,7 @@ describe('ctx.isFirst() / ctx.isLast()', function() {
         );
     });
 
-    it('should ignore empty array items', function() {
+    xit('should ignore empty array items', function() {
         bh.match('button', function(ctx) {
             if (ctx.isFirst()) {
                 ctx.mod('first', 'yes');

@@ -212,6 +212,15 @@ var BEM_Hazard = {
             return this.__json.content
         }
     },
+    position: function() {
+        return this.__json.$position
+    },
+    isFirst: function() {
+        return this.position() === 1
+    },
+    isLast: function() {
+        return this.__json.$isLast
+    },
     json: function() {
         return this.__json
     },
@@ -406,9 +415,14 @@ var BEM_Hazard = {
 
         return Object.keys(cls).join(' ')
     },
-    _processTree: function(tree) {
-        var content = [].concat(tree).map(function(node) {
-            if (Array.isArray(node)) { return this._processTree(node) }
+    _processTree: function(tree, position) {
+        tree = [].concat(tree)
+        position || (position = {val: 0, last: 0})
+        position.last += (tree.length - 1)
+        var content = tree.map(function(node) {
+            if (Array.isArray(node)) {
+                return this._processTree(node, position)
+            }
             if (!node || (!node.block && !node.elem && !node.tag && !node.content && !node.type)) {
                 return node
             }
@@ -425,6 +439,8 @@ var BEM_Hazard = {
                 //node.ref = node.block + bh.__ + node.elem
             }
             this.__json.$tParam && (node.$tParam = this.__json.$tParam)
+            position.last === position.val && (node.$isLast = true)
+            node.$position = ++position.val
 
             return React.createElement(this.bh.BEM, node)
         }, this)

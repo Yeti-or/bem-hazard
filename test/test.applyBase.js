@@ -107,7 +107,7 @@ describe('ctx.applyBase()', function() {
         bh.apply({ block: 'select', mods: { disabled: true }, content: { elem: 'control' } });
     });
 
-    xit('should preserve position', function() {
+    it('should preserve position', function() {
         bh.match('button', function(ctx) {
             if (ctx.isFirst()) {
                 ctx.mod('first', 'yes');
@@ -119,14 +119,16 @@ describe('ctx.applyBase()', function() {
         bh.match('button', function(ctx) {
             ctx.applyBase();
         });
-        bh.apply([
+        bh.apply({content: [
             { block: 'button' },
             { block: 'button' },
             { block: 'button' }
-        ]).should.equal(
+        ]}).should.equal(
+            '<div>' +
             '<div class="button button_first_yes"></div>' +
             '<div class="button"></div>' +
             '<div class="button button_last_yes"></div>'
+            + '</div>'
         );
     });
 });
