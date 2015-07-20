@@ -93,7 +93,7 @@ var BEM_Hazard = {
         }
     },
     tParam: function(key, val, force) {
-        if (val) {
+        if (arguments.length > 1) {
             this.__json.$tParam || (this.__json.$tParam = {})
             if (!this.__json.$tParam[key] || force) {this.__json.$tParam[key] = val}
             return this
@@ -438,9 +438,9 @@ var BEM_Hazard = {
             }
             if (node.elem) {
                 node.block || (node.block = this.__json.block)
-                //node.ref = node.block + bh.__ + node.elem
+                //node.ref = node.block + BH.__ + node.elem
             }
-            this.__json.$tParam && (node.$tParam = this.__json.$tParam)
+            this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
             position.last === position.val && (node.$isLast = true)
             node.$position = ++position.val
 
