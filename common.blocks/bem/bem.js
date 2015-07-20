@@ -212,29 +212,44 @@ var BEM_Hazard = {
             return this.__json.content
         }
     },
-    __match: function() {
-        var b_ =  this.__json.block,
-            __e = this.__json.elem,
-            mods = this.mods(),
+    json: function() {
+        return this.__json
+    },
+    stop: function() {
+        this.__json.__stop = true
+        return this
+    },
+    applyBase: function() {
+        this.__processMatch()
+        return this
+    },
+    __processMatch: function() {
+        var retVal,
             ctx = this,
             json = this.__json,
-            retVal,
-            matchers = this.bh.__matchers[b_] || [],
+            b_ = json.block,
+            __e = json.elem,
+            mods = this.mods(),
+            matchers = json.__matchers,
+            i = matchers.length - 1,
+            matched = json.__matched,
             matchMods = function(decl) {
                 if (decl.modName) {
                     if (mods && mods[decl.modName] && (mods[decl.modName] === decl.modVal || mods[decl.modName] === true)) {
+                        matched.push(i)
                         retVal = cb(ctx, json)
                     }
                 } else {
+                    matched.push(i)
                     retVal = cb(ctx, json)
                 }
             }
-
-        for (var i = matchers.length - 1; i >= 0 && !retVal; i--) {
+        for (; i >= 0 && !retVal && !json.__stop; i--) {
             var rule = matchers[i],
                 decl = rule[0],
                 cb = rule[1]
 
+            if (~matched.indexOf(i)) { continue }
             if (decl.elem || __e) {
                 (decl.elem === __e) && matchMods(decl)
             } else {
@@ -242,9 +257,36 @@ var BEM_Hazard = {
             }
         }
         if (retVal)  {
+            retVal = [].concat(retVal).map(function(retVal) {
+                if (retVal.block && retVal.block !== json.block) {
+                    var matchers = this.bh.__matchers[retVal.block] || []
+
+                    this.__json = retVal
+                    this.__json.__stop = false
+                    this.__json.__matched = []
+                    this.__json.__matchers = matchers
+                } else {
+                    retVal.__stop = json.__stop
+                    retVal.__matched = json.__matched
+                    retVal.__matchers = json.__matchers
+                    retVal.elem && (retVal.block = json.block)
+                    this.__json = retVal
+                }
+                this.__processMatch()
+                return this.__json
+            }, this)
+            retVal.length == 1 && (retVal = retVal[0])
             this.__json = retVal
-            this.__match()
         }
+    },
+    __match: function() {
+        var b_ =  this.__json.block,
+            matchers = this.bh.__matchers[b_] || []
+
+        this.__json.__stop = false
+        this.__json.__matched = []
+        this.__json.__matchers = matchers
+        this.__processMatch()
     },
 
     componentWillMount: function() {
@@ -276,12 +318,34 @@ var BEM_Hazard = {
             this.__match()
         }
 
-        var cls = this._buildClassName() + (this.cls() ? ' ' + this.cls() : ''),
-            content = this._processTree(this.content()),
-            attrs = this.attrs(),
-            events = this._events()
+        var renderNodes = function(json, result) {
+            return json.reduce(function(result, json) {
+                if (Array.isArray(json)) {
+                    renderNodes(json, result)
+                } else {
+                    this.__json = json
+                    var cls = this._buildClassName() + (this.cls() ? ' ' + this.cls() : ''),
+                        content = this._processTree(this.content()),
+                        attrs = this.attrs(),
+                        events = this._events(),
+                        props = {children: content}
 
-        return React.createElement(this.tag() || 'div', this.extend({className:cls,  children: content}, attrs, events))
+                    cls && (props.className = cls)
+                    result.push(React.createElement(this.tag() || 'div', this.extend(props, attrs, events)))
+                }
+                return result
+            }.bind(this), result || [])
+        }.bind(this)
+
+        var node,
+            nodes = renderNodes([].concat(this.__json))
+
+        if (nodes.length == 1) {
+            node = nodes[0]
+        } else {
+            node = React.createElement('span', {children: nodes})
+        }
+        return node
     },
 
     _composeCurNode: function(pp) {
@@ -308,7 +372,6 @@ var BEM_Hazard = {
     _buildClassName: function() {
         var b_ = this.__json.block,
             __e = this.__json.elem,
-            className = '',
             cls = {},
             mods = this.extend({}, this.mods(), this.muMods())
 
@@ -332,7 +395,7 @@ var BEM_Hazard = {
             })
         }
 
-        addEnity(b_, __e, mods, false)
+        b_ && addEnity(b_, __e, mods, false)
         this.__json.mix && [].concat(this.__json.mix).forEach(function(mix) {
             if (!mix.block) {
                 mix.block = b_
