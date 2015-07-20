@@ -393,7 +393,7 @@ var BEM_Hazard = {
             cls[entity] = entity
             Object.keys(mods).forEach(function(modName) {
                 var modValue = mods[modName]
-                if (!modValue) return
+                if (!modValue && modValue !== 0) return
                 var modEntity = entity + BH._ + modName
                 if (typeof modValue === 'boolean') {
                     BH.noBoolMods && modValue && (modEntity += BH._ + 'yes')
@@ -406,7 +406,9 @@ var BEM_Hazard = {
 
         b_ && addEnity(b_, __e, mods, false)
         this.__json.mix && [].concat(this.__json.mix).forEach(function(mix) {
+            if (!mix) { return }
             if (!mix.block) {
+                if (!b_) { return }
                 mix.block = b_
                 mix.elem || (mix.elem = __e)
             }
