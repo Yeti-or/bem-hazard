@@ -176,9 +176,11 @@ var BEM_Hazard = {
     muState: function(state, val) {
         if (arguments.length > 1) {
             if (!this.__flag) {
-                var newState = {}
-                newState[state] = val
-                this.setState(newState)
+                if (this.state[mod] !== val) {
+                    var newState = {}
+                    newState[state] = val
+                    this.setState(newState)
+                }
             }
             (this.__muStates || (this.__muStates = {}))[state] = val
             return this
@@ -189,9 +191,11 @@ var BEM_Hazard = {
     muMod: function(mod, val) {
         if (arguments.length > 1) {
             if (!this.__flag) {
-                var newState = {}
-                newState[mod] = val
-                this.setState(newState)
+                if (this.state[mod] !== val) {
+                    var newState = {}
+                    newState[mod] = val
+                    this.setState(newState)
+                }
             }
             (this.__muMods || (this.__muMods = {}))[mod] = val
             return this
