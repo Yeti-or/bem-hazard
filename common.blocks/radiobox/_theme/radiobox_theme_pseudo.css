@@ -1,0 +1,44 @@
+.radiobox_theme_pseudo
+{
+    font-family: Arial, sans-serif;
+
+    color: #000;
+}
+
+@media all and (min-width:0)
+{
+    /* :before — border & background */
+    .radiobox_theme_pseudo .radiobox__box:before
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        padding: 0;
+
+        content: '';
+
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: 50%;
+    }
+
+    /* _checked */
+    .radiobox_theme_pseudo .radiobox__radio_checked_yes .radiobox__box:before
+    {
+        border-color: rgba(153,122,0,.5);
+        background: #ffeba0;
+    }
+
+    .radiobox_theme_pseudo .radiobox__radio_disabled_yes .radiobox__box:before
+    {
+        border-color: transparent;
+        background: rgba(0,0,0,.08);
+    }
+
+    .radiobox_theme_pseudo .radiobox__radio_checked_yes .radiobox__box:after
+    {
+        background: #000;
+    }
+}

@@ -1,0 +1,26 @@
+.radiobox_size_s
+{
+    font-size: 13px;
+    line-height: 28px;
+}
+
+@media all and (min-width:0)
+{
+    .radiobox_size_s .radiobox__box
+    {
+        top: 2px;
+
+        width: 14px;
+        height: 14px;
+    }
+
+    /* маркер */
+    .radiobox_size_s .radiobox__box:after
+    {
+        top: 4px;
+        left: 4px;
+
+        width: 6px;
+        height: 6px;
+    }
+}

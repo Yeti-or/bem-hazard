@@ -1,0 +1,186 @@
+<!doctype>
+<html class="i-ua_js_yes">
+<head>
+    <title>Hello Radiobox!</title>
+    <meta charset="utf-8"></meta>
+    <!-- Vendor -->
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/JSXTransformer.js"></script>
+    <!-- //TODO:Changed module to window -->
+    <script src="bower_components/object-assign/index.js"></script>
+    <!-- Vendor -->
+    <!-- Lego -->
+        <!-- Radiobox -->
+        <link rel="stylesheet" href="common.blocks/radiobox/radiobox.css"/>
+        <link rel="stylesheet" href="desktop.blocks/radiobox/radiobox.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/__radio/radiobox__radio.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/__radio/_disabled/radiobox__radio_disabled_yes.css"/>
+        <link rel="stylesheet" href="desktop.blocks/radiobox/__radio/_disabled/radiobox__radio_disabled_yes.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/__radio/_checked/radiobox__radio_checked_yes.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/__box/radiobox__box.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/__control/radiobox__control.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/_size/radiobox_size_s.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/_size/radiobox_size_m.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/_theme/radiobox_theme_pseudo.css"/>
+        <link rel="stylesheet" href="desktop.blocks/radiobox/_theme/radiobox_theme_pseudo.css"/>
+        <link rel="stylesheet" href="common.blocks/radiobox/_theme/radiobox_theme_normal.css"/>
+        <link rel="stylesheet" href="desktop.blocks/radiobox/_theme/radiobox_theme_normal.css"/>
+        <!-- Radiobox -->
+    <!-- Lego -->
+    <style>
+        .body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="body">
+    <!-- Lego -->
+        <!-- BEM__helper -->
+        <script src="common.blocks/bem/bem.js"></script>
+        <!-- BEM__helper -->
+        <script>
+            BH.noBoolMods = true
+            var bh = new BH()
+            var BEM = bh.BEM
+        </script>
+        <!-- Radiobox -->
+        <script src="common.blocks/radiobox/radiobox.bh.js"></script>
+        <script src="common.blocks/radiobox/__radio/radiobox__radio.bh.js"></script>
+        <script src="common.blocks/radiobox/__control/radiobox__control.bh.js"></script>
+
+        <script src="desktop.bundle/radiobox/__radio/radiobox__radio.js"></script>
+        <script src="desktop.bundle/radiobox/radiobox.js"></script>
+        <!-- Radiobox -->
+    <!-- Lego -->
+    <script type="text/jsx">
+        var Example = React.createClass({
+            render: function() {
+
+                var bemJson =
+                [
+                    {
+                        block: 'radiobox',
+                        mods: {size: 's', theme: 'pseudo'},
+                        attrs: {style: {backgroundColor: 'lightgray'}},
+                        name: 'bla',
+                        content: [
+                            {
+                                elem: 'radio',
+                                content: 'Радио 1',
+                                controlAttrs: {value: 'val-1'}
+                            },
+                            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+                            {
+                                elem: 'radio',
+                                content: 'Радио 2',
+                                controlAttrs: {value: 'val-2'}
+                            },
+                            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+                            {
+                                elem: 'radio',
+                                content: 'Радио 3',
+                                controlAttrs: {value: 'val-3'}
+                            }
+                        ]
+                    },
+                    { tag: 'br' },
+                    { tag: 'br' },
+                    {
+                        block: 'radiobox',
+                        mods: {size: 'm'},
+                        attrs: {style: {backgroundColor: 'lightgray'}},
+                        name: 'bla',
+                        value: 'val-1',
+                        content: [
+                            {
+                                elem: 'radio',
+                                content: 'Радио 1',
+                                controlAttrs: {value: 'val-1'}
+                            },
+                            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+                            {
+                                elem: 'radio',
+                                content: 'Радио 2',
+                                controlAttrs: {value: 'val-2'}
+                            },
+                            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+                            {
+                                elem: 'radio',
+                                content: 'Радио 3',
+                                controlAttrs: {value: 'val-3'}
+                            }
+                        ]
+                    },
+                    { tag: 'br' },
+                    { tag: 'br' },
+                    {
+                        block: 'radiobox',
+                        mods: {size: 's', disabled: 'yes'},
+                        name: 'bla',
+                        value: 'val-1',
+                        content: [
+                            {
+                                elem: 'radio',
+                                content: 'Радио 1',
+                                controlAttrs: {value: 'val-1'}
+                            },
+                            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+                            {
+                                elem: 'radio',
+                                content: 'Радио 2',
+                                controlAttrs: {value: 'val-2'}
+                            },
+                            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+                            {
+                                elem: 'radio',
+                                content: 'Радио 3',
+                                controlAttrs: {value: 'val-3'}
+                            }
+                        ]
+                    }
+                ]
+
+                return (
+                    <BEM attrs={{style:{margin: 20}}}>
+                        {bemJson}
+                        <br/>
+                        <br/>
+                        <Radiobox mods={{size:"s", disabled:'yes'}} name="bla" value="val-2">
+                            <Radiobox__radio controlAttrs={{value: 'val-1'}}>
+                                JSX Radio 1
+                            </Radiobox__radio>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <Radiobox__radio controlAttrs={{value: 'val-2'}}>
+                                JSX Radio 2
+                            </Radiobox__radio>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <Radiobox__radio controlAttrs={{value: 'val-3'}}>
+                                JSX Radio 3
+                            </Radiobox__radio>
+                        </Radiobox>
+                        <br/>
+                        <br/>
+                        <Radiobox _size="m" name="bla" value="val-2">
+                            <Radiobox.Radio controlAttrs={{value: 'val-1'}}>
+                                JSX Radio 1
+                            </Radiobox.Radio>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <Radiobox.Radio controlAttrs={{value: 'val-2'}}>
+                                JSX Radio 2
+                            </Radiobox.Radio>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <Radiobox.Radio controlAttrs={{value: 'val-3'}}>
+                                JSX Radio 3
+                            </Radiobox.Radio>
+                        </Radiobox>
+                    </BEM>
+                )
+            }
+        })
+        React.render(
+            <Example />,
+            document.body
+        )
+    </script>
+</body>
+</html>
