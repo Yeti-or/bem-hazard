@@ -438,7 +438,7 @@ var BEM_Hazard = {
             }
             if (node.elem) {
                 node.block || (node.block = this.__json.block)
-                //node.ref = node.block + BH.__ + node.elem
+                node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
             position.last === position.val && (node.$isLast = true)
@@ -448,6 +448,33 @@ var BEM_Hazard = {
         }, this)
         content.length == 1 && (content = content[0])
         return content
+    },
+    elem: function(elemName) {
+        if (this.__flag) { return }
+        var elems = [].concat(this.elemCtx(elemName)).map(function(elemCtx) {
+            return elemCtx.domElem()
+        })
+        elems.length == 1 && (elems = elems[0])
+        return elems
+    },
+    elemCtx: function(elemName) {
+        var elems = [],
+            entity = this.__json.block + BH.__ + elemName,
+            _elemCtx = function(refs) {
+                Object.keys(refs).forEach(function(refKey) {
+                    var ref = refs[refKey]
+                    if (!ref) { return }
+                    if (refKey.split('~')[0] === entity) {
+                        elems.push(ref)
+                    } else {
+                        _elemCtx(ref.refs)
+                    }
+                })
+            }
+
+        _elemCtx(this.refs)
+        elems.length == 1 && (elems = elems[0])
+        return elems
     },
     _events: function(events) {
         if (events) {
