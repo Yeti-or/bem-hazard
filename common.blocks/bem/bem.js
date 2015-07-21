@@ -176,7 +176,7 @@ var BEM_Hazard = {
     muState: function(state, val) {
         if (arguments.length > 1) {
             if (!this.__flag) {
-                if (this.state[mod] !== val) {
+                if (this.state[state] !== val) {
                     var newState = {}
                     newState[state] = val
                     this.setState(newState)
