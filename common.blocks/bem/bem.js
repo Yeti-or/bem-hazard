@@ -153,6 +153,16 @@ var BEM_Hazard = {
             return mods
         }
     },
+    muStates: function(states) {
+        if (states) {
+            if (this.__flag) {
+                this.__muStates = this.extend({}, this.__muStates, states)
+            }
+            return this
+        } else {
+            return this.__muStates || {}
+        }
+    },
     muMods: function(mods) {
         if (mods) {
             if (this.__flag) {
@@ -160,22 +170,30 @@ var BEM_Hazard = {
             }
             return this
         } else {
-            if (this.__flag) {
-                return this.__muMods || {}
-            } else {
-                return this.extend({}, this.__muMods, this.state)
+            return this.__muMods || {}
+        }
+    },
+    muState: function(state, val) {
+        if (arguments.length > 1) {
+            if (!this.__flag) {
+                var newState = {}
+                newState[state] = val
+                this.setState(newState)
             }
+            (this.__muStates || (this.__muStates = {}))[state] = val
+            return this
+        } else {
+            return this.muStates()[state]
         }
     },
     muMod: function(mod, val) {
         if (arguments.length > 1) {
-            if (this.__flag) {
-                (this.__muMods || (this.__muMods = {}))[mod] = val
-            } else {
+            if (!this.__flag) {
                 var newState = {}
                 newState[mod] = val
                 this.setState(newState)
             }
+            (this.__muMods || (this.__muMods = {}))[mod] = val
             return this
         } else {
             return this.muMods()[mod]
@@ -304,7 +322,7 @@ var BEM_Hazard = {
         this.__match()
     },
     componentDidMount: function() {
-        this.state = this.extend({}, this.state, this.muMods())
+        this.state = this.extend({}, this.state, this.muStates(), this.muMods())
     },
     componentWillReceiveProps: function(props) {
         this.__props = props
