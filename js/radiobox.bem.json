@@ -1,0 +1,83 @@
+[
+    {
+        block: 'radiobox',
+        mods: {size: 's', theme: 'pseudo'},
+        attrs: {style: {backgroundColor: 'lightgray'}},
+        name: 'bla',
+        content: [
+            {
+                elem: 'radio',
+                content: 'Радио 1',
+                controlAttrs: {value: 'val-1'}
+            },
+            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+            {
+                elem: 'radio',
+                content: 'Радио 2',
+                controlAttrs: {value: 'val-2'}
+            },
+            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+            {
+                elem: 'radio',
+                content: 'Радио 3',
+                controlAttrs: {value: 'val-3'}
+            }
+        ]
+    },
+    { tag: 'br' },
+    { tag: 'br' },
+    {
+        block: 'radiobox',
+        mods: {size: 'm'},
+        attrs: {style: {backgroundColor: 'lightgray'}},
+        name: 'bla',
+        value: 'val-1',
+        content: [
+            {
+                elem: 'radio',
+                content: 'Радио 1',
+                controlAttrs: {value: 'val-1'}
+            },
+            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+            {
+                elem: 'radio',
+                content: 'Радио 2',
+                elemMods: {disabled: 'yes'},
+                controlAttrs: {value: 'val-2'}
+            },
+            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+            {
+                elem: 'radio',
+                content: 'Радио 3',
+                controlAttrs: {value: 'val-3'}
+            }
+        ]
+    },
+    { tag: 'br' },
+    { tag: 'br' },
+    {
+        block: 'radiobox',
+        mods: {size: 's', disabled: 'yes'},
+        name: 'bla',
+        value: 'val-1',
+        content: [
+            {
+                elem: 'radio',
+                content: 'Радио 1',
+                controlAttrs: {value: 'val-1'}
+            },
+            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+            {
+                elem: 'radio',
+                content: 'Радио 2',
+                controlAttrs: {value: 'val-2'}
+            },
+            { tag: 'span', content: '\u00a0\u00a0\u00a0\u00a0'},
+            {
+                elem: 'radio',
+                content: 'Радио 3',
+                controlAttrs: {value: 'val-3'}
+            }
+        ]
+    }
+]

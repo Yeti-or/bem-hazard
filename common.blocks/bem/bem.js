@@ -1,5 +1,5 @@
-var React = (typeof require !== 'undefined') ? require('react') : window.React
-var assign = Object.assign || require && require('object-assign')
+var React = window.React || (typeof require !== 'undefined') && require('react')
+var assign = Object.assign || (typeof require !== 'undefined') && require('object-assign')
 
 var BH = (function() {
 var __lastGenId = 0
@@ -22,6 +22,7 @@ var BH = function() {
 
 BH._ = '_'
 BH.__ = '__'
+BH.React = React
 BH._getDecl =  function(selector) {
     var decl = {},
         decls,

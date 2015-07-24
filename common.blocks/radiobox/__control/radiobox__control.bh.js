@@ -1,3 +1,4 @@
+module.exports = function(bh) {
     bh.match('radiobox__control', function(ctx) {
         ctx
             .tag('input')
@@ -10,3 +11,4 @@
             // we could change contolAttrs.check -> controlAttrs.defaultCheck
             .bind({onChange: function() {}})
     });
+}
