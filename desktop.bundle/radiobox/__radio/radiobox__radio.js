@@ -2,6 +2,9 @@
 var BH = require('../../../desktop.blocks/bem/bem.js')
 var bh = BH.bh
 
+require('../../../common.blocks/control/control.bhz.js')(bh)
+require('../../../desktop.blocks/control/control.bhz.js')(bh)
+
 require('../../../common.blocks/radiobox/__radio/radiobox__radio.bh.js')(bh)
 require('../../../common.blocks/radiobox/__control/radiobox__control.bh.js')(bh)
 

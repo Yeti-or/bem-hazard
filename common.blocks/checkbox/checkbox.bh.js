@@ -7,7 +7,7 @@ module.exports = function(bh) {
             checkboxAttrs.disabled = 'disabled';
         }
         if(ctx.mod('checked')) {
-            checkboxAttrs.checked = 'checked';
+            checkboxAttrs.defaultChecked = 'checked';
         }
 
         ctx

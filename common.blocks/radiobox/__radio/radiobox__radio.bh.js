@@ -47,33 +47,9 @@ module.exports = function(bh) {
             ctx.tParam('controlAttrs', undefined, true)
         }
 
-        //TODO: make it js mix control-focusable
         ctx
-            .muMods({
-                focused: false
-            })
-            .bind({
-                onFocus: function() {
-                    ctx.mod('disabled') || ctx.muMod('focused', true)
-                },
-                onBlur: function() {
-                    ctx.muMod('focused', false)
-                }
-            })
-
-        //TODO: make it js mix desktop/control-hoverable
-            .muMods({
-                hovered: false
-            })
-            .bind({
-                onMouseEnter: function() {
-                    ctx.mod('disabled') || ctx.muMod('hovered', true)
-                },
-                onMouseLeave: function() {
-                    ctx.muMod('hovered', false)
-                }
-            })
-
+            .mixJs({block: 'control', mods: {'focused': true}})
+            .mixJs({block: 'control', mods: {'hovered': true}})
             .bind({
                 onClick: function() {
                     if (!ctx.mod('disabled')) {
