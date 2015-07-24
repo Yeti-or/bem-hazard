@@ -6,26 +6,8 @@ module.exports = function(bh) {
             ctx.tParam('_controlAttrs', undefined, true)
         }
 
-        //ctx.applyBase()
-
         ctx
             .mixJs({block: 'radiobox', elem: 'radio'})
-
-            .muMods({
-                pressed: false
-            })
-
-            .bind({
-                onMouseLeave: function() {
-                    //TODO: bindToDoc diff from native btn
-                    ctx.muMod('pressed', false)
-                },
-                onMouseDown: function() {
-                    ctx.muMod('pressed', true)
-                },
-                onMouseUp: function() {
-                    ctx.muMod('pressed', false)
-                }
-            })
+            .mixJs({block: 'control', mods: {'pressed': true}})
     })
 }
