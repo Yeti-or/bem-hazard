@@ -1,3 +1,4 @@
+module.exports = function(bh) {
     bh.match('radiobox', function(ctx, json) {
         ctx
             .tag('span')
@@ -20,3 +21,4 @@
                 }
             })
     })
+}

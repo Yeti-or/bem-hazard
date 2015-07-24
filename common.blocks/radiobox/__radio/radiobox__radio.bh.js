@@ -1,3 +1,4 @@
+module.exports = function(bh) {
     bh.match('radiobox__radio', function(ctx, json) {
 
         var controlAttrs = ctx.extend({
@@ -83,3 +84,4 @@
                 }
             })
     })
+}

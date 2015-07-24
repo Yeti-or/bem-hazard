@@ -1,6 +1,11 @@
 //Could be generated
+var BH = require('../../../desktop.blocks/bem/bem.js')
+var bh = BH.bh
 
-var Radiobox__radio = React.createClass({
+require('../../../common.blocks/radiobox/__radio/radiobox__radio.bh.js')(bh)
+require('../../../common.blocks/radiobox/__control/radiobox__control.bh.js')(bh)
+
+var Radiobox__radio = BH.React.createClass({
     displayName: 'radiobox__radio',
     __block: 'radiobox',
     __elem: 'radio',
@@ -10,3 +15,5 @@ var Radiobox__radio = React.createClass({
         return this.__node()
     },
 })
+
+module.exports = Radiobox__radio

@@ -8,11 +8,13 @@
     "react": "^0.13.3"
   },
   "devDependencies": {
+    "browserify": "^11.0.0",
     "chai": "^3.1.0",
-    "mocha": "^2.2.5"
+    "reactify": "^1.1.1"
   },
   "scripts": {
-    "test": "mocha -u bdd -R spec --recursive test"
+    "test": "mocha test",
+    "build": "./build.sh"
   },
   "keywords": [
     "BEM.",

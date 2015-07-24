@@ -1,5 +1,5 @@
-var React = (typeof require !== 'undefined') ? require('react') : window.React
-var assign = Object.assign || require && require('object-assign')
+var React = (typeof window !== 'undefined') && window.React || (typeof require !== 'undefined') && require('react')
+var assign = Object.assign || (typeof require !== 'undefined') && require('object-assign')
 
 var BH = (function() {
 var __lastGenId = 0
@@ -22,6 +22,7 @@ var BH = function() {
 
 BH._ = '_'
 BH.__ = '__'
+BH.React = React
 BH._getDecl =  function(selector) {
     var decl = {},
         decls,
@@ -86,6 +87,7 @@ var BEM_Hazard = {
     },
     param: function(param, val, force) {
         if (val) {
+            if (this.__isMix) {return this}
             (!this.__json[param] || force) && (this.__json[param] = val)
             return this
         } else {
@@ -94,6 +96,7 @@ var BEM_Hazard = {
     },
     tParam: function(key, val, force) {
         if (arguments.length > 1) {
+            if (this.__isMix) {return this}
             this.__json.$tParam || (this.__json.$tParam = {})
             if (!this.__json.$tParam[key] || force) {this.__json.$tParam[key] = val}
             return this
@@ -103,6 +106,7 @@ var BEM_Hazard = {
     },
     cls: function(cls, force) {
         if (cls) {
+            if (this.__isMix) {return this}
             (!this.__json.cls || force) && (this.__json.cls = cls)
             return this
         } else {
@@ -112,6 +116,7 @@ var BEM_Hazard = {
     attrs: function(values, force) {
         var attrs = this.__json.attrs || {}
         if (values !== undefined) {
+            if (this.__isMix) {return this}
             this.__json.attrs = force ? this.extend(attrs, values) : this.extend(values, attrs)
             return this
         } else {
@@ -120,6 +125,7 @@ var BEM_Hazard = {
     },
     attr: function(key, val, force) {
         if (arguments.length > 1) {
+            if (this.__isMix) {return this}
             this.__json.attrs ?
                 (!this.__json.attrs.hasOwnProperty(key) || force) && (this.__json.attrs[key] = val) :
                 (this.__json.attrs = {})[key] = val
@@ -133,6 +139,7 @@ var BEM_Hazard = {
     mod: function(mod, val, force) {
         var mods = this.mods()
         if (arguments.length > 1) {
+            if (this.__isMix) {return this}
             (!mods.hasOwnProperty(mod) || force) && (mods[mod] = val)
             return this
         } else {
@@ -147,6 +154,7 @@ var BEM_Hazard = {
         var field = this.__json.elem ? 'elemMods' : 'mods'
         var mods = this.__json[field]
         if (values !== undefined) {
+            if (this.__isMix) {return this}
             this.__json[field] = force ? this.extend(mods, values) : this.extend(values, mods)
             return this
         } else {
@@ -210,14 +218,34 @@ var BEM_Hazard = {
     },
     tag: function(tag, force) {
         if (tag) {
+            if (this.__isMix) {return this}
             (!this.__json.tag || force) && (this.__json.tag = tag)
             return this
         } else {
             return this.__json.tag
         }
     },
+    mixJs: function(mix) {
+        if (this.__flag && mix.block && mix.block !== this.__json.block) {
+            var matchers = this.bh.__matchers[mix.block]
+            if (matchers) {
+                var json = this.extend({}, this.__json)
+                this.extend(this.__json, mix)
+                this.__json.__stop = false
+                this.__json.__matched = []
+                this.__json.__matchers = matchers
+
+                this.__isMix = true
+                this.__processMatch()
+                this.__json = json
+                this.__isMix = false
+            }
+        }
+        return this
+    },
     mix: function(mix, force) {
         if (mix) {
+            if (this.__isMix) {return this}
             this.__json.mix = (!this.__json.mix || force) ?
                 mix :
                 (Array.isArray(this.__json.mix) ? this.__json.mix : [this.__json.mix]).concat(mix)
@@ -228,6 +256,7 @@ var BEM_Hazard = {
     },
     content: function(content, force) {
         if (arguments.length > 0) {
+            if (this.__isMix) {return this}
                 (!this.__json.content || force) && (this.__json.content = content)
             return this
         } else {
@@ -247,6 +276,7 @@ var BEM_Hazard = {
         return this.__json
     },
     stop: function() {
+        if (this.__isMix) {return this}
         this.__json.__stop = true
         return this
     },
@@ -463,7 +493,7 @@ var BEM_Hazard = {
                 node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
-            position.last === position.val && (node.$isLast = true)
+            position.last === position.val ? (node.$isLast = true) : (node.$isLast = false)
             node.$position = ++position.val
 
             return React.createElement(this.bh.BEM, node)
