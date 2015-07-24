@@ -2,10 +2,14 @@
 var BH = require('../../../desktop.blocks/bem/bem.js')
 var bh = BH.bh
 
-require('../../../common.blocks/radio-button/radio-button.bh.js')(bh)
+require('../../../common.blocks/pointerfocus/pointerfocus.js')
+
+require('../../../common.blocks/radiobox/__radio/radiobox__radio.bh.js')(bh)
 
 require('../../../common.blocks/radio-button/__radio/radio-button__radio.bh.js')(bh)
+require('../../../common.blocks/radio-button/__radio/radio-button__radio.bhz.js')(bh)
 require('../../../common.blocks/radio-button/__radio/_only-icon/radio-button__radio_only-icon_yes.bh.js')(bh)
+
 require('../../../common.blocks/radio-button/__control/radio-button__control.bh.js')(bh)
 require('../../../common.blocks/radio-button/__text/radio-button__text.bh.js')(bh)
 

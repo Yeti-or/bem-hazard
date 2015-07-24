@@ -3,6 +3,8 @@ var BH = require('../../desktop.blocks/bem/bem.js')
 var bh = BH.bh
 
 require('../../common.blocks/radio-button/radio-button.bh.js')(bh)
+require('../../common.blocks/radio-button/radio-button.bhz.js')(bh)
+
 var RadioButton__radio = require('./__radio/radio-button__radio.js')
 
 var RadioButton = BH.React.createClass({
