@@ -1,0 +1,31 @@
+@media all and (min-width:0)
+{
+    .check-button_theme_clear.check-button_focused_yes:before
+    {
+        box-shadow: 0 0 6px #fc0;
+    }
+
+    /* _focused via pointer */
+    .pointerfocus .check-button_theme_clear.check-button_checked_yes.check-button_focused_yes:before
+    {
+        border-color: #ffeba0;
+    }
+
+    .pointerfocus .check-button_theme_clear.check-button_focused_yes:before
+    {
+        box-shadow: none;
+    }
+
+    /* _hovered */
+    .check-button_theme_clear.check-button_hovered_yes .check-button__icon,
+    .check-button_theme_clear.check-button_hovered_yes .check-button__text
+    {
+        opacity: 1;
+    }
+
+    /* _checked, _focused */
+    .check-button_theme_clear.check-button_checked_yes.check-button_focused_yes:before
+    {
+        border-color: rgba(129, 103, 0, .6);
+    }
+}

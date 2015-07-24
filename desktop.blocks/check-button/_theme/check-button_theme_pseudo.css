@@ -1,0 +1,20 @@
+@media all and (min-width:0)
+{
+    /* _focused */
+    .check-button_theme_pseudo.check-button_focused_yes:before
+    {
+        border-color: rgba(178,142,0,.6);
+        box-shadow: 0 0 6px #fc0;
+    }
+
+    /* _hovered */
+    .check-button_theme_pseudo.check-button_hovered_yes:not(.check-button_checked_yes):not(.check-button_focused_yes):before
+    {
+        border-color: rgba(0,0,0,.3);
+    }
+
+    .check-button_theme_pseudo.check-button_hovered_yes.check-button_checked_yes:not(.check-button_focused_yes):before
+    {
+        border-color: rgba(178,142,0,.7);
+    }
+}
