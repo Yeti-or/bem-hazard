@@ -51,12 +51,12 @@ describe('ctx.attrs()', function() {
 
     it('should not override later declarations', function() {
         bh.match('button', function(ctx) {
-            ctx.attrs({ type: 'control', tabIndex: 0 });
+            ctx.attrs({ type: 'control', tabindex: 0 });
         });
         bh.match('button', function(ctx) {
             ctx.attrs({ type: 'button' });
         });
-        bh.apply({ block: 'button' }).should.equal('<div class="button" type="button" tabindex="0"></div>');
+        bh.apply({ block: 'button' }).should.equal('<div class="button" tabindex="0" type="button"></div>');
     });
 
     it('should override later declarations with force flag', function() {
@@ -64,9 +64,9 @@ describe('ctx.attrs()', function() {
             ctx.attrs({ type: 'control' }, true);
         });
         bh.match('button', function(ctx) {
-            ctx.attrs({ type: 'button', tabIndex: 0 });
+            ctx.attrs({ type: 'button', tabindex: 0 });
         });
-        bh.apply({ block: 'button' }).should.equal('<div class="button" type="control" tabindex="0"></div>');
+        bh.apply({ block: 'button' }).should.equal('<div class="button" tabindex="0" type="control"></div>');
     });
 
     it('should override user declarations with force flag', function() {

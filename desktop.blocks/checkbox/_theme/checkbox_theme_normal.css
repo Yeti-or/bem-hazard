@@ -1,0 +1,25 @@
+@media all and (min-width:0)
+{
+    /* _focused */
+    /* :before — для состояния focused */
+    .checkbox_theme_normal .checkbox__box_focused_yes:before
+    {
+        box-shadow: 0 0 6px #fc0;
+    }
+
+    .checkbox_theme_normal .checkbox__box_focused_yes:before
+    {
+        border-color: rgba(178,142,0,.6);
+    }
+
+    /* _hovered */
+    .checkbox_theme_normal.checkbox_hovered_yes:not(.checkbox_focused_yes) .checkbox__box:before
+    {
+        border-color: rgba(0,0,0,.3);
+    }
+
+    .checkbox_theme_normal.checkbox_hovered_yes.checkbox_checked_yes:not(.checkbox_focused_yes) .checkbox__box:before
+    {
+        border-color: rgba(129,103,0,.6);
+    }
+}

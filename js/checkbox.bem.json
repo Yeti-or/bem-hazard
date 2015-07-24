@@ -1,0 +1,84 @@
+[
+    {
+        block: 'example',
+        content: [
+            {
+                attrs: {style: {margin: 20}},
+                content: [
+                    {tag: 'b', content: 'Размер S:'},
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'normal \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 's'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'checked \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 's', checked: 'yes'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'disabled \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 's', disabled: 'yes'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'with label \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 's', checked: 'yes'},
+                        content: {elem: 'label', content: 'label'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'disabled with label \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 's', checked: 'yes', disabled: 'yes'},
+                        content: {elem: 'label', content: 'label'}
+                    }
+                ]
+            },
+            {
+                attrs: {style: {margin: 20}},
+                content: [
+                    {tag: 'b', content: 'Размер M:'},
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'normal \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 'm'},
+                        checkboxAttrs: {id: 'nnn', value: 'iu', accesskey: 'kj', name: 'text', tabindex: 1}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'checked \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 'm', checked: 'yes'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'disabled \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 'm', disabled: 'yes'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'with label \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 'm', checked: 'yes'},
+                        content: {elem: 'label', content: 'label'}
+                    },
+                    {tag: 'br'},
+                    {elem: 'example-text', content: 'disabled with label \u00a0'},
+                    {
+                        block: 'checkbox',
+                        mods: {size: 'm', disabled: 'yes', checked: 'yes'},
+                        content: {elem: 'label', content: 'label'}
+                    }
+                ]
+            }
+        ]
+    }
+]

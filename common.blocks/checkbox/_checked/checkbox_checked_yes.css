@@ -1,0 +1,14 @@
+.checkbox_checked_yes .checkbox__tick.checkbox__tick
+{
+    bottom: 1px; /* перебиваем .checkbox_size_s/m .checkbox__tick*/
+}
+
+.checkbox_checked_yes .checkbox__tick
+{
+    visibility: visible;
+
+    opacity: 1;
+
+    -webkit-transition-delay: 0s;
+            transition-delay: 0s;
+}

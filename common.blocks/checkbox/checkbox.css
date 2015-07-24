@@ -1,0 +1,15 @@
+.checkbox
+{
+    display: inline-table;
+}
+
+.checkbox .checkbox__label
+{
+    display: table-cell;
+}
+
+.i-ua_js_no .checkbox__box:before,
+.i-ua_js_no .checkbox__tick
+{
+    display: none;
+}

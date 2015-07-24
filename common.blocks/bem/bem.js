@@ -113,10 +113,62 @@ var BEM_Hazard = {
             return this.__json.cls
         }
     },
+    needCapitalize: true,
+    attrCapitalized: {
+        acceptcharset: 'acceptCharset',
+        accesskey: 'accessKey',
+        allowfullscreen: 'allowFullScreen',
+        allowtransparency: 'allowTransparency',
+        autocomplete: 'autoComplete',
+        autofocus: 'autoFocus',
+        autoplay: 'autoPlay',
+        cellpadding: 'cellPadding',
+        cellspacing: 'cellSpacing',
+        charset: 'charSet',
+        classid: 'classID',
+        'class': 'className',
+        classname: 'className',
+        colspan: 'colSpan',
+        contenteditable: 'contentEditable',
+        contextmenu: 'contextMenu',
+        crossorigin: 'crossOrigin',
+        datetime: 'dateTime',
+        enctype: 'encType',
+        formaction: 'formAction',
+        formenctype: 'formEncType',
+        formmethod: 'formMethod',
+        formnovalidate: 'formNoValidate',
+        formtarget: 'formTarget',
+        frameborder: 'frameBorder',
+        htmlfor: 'htmlFor',
+        'for': 'htmlFor',
+        httpequiv: 'httpEquiv',
+        marginheight: 'marginHeight',
+        marginwidth: 'marginWidth',
+        maxlength: 'maxLength',
+        mediagroup: 'mediaGroup',
+        novalidate: 'noValidate',
+        radiogroup: 'radioGroup',
+        readonly: 'readOnly',
+        rowspan: 'rowSpan',
+        spellcheck: 'spellCheck',
+        srcdoc: 'srcDoc',
+        srcset: 'srcSet',
+        tabindex: 'tabIndex',
+        usemap: 'useMap'
+    },
     attrs: function(values, force) {
         var attrs = this.__json.attrs || {}
         if (values !== undefined) {
             if (this.__isMix) {return this}
+            this.needCapitalize && Object.keys(values).forEach(function(key) {
+                var _key
+                if (this.attrCapitalized[key]) {
+                    _key = this.attrCapitalized[key]
+                    values[_key] = values[key]
+                    delete values[key]
+                }
+            }, this)
             this.__json.attrs = force ? this.extend(attrs, values) : this.extend(values, attrs)
             return this
         } else {
@@ -126,6 +178,7 @@ var BEM_Hazard = {
     attr: function(key, val, force) {
         if (arguments.length > 1) {
             if (this.__isMix) {return this}
+            this.needCapitalize && this.attrCapitalized[key] && (key = this.attrCapitalized[key])
             this.__json.attrs ?
                 (!this.__json.attrs.hasOwnProperty(key) || force) && (this.__json.attrs[key] = val) :
                 (this.__json.attrs = {})[key] = val
@@ -143,10 +196,10 @@ var BEM_Hazard = {
             (!mods.hasOwnProperty(mod) || force) && (mods[mod] = val)
             return this
         } else {
-            if (mods.hasOwnProperty(mod)) {
-                return mods[mod]
-            } else {
+            if (this.muMods().hasOwnProperty(mod)) {
                 return this.muMod(mod)
+            } else if (mods.hasOwnProperty(mod)) {
+                return mods[mod]
             }
         }
     },
@@ -231,6 +284,7 @@ var BEM_Hazard = {
             if (matchers) {
                 var json = this.extend({}, this.__json)
                 this.extend(this.__json, mix)
+                this.__json.elem = mix.elem
                 this.__json.__stop = false
                 this.__json.__matched = []
                 this.__json.__matchers = matchers
@@ -488,8 +542,8 @@ var BEM_Hazard = {
                 node.block = decl.block.toLowerCase()
                 node.elem = decl.elem
             }
+            node.block || (node.block = this.__json.block)
             if (node.elem) {
-                node.block || (node.block = this.__json.block)
                 node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))

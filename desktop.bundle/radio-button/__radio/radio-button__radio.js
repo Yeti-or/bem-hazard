@@ -4,6 +4,9 @@ var bh = BH.bh
 
 require('../../../common.blocks/pointerfocus/pointerfocus.js')
 
+require('../../../common.blocks/control/control.bhz.js')(bh)
+require('../../../desktop.blocks/control/control.bhz.js')(bh)
+
 require('../../../common.blocks/radiobox/__radio/radiobox__radio.bh.js')(bh)
 
 require('../../../common.blocks/radio-button/__radio/radio-button__radio.bh.js')(bh)

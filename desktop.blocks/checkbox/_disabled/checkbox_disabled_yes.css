@@ -1,0 +1,5 @@
+.checkbox_disabled_yes .checkbox__control,
+.checkbox_disabled_yes .checkbox__label
+{
+    cursor: default;
+}
