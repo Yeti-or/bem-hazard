@@ -1,0 +1,54 @@
+.i-ua_js_yes .radio-button_theme_pseudo
+{
+    font-family: Arial, sans-serif;
+
+    color: #000;
+}
+
+.radio-button_theme_pseudo .radio-button__radio_disabled_yes
+{
+    color: #999;
+}
+
+@media all and (min-width:0)
+{
+    /* :before — border */
+    .radio-button_theme_pseudo .radio-button__radio:before
+    {
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgba(0,0,0,.2) rgba(0,0,0,.1) rgba(0,0,0,.2) rgba(0,0,0,.1);
+    }
+
+    .radio-button_theme_pseudo .radio-button__radio_side_left:before,
+    .radio-button_theme_pseudo .radio-button__radio_side_right:before
+    {
+        border-right-color: rgba(0,0,0,.2);
+    }
+
+    .radio-button_theme_pseudo .radio-button__radio_checked_yes:before
+    {
+        border-color: rgba(153,122,0,.5);
+    }
+
+    .radio-button_theme_pseudo .radio-button__radio_disabled_yes:before
+    {
+        border-color: rgba(0,0,0,.08);
+    }
+
+    /* :after — фон */
+    .radio-button_theme_pseudo .radio-button__radio_checked_yes:after
+    {
+        background-color: #ffeca6;
+    }
+
+    .radio-button_theme_pseudo .radio-button__radio_checked_yes + .radio-button__radio:before
+    {
+        border-left-width: 0;
+    }
+
+    .radio-button_theme_pseudo .radio-button__radio_disabled_yes:after
+    {
+        background-color: rgba(0,0,0,.08);
+    }
+}

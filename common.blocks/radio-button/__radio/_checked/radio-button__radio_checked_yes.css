@@ -1,0 +1,9 @@
+.radio-button__radio_checked_yes:before
+{
+    right: 0;
+}
+
+.radio-button__radio_checked_yes + .radio-button__radio:before
+{
+    left: 1px;
+}
