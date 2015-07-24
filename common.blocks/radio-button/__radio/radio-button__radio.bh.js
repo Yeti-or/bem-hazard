@@ -37,7 +37,7 @@ module.exports = function(bh) {
         ctx
             .tag('label')
             .attrs({
-                'for': controlAttrs.id
+                'htmlFor': controlAttrs.id
             })
             .tParam('_controlAttrs', controlAttrs)
             .content([

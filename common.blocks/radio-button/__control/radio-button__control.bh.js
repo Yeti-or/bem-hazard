@@ -5,7 +5,7 @@ module.exports = function(bh) {
 
         if(controlAttrs.disabled) {
             controlAttrs.disabled = 'disabled';
-            controlAttrs.tabindex = '-1';
+            controlAttrs.tabIndex = '-1';
         } else {
             delete controlAttrs.disabled;
         }
