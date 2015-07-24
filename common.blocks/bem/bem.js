@@ -1,4 +1,4 @@
-var React = window.React || (typeof require !== 'undefined') && require('react')
+var React = (typeof window !== 'undefined') && window.React || (typeof require !== 'undefined') && require('react')
 var assign = Object.assign || (typeof require !== 'undefined') && require('object-assign')
 
 var BH = (function() {
