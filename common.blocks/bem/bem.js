@@ -542,8 +542,8 @@ var BEM_Hazard = {
                 node.block = decl.block.toLowerCase()
                 node.elem = decl.elem
             }
+            node.block || (node.block = this.__json.block)
             if (node.elem) {
-                node.block || (node.block = this.__json.block)
                 node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
