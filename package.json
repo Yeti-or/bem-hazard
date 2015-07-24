@@ -13,7 +13,8 @@
     "reactify": "^1.1.1"
   },
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "build": "./build.sh"
   },
   "keywords": [
     "BEM.",
