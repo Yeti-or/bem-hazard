@@ -1,0 +1,18 @@
+@media all and (min-width:0)
+{
+    .checkbox_disabled_yes .checkbox__box:before
+    {
+        border-color: rgba(0,0,0,.08);
+        background: rgba(0,0,0,.08);
+    }
+
+    .checkbox_disabled_yes .checkbox__tick
+    {
+        opacity: .4;
+    }
+}
+
+.checkbox_disabled_yes .checkbox__label
+{
+    color: #999;
+}
