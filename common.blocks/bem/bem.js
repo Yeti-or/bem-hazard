@@ -284,6 +284,7 @@ var BEM_Hazard = {
             if (matchers) {
                 var json = this.extend({}, this.__json)
                 this.extend(this.__json, mix)
+                this.__json.elem = mix.elem
                 this.__json.__stop = false
                 this.__json.__matched = []
                 this.__json.__matchers = matchers
