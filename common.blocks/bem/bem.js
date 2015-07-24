@@ -196,10 +196,10 @@ var BEM_Hazard = {
             (!mods.hasOwnProperty(mod) || force) && (mods[mod] = val)
             return this
         } else {
-            if (mods.hasOwnProperty(mod)) {
-                return mods[mod]
-            } else {
+            if (this.muMods().hasOwnProperty(mod)) {
                 return this.muMod(mod)
+            } else if (mods.hasOwnProperty(mod)) {
+                return mods[mod]
             }
         }
     },
