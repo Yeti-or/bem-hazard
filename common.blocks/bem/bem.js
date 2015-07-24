@@ -464,7 +464,7 @@ var BEM_Hazard = {
                 node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
-            position.last === position.val && (node.$isLast = true)
+            position.last === position.val ? (node.$isLast = true) : (node.$isLast = false)
             node.$position = ++position.val
 
             return React.createElement(this.bh.BEM, node)
