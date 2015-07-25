@@ -1,0 +1,67 @@
+.check-button_theme_clear
+{
+    font-family: Arial, sans-serif;
+
+    color: #000;
+}
+
+/* _disabled_yes запрещен для кнопок с _theme_clear */
+.check-button_theme_clear.check-button_disabled_yes
+{
+    visibility: hidden;
+}
+
+@media all and (min-width:0)
+{
+
+    .check-button_theme_clear:before
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        padding: 0;
+
+        content: '';
+
+        border: 1px solid #fff;
+        border-radius: 3px;
+        -webkit-background-clip: padding-box;
+                background-clip: padding-box;
+    }
+
+    .check-button_theme_clear .check-button__icon,
+    .check-button_theme_clear .check-button__text
+    {
+        opacity: .25;
+    }
+
+    /* _checked */
+    .check-button_theme_clear.check-button_checked_yes .check-button__icon,
+    .check-button_theme_clear.check-button_checked_yes .check-button__text
+    {
+        opacity: 1;
+    }
+
+    /* _pressed, не _checked */
+    .check-button_theme_clear.check-button_pressed_yes:not(.check-button_checked_yes):before
+    {
+        background-color: #f6f5f3;
+    }
+
+    /* _checked, не _pressed */
+    .check-button_theme_clear.check-button_checked_yes:not(.check-button_pressed_yes):before
+    {
+        border-color: #ffeba0;
+        background-color: #ffeba0;
+    }
+
+    /* _checked, _pressed */
+    .check-button_theme_clear.check-button_checked_yes.check-button_pressed_yes:before
+    {
+        border-color: #fee481;
+        background-color: #fee481;
+    }
+}

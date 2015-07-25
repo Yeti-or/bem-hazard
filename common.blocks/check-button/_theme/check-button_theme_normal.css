@@ -1,0 +1,70 @@
+.check-button_theme_normal
+{
+    font-family: Arial, sans-serif;
+
+    color: #000;
+}
+
+.check-button_theme_normal.check-button_disabled_yes
+{
+    color: #999;
+}
+
+@media all and (min-width:0)
+{
+    .check-button_theme_normal
+    {
+        background: 0;
+    }
+
+    /* :before — background & border */
+    .check-button_theme_normal:before
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        padding: 0;
+
+        content: '';
+
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: 3px;
+        background-color: #fff;
+        -webkit-background-clip: padding-box;
+                background-clip: padding-box;
+    }
+
+    /* _checked, не _pressed */
+    .check-button_theme_normal.check-button_checked_yes:not(.check-button_pressed_yes):before
+    {
+        border-color: rgba(153,122,0,.5);
+        background-color: #ffeba0;
+    }
+
+    /* _pressed, не _checked */
+    .check-button_theme_normal.check-button_pressed_yes:not(.check-button_checked_yes):before
+    {
+        background-color: #f6f5f3;
+    }
+
+    /* _checked, _pressed */
+    .check-button_theme_normal.check-button_checked_yes.check-button_pressed_yes:before
+    {
+        background-color: #fee481;
+    }
+
+    .check-button_theme_normal.check-button_disabled_yes:before
+    {
+        border-color: rgba(0,0,0,.08);
+        background-color: rgba(0,0,0,.08);
+    }
+
+    .check-button_theme_normal.check-button_disabled_yes.check-button_checked_yes:before
+    {
+        border-color: rgba(0,0,0,.08);
+        background-color: #fff7d8;
+    }
+}
