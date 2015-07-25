@@ -7,6 +7,11 @@ require('../../common.blocks/check-button/__control/check-button__control.bh.js'
 require('../../common.blocks/check-button/__text/check-button__text.bh.js')(bh)
 require('../../common.blocks/check-button/_only-icon/check-button_only-icon_yes.bh.js')(bh)
 
+require('../../common.blocks/control/control.bhz.js')(bh)
+require('../../desktop.blocks/control/control.bhz.js')(bh)
+
+require('../../common.blocks/check-button/check-button.bhz.js')(bh)
+require('../../desktop.blocks/check-button/check-button.bhz.js')(bh)
 
 var CheckButton = BH.React.createClass({
     displayName: 'checkbutton',
