@@ -1,0 +1,5 @@
+.link_disabled_yes:hover,
+.link_disabled_yes:visited:hover
+{
+    color: #ddd;
+}

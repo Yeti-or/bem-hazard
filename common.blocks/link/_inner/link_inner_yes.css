@@ -1,0 +1,11 @@
+.link_inner_yes .link__inner
+{
+    color: inherit;
+}
+
+.link_inner_yes .image
+{
+    margin-right: 5px;
+
+    vertical-align: middle;
+}
