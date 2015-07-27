@@ -1,0 +1,23 @@
+.check-button
+{
+    position: relative;
+
+    display: inline-block;
+
+    cursor: default;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    text-align: center;
+    white-space: nowrap;
+
+    outline: 0;
+}
+
+.i-ua_js_no .check-button
+{
+    background: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}

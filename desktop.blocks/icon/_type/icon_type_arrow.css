@@ -1,0 +1,9 @@
+/**
+ * Декоративная анимация только на desktop.
+ */
+.icon_type_arrow
+{
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: -webkit-transform .1s ease-out;
+            transition:         transform .1s ease-out;
+}

@@ -1,0 +1,38 @@
+@media all and (min-width:0)
+{
+    /* _focused_yes */
+    .radio-button_theme_normal .radio-button__radio_focused_yes:before
+    {
+        border-color: rgba(178,142,0,.6);
+        box-shadow: 0 0 6px #fc0;
+    }
+
+    /* Не подсвечиваем фокус, полученный по клику. */
+    .pointerfocus .radio-button_theme_normal .radio-button__radio_focused_yes:before
+    {
+        box-shadow: none;
+    }
+
+    /* Выделяем кнопку по нажатию и наведению курсором мыши. */
+    .radio-button_theme_normal .radio-button__radio_pressed_yes.radio-button__radio_hovered_yes:after
+    {
+        background-color: #f6f5f3;
+    }
+
+    .radio-button_theme_normal .radio-button__radio_checked_yes.radio-button__radio_pressed_yes.radio-button__radio_hovered_yes:after
+    {
+        background-color: #fee481;
+    }
+
+    /* Подсвечиваем границу по hover. */
+    .radio-button_theme_normal .radio-button__radio_hovered_yes:before
+    {
+        border-color: rgba(0,0,0,.3);
+    }
+
+    .radio-button_theme_normal .radio-button__radio_hovered_yes.radio-button__radio_checked_yes:before,
+    .radio-button_theme_normal .radio-button__radio_hovered_yes.radio-button__radio_focused_yes:before
+    {
+        border-color: rgba(129,103,0,.6);
+    }
+}

@@ -1,29 +1,15 @@
 
-var common___button2_type_check = {
-    getInitialState: function() {
-        return this.match({modName: 'type', modVal: 'check'}, function(ctx) {
-            return {
-                checked: false
-            }
-        })
-    },
-    componentWillMount: function() {
-        this.match({modName: 'type', modVal: 'check'}, function(ctx) {
-            ctx.mods(function() {
-                return {
-                    checked: this.state.checked ? 'yes' : ''
-                }
+bh.match('button2_type_check', function(ctx, json) {
+        ctx
+            .muMods({
+                checked: ctx.mod('checked') || false
             })
-            .muAttrs(function(props) {
-                return {
-                    'aria-pressed': this.state.checked
-                }
-            })
+
+            .attr('aria-pressed', ctx.mod('checked'))
+
             .bind({
                 onClick: function() {
-                    this.setState({checked: !this.state.checked})
+                    ctx.toggleMuMod('checked')
                 }
             })
-        })
-    }
-}
+})

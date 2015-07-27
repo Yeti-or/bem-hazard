@@ -1,26 +1,16 @@
 
-var desktop___button2 = {
-    getInitialState: function() {
-        return {
-            hover: false
-        }
-    },
-    componentWillMount: function() {
-        this
+bh.match('button2', function(ctx, json) {
+    ctx
+        .muMods({
+            hovered: false
+        })
         .bind({
             onMouseEnter: function() {
-                this.props.disabled || this.setState({hover: true})
+                ctx.mod('disabled') || ctx.muMod('hovered', true)
             },
             onMouseLeave: function() {
-                this.setState({hover: false})
+                ctx.muMod('hovered', false)
             }
         })
-
-        .mods(function() {
-            return {
-                hovered: this.props.disabled ? false : this.state.hover
-            }
-        })
-    }
-}
+})
 

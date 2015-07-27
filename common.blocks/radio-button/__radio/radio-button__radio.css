@@ -1,0 +1,78 @@
+.radio-button__radio
+{
+    position: relative;
+    z-index: 2;
+
+    display: inline-block;
+
+    margin: 0 -1px 0 0;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    text-align: center;
+
+    outline: 0;
+}
+
+/* :before — border
+   :after — фон */
+.radio-button__radio:after,
+.radio-button__radio:before
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+}
+
+.radio-button__radio:after
+{
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+}
+
+.radio-button__radio_side_left,
+.radio-button__radio_side_left:before
+{
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.radio-button__radio_side_right
+{
+    margin-right: 0;
+}
+
+.radio-button__radio_side_right,
+.radio-button__radio_side_right:before
+{
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.radio-button__radio_side_left:after
+{
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.radio-button__radio_side_right:after
+{
+    right: 1px;
+
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.i-ua_js_no .radio-button__radio:after,
+.i-ua_js_no .radio-button__radio:before
+{
+    display: none;
+}

@@ -1,0 +1,15 @@
+.checkbox__box
+{
+    position: relative;
+
+    white-space: nowrap;
+}
+
+@media all and (min-width:0)
+{
+    .checkbox__box:before
+    {
+        border-radius: 3px;
+        background-clip: padding-box!important;
+    }
+}

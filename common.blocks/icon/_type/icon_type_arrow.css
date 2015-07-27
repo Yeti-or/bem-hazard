@@ -1,0 +1,77 @@
+/**
+ * 1. В эту и другие svg картинки зашит отступ в 1px, чтобы иконки не
+ *    обрезались при растеризации. Лечебный эффект особенно хорошо заметен в IE9,
+ *    но проявляется также и в других браузерах при масштабировании.
+ *    Было/Стало: https://jing.yandex-team.ru/files/karamadjong/2015-05-09_0222.png
+ * 2. В IE9 картинка искажается, если крутить ее через transform:rotate().
+ *    Подробнее: http://jing.yandex-team.ru/files/karamadjong/2015-05-09_0021.swf?w=617&h=202
+ *    В IE10 поддерживается transform без префикса, так что none применяется только в IE9.
+ */
+.icon_type_arrow
+{
+    background-image: url(icon_type_arrow.assets/arrow-b.svg); /*1*/
+}
+.icon_size_xs.icon_type_arrow
+{
+    background-image: url(icon_type_arrow.assets/arrow-b-xs.svg);
+}
+.icon_type_arrow.icon_direction_left
+{
+    -webkit-transform: rotate(90deg);
+        -ms-transform: none; /*2*/
+            transform: rotate(90deg);
+}
+.icon_type_arrow.icon_direction_top
+{
+    -webkit-transform: rotate(180deg);
+        -ms-transform: none; /*2*/
+            transform: rotate(180deg);
+}
+.icon_type_arrow.icon_direction_right
+{
+    -webkit-transform: rotate(-90deg);
+        -ms-transform: none; /*2*/
+            transform: rotate(-90deg);
+}
+
+/**
+ * Как минимум, Android 2.3 не поддерживает svg, но поддерживает transform.
+ */
+.i-ua_inlinesvg_no .icon_type_arrow
+{
+    -webkit-transform: none;
+        -ms-transform: none;
+            transform: none;
+}
+.i-ua_inlinesvg_no .icon_type_arrow.icon_direction_bottom
+{
+    background-image: url(icon_type_arrow.assets/arrow-b.png);
+}
+.i-ua_inlinesvg_no .icon_size_xs.icon_type_arrow.icon_direction_bottom
+{
+    background-image: url(icon_type_arrow.assets/arrow-b-xs.png);
+}
+.i-ua_inlinesvg_no .icon_type_arrow.icon_direction_left
+{
+    background-image: url(icon_type_arrow.assets/arrow-l.png);
+}
+.i-ua_inlinesvg_no .icon_size_xs.icon_type_arrow.icon_direction_left
+{
+    background-image: url(icon_type_arrow.assets/arrow-l-xs.png);
+}
+.i-ua_inlinesvg_no .icon_type_arrow.icon_direction_top
+{
+    background-image: url(icon_type_arrow.assets/arrow-t.png);
+}
+.i-ua_inlinesvg_no .icon_size_xs.icon_type_arrow.icon_direction_top
+{
+    background-image: url(icon_type_arrow.assets/arrow-t-xs.png);
+}
+.i-ua_inlinesvg_no .icon_type_arrow.icon_direction_right
+{
+    background-image: url(icon_type_arrow.assets/arrow-r.png);
+}
+.i-ua_inlinesvg_no .icon_size_xs.icon_type_arrow.icon_direction_right
+{
+    background-image: url(icon_type_arrow.assets/arrow-r-xs.png);
+}

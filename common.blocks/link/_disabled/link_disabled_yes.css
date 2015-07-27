@@ -1,0 +1,9 @@
+.link_disabled_yes,
+.link_disabled_yes .link__inner,
+.link_disabled_yes:visited
+{
+    cursor: default;
+
+    color: #ddd;
+    outline: 0;
+}

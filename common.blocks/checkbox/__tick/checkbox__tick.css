@@ -1,0 +1,35 @@
+.checkbox__tick
+{
+    position: relative;
+    z-index: 3;
+
+    display: inline-block;
+    visibility: hidden;
+
+    margin-top: -4px;
+    padding: 0;
+
+    vertical-align: baseline;
+    pointer-events: none;
+
+    opacity: 0;
+    background: url(checkbox__tick.svg) 0 100% no-repeat;
+
+    -webkit-transition: bottom .05s ease-out 0s, opacity .05s ease-out 0s, visibility 0s ease-out .05s;
+            transition: bottom .05s ease-out 0s, opacity .05s ease-out 0s, visibility 0s ease-out .05s;
+}
+
+.i-ua_inlinesvg_no .checkbox_size_s .checkbox__tick
+{
+    background-image: url(checkbox__tick_size_s.png);
+}
+
+.i-ua_inlinesvg_no .checkbox_size_m .checkbox__tick
+{
+    background-image: url(checkbox__tick_size_m.png);
+}
+
+.i-ua_inlinesvg_no .checkbox_disabled_yes .checkbox__tick
+{
+    background-image: url(checkbox__tick_disabled_yes.png);
+}

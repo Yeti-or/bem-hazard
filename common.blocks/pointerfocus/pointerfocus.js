@@ -4,7 +4,7 @@ if(!window.addEventListener) {
     return;
 }
 
-var ROOT_ELEM = $(document.documentElement),
+var ROOT_ELEM = document.documentElement,
     isPointer = false;
 
 function setPointerFlag() {
@@ -21,7 +21,7 @@ function resetPointerFlag() {
 }
 
 function toggleClass() {
-    ROOT_ELEM.toggleClass('pointerfocus', isPointer);
+    ROOT_ELEM.classList.toggle('pointerfocus', isPointer);
 }
 
 // Для надежности вешаем события на window на фазу захвата.

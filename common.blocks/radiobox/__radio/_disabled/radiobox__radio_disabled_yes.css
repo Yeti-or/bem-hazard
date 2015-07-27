@@ -1,0 +1,12 @@
+@media all and (min-width:0)
+{
+    .radiobox__radio_disabled_yes .radiobox__box:after
+    {
+        opacity: .4;
+    }
+}
+
+.radiobox__radio_disabled_yes
+{
+    color: #999;
+}

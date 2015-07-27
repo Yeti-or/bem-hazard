@@ -1,20 +1,11 @@
 //Could be generated
 
 var Button = Button2 = React.createClass({
-    block: 'button2',
-    mixins: [BEM, common___button2, desktop___button2, common___button2_type_link, common___button2_type_radio, common___button2_type_check],
+    displayName: 'button2',
+    __block: 'button2',
+    __matchers: bh.__matchers,
+    mixins: [BH.BEM_Hazard],
     render: function() {
-
-        this.mods(function() {
-            return {
-                type: this.props.type,
-                size: this.props.size,
-                theme: this.props.theme,
-                pin: this.props.pin,
-                disabled: this.props.disabled
-            }
-        })
-
-        return this.node()
+        return this.__node()
     },
 })

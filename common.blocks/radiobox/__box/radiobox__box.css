@@ -1,0 +1,10 @@
+.radiobox__box
+{
+    position: relative;
+
+    display: inline-block;
+
+    margin-right: .45em; /* Размеры (width, height) обертки задаются в _size */
+
+    border-radius: 100%;
+}

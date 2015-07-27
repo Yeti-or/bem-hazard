@@ -1,0 +1,24 @@
+.radio-button__radio_only-icon_yes
+{
+    padding: 0 1em;
+}
+
+.radio-button__radio_only-icon_yes .radio-button__icon
+{
+    vertical-align: middle; /* vam — для _js_no и для ie */
+}
+
+.i-ua_js_yes .radio-button__radio_only-icon_yes .radio-button__icon
+{
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+
+    margin: -8px 0 0 -8px;
+}
+
+.i-ua_js_no .radio-button__radio_only-icon_yes
+{
+    padding: 0 1em 0 0;
+}

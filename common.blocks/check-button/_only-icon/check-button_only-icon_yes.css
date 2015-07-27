@@ -1,0 +1,25 @@
+/* TODO: Проверить реализацию только с иконкой */
+.check-button_only-icon_yes
+{
+    padding: 0 1em;
+}
+
+.check-button_only-icon_yes .check-button__icon
+{
+    /* vam — для _js_no и для ie */
+    vertical-align: baseline;
+}
+
+.i-ua_js_yes .check-button_only-icon_yes .check-button__icon
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    margin: -8px 0 0 -8px;
+}
+
+.i-ua_js_no .check-button_only-icon_yes
+{
+    padding: 0 1em 0 0;
+}

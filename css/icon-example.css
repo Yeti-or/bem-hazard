@@ -1,0 +1,24 @@
+.body {
+    margin: 0;
+    font: .8em Arial, Helvetica, sans-serif;
+    color: #000;
+    background: #fff;
+}
+
+body {
+    padding: 20px;
+}
+
+.example
+{
+    display: block;
+
+    margin: 20px;
+}
+
+.icon_theme_serp
+{
+    width: 16px;
+
+    background-image: url(icon-serp.png);
+}

@@ -1,0 +1,15 @@
+@media all and (min-width:0)
+{
+    /* Маркер */
+    /* Цвет (background) маркера задается в _theme */
+    .radiobox__radio_checked_yes .radiobox__box:after
+    {
+        position: absolute;
+
+        padding: 0;
+
+        content: '';
+
+        border-radius: 50%;
+    }
+}

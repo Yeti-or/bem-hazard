@@ -1,0 +1,9 @@
+.popup2_theme_clear
+{
+    display: none;
+}
+
+.popup2_theme_clear.popup2_visible_yes
+{
+    display: block;
+}

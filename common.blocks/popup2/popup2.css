@@ -1,0 +1,12 @@
+.popup2
+{
+    position: absolute;
+}
+
+.popup2_outside_yes
+{
+    top: -10000px;
+    left: -10000px;
+
+    display: block;
+}
