@@ -1,0 +1,131 @@
+<!doctype>
+<html class="i-ua_js_yes">
+<head>
+    <title>Hello Popup!</title>
+    <meta charset="utf-8"></meta>
+    <!-- Vendor -->
+    <script src="node_modules/react/dist/react.js"></script>
+    <!-- Vendor -->
+    <!-- Lego -->
+        <!-- Popup -->
+
+        <link rel="stylesheet" href="common.blocks/z-index-group/z-index-group.css" />
+
+        <link rel="stylesheet" href="common.blocks/popup2/popup2.css" />
+        <link rel="stylesheet" href="common.blocks/popup2/_theme/popup2_theme_clear.css" />
+        <link rel="stylesheet" href="common.blocks/popup2/_theme/popup2_theme_normal.css" />
+
+        <!-- Popup -->
+    <!-- Lego -->
+    <style>
+        .body {
+            margin: 0;
+            padding: 15px;
+            font: .8em Arial, Helvetica, sans-serif;
+            color: #000;
+            background: #fff;
+        }
+
+        .directions
+        {
+            padding: 70px;
+        }
+
+        .directions__cell
+        {
+            padding: 8px;
+        }
+
+        .directions__cell_align_left
+        {
+            text-align: left;
+        }
+
+        .directions__cell_align_center
+        {
+            text-align: center;
+        }
+
+        .directions__cell_align_right
+        {
+            text-align: right;
+        }
+
+        .directions__cell_border_yes
+        {
+            border: 1px solid #ccc;
+        }
+
+        .popup2:after
+        {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            display: block;
+
+            content: 'z-index: ' attr(data-z-index);
+
+            font-size: 10px;
+            line-height: 10px;
+
+            color: #ddd;
+        }
+
+        .scrollable
+        {
+            overflow: auto;
+
+            width: 300px;
+            height: 300px;
+
+            background-color: #eee;
+        }
+        .scrollable .test
+        {
+            position: relative;
+
+            width: 800px;
+            height: 800px;
+        }
+
+        .scrollable .test .link
+        {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+
+        .summon-test
+        {
+            display: inline-block;
+
+            margin-bottom: 1em;
+            padding: 10px;
+
+            background-color: #eee;
+        }
+
+        .summon-test__popup
+        {
+            padding: 10px;
+        }
+
+        .summon-test .test
+        {
+            display: inline-block;
+
+            margin-right: 100px;
+        }
+
+        .test__popup
+        {
+            padding: 16px;
+        }
+
+    </style>
+</head>
+<body class="body">
+    <script src="dist/popup.js"></script>
+</body>
+</html>
