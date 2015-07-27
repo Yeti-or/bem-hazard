@@ -1,41 +1,38 @@
 # lego-hazard
 Reactive Islands
-
 _in Progress..._
 
-##Набор блоков
+##BEM-HAZARD: 
+[https://github.yandex-team.ru/yeti-or/lego-hazard/blob/dev/common.blocks/bem/bem.js]()
+Обертка над [React](https://facebook.github.io) с синтаксисом [bh](https://github.com/bem/bh)
+
+##LEGO:
+* [BEM](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/bem.html)
 * [Button2](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/button2.html)
+* [Checkbox](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/checkbox.html)
+* [Check-button](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/check-button.html)
+* [Icon](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/icon.html)
+* [Image](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/image.html)
+* [Link](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/link.html)
+* [Radiobox](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/radiobox.html)
+* [Radio-button](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/radio-button.html)
+* [Popup2 - WIP](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/popup.html)
 * пока всё =)
 
 Внутри как-то так:
 ```javascript
-var common___button2_type_check = { 
-    getInitialState: function() {
-        return this.match({modName: 'type', modVal: 'check'}, function(ctx) {
-            return {
-                checked: false
-            }   
-        })  
-    },  
-    componentWillMount: function() {
-        this.match({modName: 'type', modVal: 'check'}, function(ctx) {
-            ctx.mods(function() {
-                return {
-                    checked: this.state.checked ? 'yes' : ''
-                }   
-            })  
-            .muAttrs(function(props) {
-                return {
-                    'aria-pressed': this.state.checked
-                }   
-            })  
+module.exports = function(bh) {
+    bh.match('checkbox', function(ctx, json) {
+        ctx
+            .muMods({
+                checked: ctx.mod('checked')
+            })
             .bind({
-                onClick: function() {
-                    this.setState({checked: !this.state.checked})
-                }   
-            })  
-        })  
-    }   
+                onChange: function(e) {
+                    ctx.muMod('checked', e.target.checked)
+                }
+            })
+    })
 }
 ```
 
