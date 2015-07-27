@@ -1,0 +1,67 @@
+    [
+        // directions table
+        (function() {
+            var test = function(direction) {
+                return {
+                    block: 'test', js: true, content: [
+                        {block: 'link', mods: {pseudo: 'yes'}, content: direction},
+                        {
+                            block: 'popup2',
+                            mix: {block: 'test', elem: 'popup'},
+                            mods: {target: 'anchor', autoclosable: 'yes', theme: 'normal'},
+                            directions: [direction],
+                            content: 'the popup'
+                        }
+                    ]
+                };
+            };
+
+            var positioned = {block: 'test', js: {position: [50, 50]}, content: [
+                {
+                    block: 'link',
+                    mods: {pseudo: 'yes'},
+                    content: 'popup at 50x50'
+                },
+                {
+                    block: 'popup2',
+                    mix: {block: 'test', elem: 'popup'},
+                    mods: {target: 'position', theme: 'normal'},
+                    content: 'the popup'
+                }
+            ]};
+
+            return {
+                block: 'directions',
+                content: [
+                    {elem: 'row', content: [
+                        {elem: 'cell'},
+                        {elem: 'cell', mods: {align: 'left'}, content: test('top-left')},
+                        {elem: 'cell', mods: {align: 'center'}, content: test('top-center')},
+                        {elem: 'cell', mods: {align: 'right'}, content: test('top-right')},
+                        {elem: 'cell'}
+                    ]},
+                    {elem: 'row', content: [
+                        {elem: 'cell', mods: {align: 'right'}, content: test('left-top')},
+                        {elem: 'cell', mods: {align: 'center', border: 'yes'}, attrs: {colspan: 3, rowspan: 3},
+                            content: ''},
+                        {elem: 'cell', mods: {align: 'left'}, content: test('right-top')}
+                    ]},
+                    {elem: 'row', content: [
+                        {elem: 'cell', mods: {align: 'right'}, content: test('left-center')},
+                        {elem: 'cell', mods: {align: 'left'}, content: test('right-center')}
+                    ]},
+                    {elem: 'row', content: [
+                        {elem: 'cell', mods: {align: 'right'}, content: test('left-bottom')},
+                        {elem: 'cell', mods: {align: 'left'}, content: test('right-bottom')}
+                    ]},
+                    {elem: 'row', content: [
+                        {elem: 'cell'},
+                        {elem: 'cell', mods: {align: 'left'}, content: test('bottom-left')},
+                        {elem: 'cell', mods: {align: 'center'}, content: test('bottom-center')},
+                        {elem: 'cell', mods: {align: 'right'}, content: test('bottom-right')},
+                        {elem: 'cell'}
+                    ]}
+                ]
+            };
+        })(),
+    ]

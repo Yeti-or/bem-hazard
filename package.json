@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "mocha test",
-    "build": "./build.sh"
+    "build": "find js -name '*.js' | cut -d / -f 2 | cut -d . -f 1 | while read -r br; do ./build.sh $br; done"
   },
   "keywords": [
     "BEM.",

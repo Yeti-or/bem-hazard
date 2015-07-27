@@ -161,14 +161,6 @@ var BEM_Hazard = {
         var attrs = this.__json.attrs || {}
         if (values !== undefined) {
             if (this.__isMix) {return this}
-            this.needCapitalize && Object.keys(values).forEach(function(key) {
-                var _key
-                if (this.attrCapitalized[key]) {
-                    _key = this.attrCapitalized[key]
-                    values[_key] = values[key]
-                    delete values[key]
-                }
-            }, this)
             this.__json.attrs = force ? this.extend(attrs, values) : this.extend(values, attrs)
             return this
         } else {
@@ -178,7 +170,6 @@ var BEM_Hazard = {
     attr: function(key, val, force) {
         if (arguments.length > 1) {
             if (this.__isMix) {return this}
-            this.needCapitalize && this.attrCapitalized[key] && (key = this.attrCapitalized[key])
             this.__json.attrs ?
                 (!this.__json.attrs.hasOwnProperty(key) || force) && (this.__json.attrs[key] = val) :
                 (this.__json.attrs = {})[key] = val
@@ -278,8 +269,19 @@ var BEM_Hazard = {
             return this.__json.tag
         }
     },
+
+    match: function(selector, matcher) {
+        if (!this.__flag) return this
+        if (!selector || !matcher) return this
+        var decl = BH._getDecl(selector)
+        this.__json.$subMatchers || (this.__json.$subMatchers = {})
+        this.__json.$subMatchers[decl.block] || (this.__json.$subMatchers[decl.block] = [])
+        this.__json.$subMatchers[decl.block].push([decl, matcher])
+        return this
+    },
+
     mixJs: function(mix) {
-        if (this.__flag && mix.block && mix.block !== this.__json.block) {
+        if (mix.block && mix.block !== this.__json.block) {
             var matchers = this.bh.__matchers[mix.block]
             if (matchers) {
                 var json = this.extend({}, this.__json)
@@ -396,7 +398,8 @@ var BEM_Hazard = {
     },
     __match: function() {
         var b_ =  this.__json.block,
-            matchers = this.bh.__matchers[b_] || []
+            subMatchers = (this.__json.$subMatchers && this.__json.$subMatchers[b_]) || [],
+            matchers = (this.bh.__matchers[b_] || []).concat(subMatchers)
 
         this.__json.__stop = false
         this.__json.__matched = []
@@ -407,12 +410,23 @@ var BEM_Hazard = {
     componentWillMount: function() {
         this._composeCurNode(this.props)
         this.__flag = true
+        this.statics || (this.statics = {})
+        this.__self = this.statics;
         this.__match()
+        this.willMount().forEach(function(willMount) {
+            willMount.bind(this)(this, this.__json)
+        }, this)
     },
     componentDidMount: function() {
         this.state = this.extend({}, this.state, this.muStates(), this.muMods())
+        this.didMount().forEach(function(didMount) {
+            didMount.bind(this)(this, this.__json)
+        }, this)
     },
     componentWillReceiveProps: function(props) {
+        this.willReceiveProps().forEach(function(bUpdate) {
+            bUpdate.bind(this)(this, props)
+        }, this)
         this.__props = props
         this._composeCurNode(props)
         this.beforeUpdate().forEach(function(bUpdate) {
@@ -444,6 +458,15 @@ var BEM_Hazard = {
                         attrs = this.attrs(),
                         events = this._events(),
                         props = {children: content}
+
+                    this.needCapitalize && Object.keys(attrs).forEach(function(key) {
+                        var _key
+                        if (this.attrCapitalized[key]) {
+                            _key = this.attrCapitalized[key]
+                            attrs[_key] = attrs[key]
+                            delete attrs[key]
+                        }
+                    }, this)
 
                     cls && (props.className = cls)
                     result.push(React.createElement(this.tag() || 'div', this.extend(props, attrs, events)))
@@ -542,11 +565,15 @@ var BEM_Hazard = {
                 node.block = decl.block.toLowerCase()
                 node.elem = decl.elem
             }
-            node.block || (node.block = this.__json.block)
             if (node.elem) {
+                    node.block || (node.block = this.__json.block)
                 node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
+            if (this.__json.$subMatchers) {
+                var subMatchers = this.__json.$subMatchers[node.block]
+                subMatchers && ((node.$subMatchers = {})[node.block] = subMatchers)
+            }
             position.last === position.val ? (node.$isLast = true) : (node.$isLast = false)
             node.$position = ++position.val
 
@@ -590,6 +617,31 @@ var BEM_Hazard = {
             return this._eventsProps
         }
     },
+    willMount: function(cb) {
+        if (cb) {
+            this.__flag && (this.__willMount || (this.__willMount = [])).push(cb)
+            return this
+        } else {
+            return this.__willMount || []
+        }
+    },
+    didMount: function(cb) {
+        if (cb) {
+            this.__flag && (this.__didMount || (this.__didMount = [])).push(cb)
+            return this
+        } else {
+            return this.__didMount || []
+        }
+    },
+    willReceiveProps: function(cb) {
+        if (cb) {
+            this.__flag && (this.__willReceive || (this.__willReceive = [])).push(cb)
+            return this
+        } else {
+            return this.__willReceive || []
+        }
+    },
+//TODO: Delete this fn
     beforeUpdate: function(cb) {
         if (cb) {
             this.__flag && (this.__bUpdate || (this.__bUpdate = [])).push(cb)
