@@ -269,8 +269,19 @@ var BEM_Hazard = {
             return this.__json.tag
         }
     },
+
+    match: function(selector, matcher) {
+        if (!this.__flag) return this
+        if (!selector || !matcher) return this
+        var decl = BH._getDecl(selector)
+        this.__json.$subMatchers || (this.__json.$subMatchers = {})
+        this.__json.$subMatchers[decl.block] || (this.__json.$subMatchers[decl.block] = [])
+        this.__json.$subMatchers[decl.block].push([decl, matcher])
+        return this
+    },
+
     mixJs: function(mix) {
-        if (this.__flag && mix.block && mix.block !== this.__json.block) {
+        if (mix.block && mix.block !== this.__json.block) {
             var matchers = this.bh.__matchers[mix.block]
             if (matchers) {
                 var json = this.extend({}, this.__json)
@@ -387,7 +398,8 @@ var BEM_Hazard = {
     },
     __match: function() {
         var b_ =  this.__json.block,
-            matchers = this.bh.__matchers[b_] || []
+            subMatchers = (this.__json.$subMatchers && this.__json.$subMatchers[b_]) || [],
+            matchers = (this.bh.__matchers[b_] || []).concat(subMatchers)
 
         this.__json.__stop = false
         this.__json.__matched = []
@@ -542,11 +554,15 @@ var BEM_Hazard = {
                 node.block = decl.block.toLowerCase()
                 node.elem = decl.elem
             }
-            node.block || (node.block = this.__json.block)
             if (node.elem) {
+                    node.block || (node.block = this.__json.block)
                 node.ref = node.block + BH.__ + node.elem + '~' + this.generateId()
             }
             this.__json.$tParam && (node.$tParam = this.extend({}, this.__json.$tParam))
+            if (this.__json.$subMatchers) {
+                var subMatchers = this.__json.$subMatchers[node.block]
+                subMatchers && ((node.$subMatchers = {})[node.block] = subMatchers)
+            }
             position.last === position.val ? (node.$isLast = true) : (node.$isLast = false)
             node.$position = ++position.val
 
