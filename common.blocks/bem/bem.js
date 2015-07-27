@@ -410,12 +410,23 @@ var BEM_Hazard = {
     componentWillMount: function() {
         this._composeCurNode(this.props)
         this.__flag = true
+        this.statics || (this.statics = {})
+        this.__self = this.statics;
         this.__match()
+        this.willMount().forEach(function(willMount) {
+            willMount.bind(this)(this, this.__json)
+        }, this)
     },
     componentDidMount: function() {
         this.state = this.extend({}, this.state, this.muStates(), this.muMods())
+        this.didMount().forEach(function(didMount) {
+            didMount.bind(this)(this, this.__json)
+        }, this)
     },
     componentWillReceiveProps: function(props) {
+        this.willReceiveProps().forEach(function(bUpdate) {
+            bUpdate.bind(this)(this, props)
+        }, this)
         this.__props = props
         this._composeCurNode(props)
         this.beforeUpdate().forEach(function(bUpdate) {
@@ -606,6 +617,31 @@ var BEM_Hazard = {
             return this._eventsProps
         }
     },
+    willMount: function(cb) {
+        if (cb) {
+            this.__flag && (this.__willMount || (this.__willMount = [])).push(cb)
+            return this
+        } else {
+            return this.__willMount || []
+        }
+    },
+    didMount: function(cb) {
+        if (cb) {
+            this.__flag && (this.__didMount || (this.__didMount = [])).push(cb)
+            return this
+        } else {
+            return this.__didMount || []
+        }
+    },
+    willReceiveProps: function(cb) {
+        if (cb) {
+            this.__flag && (this.__willReceive || (this.__willReceive = [])).push(cb)
+            return this
+        } else {
+            return this.__willReceive || []
+        }
+    },
+//TODO: Delete this fn
     beforeUpdate: function(cb) {
         if (cb) {
             this.__flag && (this.__bUpdate || (this.__bUpdate = [])).push(cb)
