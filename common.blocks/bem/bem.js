@@ -161,14 +161,6 @@ var BEM_Hazard = {
         var attrs = this.__json.attrs || {}
         if (values !== undefined) {
             if (this.__isMix) {return this}
-            this.needCapitalize && Object.keys(values).forEach(function(key) {
-                var _key
-                if (this.attrCapitalized[key]) {
-                    _key = this.attrCapitalized[key]
-                    values[_key] = values[key]
-                    delete values[key]
-                }
-            }, this)
             this.__json.attrs = force ? this.extend(attrs, values) : this.extend(values, attrs)
             return this
         } else {
@@ -178,7 +170,6 @@ var BEM_Hazard = {
     attr: function(key, val, force) {
         if (arguments.length > 1) {
             if (this.__isMix) {return this}
-            this.needCapitalize && this.attrCapitalized[key] && (key = this.attrCapitalized[key])
             this.__json.attrs ?
                 (!this.__json.attrs.hasOwnProperty(key) || force) && (this.__json.attrs[key] = val) :
                 (this.__json.attrs = {})[key] = val
@@ -444,6 +435,15 @@ var BEM_Hazard = {
                         attrs = this.attrs(),
                         events = this._events(),
                         props = {children: content}
+
+                    this.needCapitalize && Object.keys(attrs).forEach(function(key) {
+                        var _key
+                        if (this.attrCapitalized[key]) {
+                            _key = this.attrCapitalized[key]
+                            attrs[_key] = attrs[key]
+                            delete attrs[key]
+                        }
+                    }, this)
 
                     cls && (props.className = cls)
                     result.push(React.createElement(this.tag() || 'div', this.extend(props, attrs, events)))
