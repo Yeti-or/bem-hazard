@@ -1,0 +1,52 @@
+<!doctype>
+<html>
+<head>
+    <title>Hello icon!</title>
+    <meta charset="utf-8"></meta>
+    <!-- Vendor -->
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/JSXTransformer.js"></script>
+    <!-- //TODO:Changed module to window -->
+    <script src="bower_components/object-assign/index.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!-- Vendor -->
+    <!-- Lego -->
+        <!-- Button2 -->
+        <link rel="stylesheet" href="common.blocks/icon/icon.css"/>
+        <!-- Button2 -->
+    <!-- Lego -->
+    <link rel="stylesheet" href="css/icon-example.css"/>
+</head>
+<body class="body">
+    <!-- Lego -->
+        <!-- Pointerfocus -->
+        <script src="common.blocks/pointerfocus/pointerfocus.js"></script>
+        <!-- BEM__helper -->
+        <script src="common.blocks/bem/bem.js"></script>
+        <script>
+            BH.noBoolMods = true
+            var bh = new BH()
+            var BEM = bh.BEM
+        </script>
+        <!-- Icon -->
+        <script src="common.blocks/icon/icon.js"></script>
+        <script src="desktop.bundle/icon/icon.js"></script>
+    <!-- Lego -->
+    <script type="text/jsx">
+        var Example = React.createClass({
+            render: function() {
+                return (
+                    <div className="example">
+                        <Icon _theme="serp"></Icon>
+                        &nbsp;&nbsp; — параметры иконки заданы в её модификаторе
+                    </div>
+                )
+            }
+        })
+        React.render(
+            <Example />,
+            document.body
+        )
+    </script>
+</body>
+</html>
