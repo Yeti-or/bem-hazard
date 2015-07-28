@@ -1,9 +1,9 @@
 # lego-hazard
 Reactive Islands
+
 _in Progress..._
 
-##BEM-HAZARD: 
-[https://github.yandex-team.ru/yeti-or/lego-hazard/blob/dev/common.blocks/bem/bem.js]()
+##BEM-HAZARD:
 Обертка над [React](https://facebook.github.io) с синтаксисом [bh](https://github.com/bem/bh)
 
 ##LEGO:
