@@ -1,0 +1,49 @@
+.spin2_progress_yes
+{
+    display: inline-block;
+
+    -webkit-animation: islands-spin2 1s infinite linear;
+            animation: islands-spin2 1s infinite linear;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;  /* Для ускорения анимации */
+}
+
+@-webkit-keyframes islands-spin2
+{
+    from
+    {
+        border-top-color: #fc0;
+        border-left-color: #fc0;
+
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    to
+    {
+        border-top-color: #fc0;
+        border-left-color: #fc0;
+
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+    }
+}
+
+@keyframes islands-spin2
+{
+    from
+    {
+        border-top-color: #fc0;
+        border-left-color: #fc0;
+
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+    to
+    {
+        border-top-color: #fc0;
+        border-left-color: #fc0;
+
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+    }
+}

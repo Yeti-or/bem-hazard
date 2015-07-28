@@ -1,0 +1,10 @@
+/* При использовании display:none в Opera 12 ломается анимация */
+noindex:-o-prefocus, .spin2
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: inline-block;
+    visibility: hidden;
+}
