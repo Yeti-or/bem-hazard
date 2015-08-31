@@ -1,22 +1,19 @@
-# lego-hazard
-Reactive Islands
-
 _in Progress..._
 
 ##BEM-HAZARD:
 Обертка над [React](https://facebook.github.io) с синтаксисом [bh](https://github.com/bem/bh)
 
 ##LEGO:
-* [BEM](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/bem.html)
-* [Button2](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/button2.html)
-* [Checkbox](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/checkbox.html)
-* [Check-button](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/check-button.html)
-* [Icon](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/icon.html)
-* [Image](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/image.html)
-* [Link](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/link.html)
-* [Radiobox](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/radiobox.html)
-* [Radio-button](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/radio-button.html)
-* [Popup2 - WIP](https://github.yandex-team.ru/pages/yeti-or/lego-hazard/popup.html)
+* [BEM](http://yeti-or.github.io/bem-hazard/bem.html)
+* [Button](http://yeti-or.github.io/bem-hazard/button2.html)
+* [Checkbox](http://yeti-or.github.io/bem-hazard/checkbox.html)
+* [Check-button](http://yeti-or.github.io/bem-hazard/check-button.html)
+* [Icon](http://yeti-or.github.io/bem-hazard/icon.html)
+* [Image](http://yeti-or.github.io/bem-hazard/image.html)
+* [Link](http://yeti-or.github.io/bem-hazard/link.html)
+* [Radiobox](http://yeti-or.github.io/bem-hazard/radiobox.html)
+* [Radio-button](http://yeti-or.github.io/bem-hazard/radio-button.html)
+* [Popup - WIP](http://yeti-or.github.io/bem-hazard/popup.html)
 * пока всё =)
 
 Внутри как-то так:
@@ -36,4 +33,4 @@ module.exports = function(bh) {
 }
 ```
 
-![lego-zombie-outbreak 1](https://github.yandex-team.ru/github-enterprise-assets/0000/1623/0000/2211/d68d24cc-263e-11e5-88ca-f05b39469090.png)
+![lego-zombies](https://cloud.githubusercontent.com/assets/1813468/9577293/1586324a-4fe8-11e5-875a-5380fb0d4202.jpg)
