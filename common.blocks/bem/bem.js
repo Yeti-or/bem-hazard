@@ -383,6 +383,7 @@ var BEM_Hazard = {
                     this.__json.__matched = []
                     this.__json.__matchers = matchers
                 } else {
+                    if (retVal === '') { retVal = {} }
                     retVal.__stop = json.__stop
                     retVal.__matched = json.__matched
                     retVal.__matchers = json.__matchers
