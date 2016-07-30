@@ -50,7 +50,7 @@ describe('ctx.tag()', function() {
         bh.match('button', function(ctx) {
             ctx.tag('button');
         });
-        bh.apply({ block: 'button' }).should.equal('<input class="button">');
+        bh.apply({ block: 'button' }).should.equal('<input class="button"/>');
     });
     it('should override user declarations with force flag', function() {
         bh.match('button', function(ctx) {

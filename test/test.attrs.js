@@ -29,7 +29,7 @@ describe('ctx.attrs()', function() {
                 name: undefined
             });
         });
-        bh.apply({ block: 'checkbox' }).should.equal('<div class="checkbox" type="button" disabled></div>');
+        bh.apply({ block: 'checkbox' }).should.equal('<div class="checkbox" type="button" disabled=""></div>');
     });
 
     it('should not override user attrs', function() {

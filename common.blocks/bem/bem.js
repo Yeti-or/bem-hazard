@@ -1,4 +1,5 @@
 var React = (typeof window !== 'undefined') && window.React || (typeof require !== 'undefined') && require('react')
+var ReactDomServer = require('react-dom/server');
 var assign = Object.assign || (typeof require !== 'undefined') && require('object-assign')
 
 var BH = (function() {
@@ -48,7 +49,7 @@ BH.prototype = {
     apply: function(bemJson) {
         if (!bemJson) return ''
         var el = React.createElement(this.BEM, bemJson)
-        return React.renderToStaticMarkup(el)
+        return ReactDomServer.renderToStaticMarkup(el)
     },
     match: function(selector, matcher) {
         if (!selector || !matcher) return this

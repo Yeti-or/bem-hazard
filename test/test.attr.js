@@ -28,7 +28,7 @@ describe('ctx.attr()', function() {
             ctx.attr('disabled', true);
             ctx.attr('value', null);
         });
-        bh.apply({ block: 'checkbox' }).should.equal('<div class="checkbox" type="button" disabled></div>');
+        bh.apply({ block: 'checkbox' }).should.equal('<div class="checkbox" type="button" disabled=""></div>');
     });
 
     it('should not override user attr', function() {

@@ -91,7 +91,7 @@ describe('bh.match()', function() {
             ctx.attr('disabled', 'disabled');
         });
         bh.apply({ block: 'button', mods: { disabled: true } }).should.equal(
-            '<div class="button button_disabled" disabled></div>'
+            '<div class="button button_disabled" disabled=""></div>'
         );
     });
 

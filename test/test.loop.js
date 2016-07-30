@@ -1,7 +1,7 @@
 var BH = require('../');
 require('chai').should();
 
-describe('loop', function() {
+xdescribe('loop', function() {
     describe('jsAttr', function() {
         var bh;
         beforeEach(function() {
