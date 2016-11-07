@@ -4,12 +4,12 @@
   "description": "BEM flavored React. bh compatible.",
   "main": "index.js",
   "dependencies": {
-    "object-assign": "^3.0.0",
+    "object-assign": "^4.1.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0"
   },
   "devDependencies": {
-    "browserify": "^11.0.0",
+    "browserify": "^13.1.1",
     "chai": "^3.1.0",
     "reactify": "^1.1.1"
   },
