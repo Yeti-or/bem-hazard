@@ -1,9 +1,13 @@
-_in Progress..._
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
-##BEM-HAZARD:
+**DEPRECATED**
+
+use [bem-react-core](https://github.com/bem/bem-react-core) and [bem-react-components](https://github.com/bem/bem-react-components) instead.
+
+## BEM-HAZARD:
 Обертка над [React](https://facebook.github.io) с синтаксисом [bh](https://github.com/bem/bh)
 
-##LEGO:
+## LEGO:
 * [BEM](http://yeti-or.github.io/bem-hazard/bem.html)
 * [Button](http://yeti-or.github.io/bem-hazard/button2.html)
 * [Checkbox](http://yeti-or.github.io/bem-hazard/checkbox.html)
